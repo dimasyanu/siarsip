@@ -1,0 +1,16 @@
+.material-icons {
+	font-size: 20px;
+}
+
+.panel .panel-body .navbar-brand {
+    float: none;
+    margin-bottom: 20px;
+    font-size: 20pt;
+}
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
