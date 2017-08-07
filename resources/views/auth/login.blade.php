@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4 vertical-center">
             <div class="login-panel panel panel-default">
-                <div class="panel-body">
-                    <div class="navbar-brand">
-                        {{ config('app.name') }}
+                <div class="panel-body text-center">
+                    <div class="siarsip-login-brand">
+                        <img src="{{ asset('images/logo/logo.png') }}">
                     </div>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
@@ -15,8 +15,8 @@
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <div class="col-md-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">account_circle</i>
+                                    <span class="input-group-addon span-siarsip">
+                                        <i class="fa fa-user"></i>
                                     </span>
                                     <input id="username" type="text" class="form-control" name="username" value="{{ old('name') }}" placeholder="{{ Lang::get('auth.username') }}" required autofocus>
                                 </div>
@@ -31,8 +31,8 @@
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <div class="col-md-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">lock</i>
+                                    <span class="input-group-addon span-siarsip">
+                                        <i class="fa fa-lock"></i>
                                     </span>
                                     <input id="password" type="password" class="form-control" name="password" placeholder="{{ Lang::get('auth.password') }}" required>
                                 </div>
@@ -48,7 +48,7 @@
                             <div class="col-md-6">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ Lang::get('auth.remember_me') }}
                                     </label>
                                 </div>
                             </div>
@@ -56,8 +56,8 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary col-md-12">
-                                    Login
+                                <button type="submit" class="btn btn-siarsip col-md-12">
+                                    {{ Lang::get('auth.login') }}
                                 </button>
                             </div>
                         </div>

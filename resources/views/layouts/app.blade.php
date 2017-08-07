@@ -6,23 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">   
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/material-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
 </head>
-<body class="{{ Auth::guest() ? 'auth' : '' }}"><?php 
-        if(Auth::guest())
-            echo(" style=\"background-image: url('" . asset('images/blue-gradient.jpg') . "'); background-size:cover;\"");
-    ?>>
+<body class="{{ Auth::guest() ? 'auth' : '' }}">
     <div id="app">
         @if (!Auth::guest())
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <div class="nav-side-menu">
+            <div class="brand">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo/logo-white.png') }}">
+                </a>
+            </div>
+            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+          
+                <div class="menu-list">
+          
+                    <ul id="menu-content" class="menu-content collapse out">
+                        <li id="menu-item-dashboard">
+                            <a href="{{ url('/') }}">
+                                <div>
+                                    <i class="fa fa-dashboard fa-lg"></i> {{ Lang::get('app.dashboard') }} 
+                                </div>
+                          </a>
+                        </li>
+
+                        <li id="menu-item-items">
+                            <a href="{{ url('items') }}">
+                                <div><i class="fa fa-gift fa-lg"></i> {{ Lang::get('app.documents') }}</div>
+                            </a>
+                        </li>
+
+                        <li id="menu-item-storages">
+                            <a href="{{ url('storages') }}">
+                                <div><i class="fa fa-gift fa-lg"></i> {{ Lang::get('app.storages') }}</div>
+                            </a>
+                        </li>
+
+                        <li data-toggle="collapse" data-target="#storage" class="collapsed">
+                            <a href="#"><i class="fa fa-cubes fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
+                        </li>  
+                        <ul class="sub-menu collapse" id="storage">
+                            <li id="menu-item-rooms">
+                                <a href="{{ url('rooms') }}"><div>{{ Lang::get('app.rooms') }}</div></a>
+                            </li>
+                            <li id="menu-item-wardrobes"><a href="{{ url('wardrobes') }}"><div>{{ Lang::get('app.wardrobe') }}</div></a></li>
+                            <li id="menu-item-boxes"><a href="{{ url('boxes') }}"><div>{{ Lang::get('app.boxes') }}</div></a></li>
+                            <li id="menu-item-sections"><a href="{{ url('sections') }}"><div>{{ Lang::get('app.sections') }}</div></a></li>
+                        </ul>
+                        @if(Auth::user()->id == 1)
+                        <li id="menu-item-users">
+                            <a href="{{ url('users') }}">
+                                <div><i class="fa fa-users fa-lg"></i> {{ Lang::get('app.users') }}</div>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+             </div>
+        </div>
+        <div class="app-container">
+            <nav class="navbar navbar-default">
                 <div class="navbar-header">
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -31,17 +82,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <button type="button" class="btn btn-default btn-toggle">
+                            <i class="fa fa-bars"></i>
+                        </button>   
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -67,14 +115,26 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+            </nav>
+            @yield('content')
+        </div>
+        @else
+            @yield('content')
         @endif
-
-        @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var view = '{{ Route::getFacadeRoot()->current()->uri() }}';
+            if(view == '/')
+                $('#menu-item-dashboard').addClass('active')
+            else
+                $('#menu-item-' + view).addClass('active')
+                .closest('ul.sub-menu').collapse('show')
+                .prev('[data-toggle="collapse"]').addClass('active');
+        });
+    </script>
 </body>
 </html>

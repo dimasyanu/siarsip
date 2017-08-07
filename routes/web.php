@@ -13,3 +13,8 @@
 Auth::routes();
 
 Route::get('/', 'DashboardController');
+Route::resource('rooms', 'RoomController');
+Route::resource('users', 'UserController');
+Route::resource('wardrobes', 'WardrobeController');
+
+Route::get('storages', 'StorageController@index');
