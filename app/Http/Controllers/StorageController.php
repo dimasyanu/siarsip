@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Box;
 use App\Room;
 use App\Section;
-use App\Wardrobe;
+use App\Shelf;
 
 class StorageController extends Controller {
     public function __construct(){
@@ -18,25 +18,26 @@ class StorageController extends Controller {
     	$rooms 		= Room::orderBy('name')->get();
 
     	foreach ($rooms as $i => $room) {
-    		$wardrobes 	= Wardrobe::where('room_id', $room->id)->orderBy('name')->get();
+    		$shelves 	= Shelf::where('room_id', $room->id)->orderBy('name')->get();
 
-    		if($wardrobes->count() > 0){
-    			foreach ($wardrobes as $j => $wardrobe) {
-    				$boxes 	= Box::where('wardrobe_id', $wardrobe->id)->orderBy('name')->get();
+    		if($shelves->count() > 0){
+    			foreach ($shelves as $j => $shelf) {
+    				$boxes 	= Box::where('shelf_id', $shelf->id)->orderBy('name')->get();
 
     				if($boxes->count() > 0){
     					foreach ($boxes as $k => $box) {
     						$sections = Section::where('box_id', $box->id)->orderBy('name')->get();
-    						if($boxes->count() > 0)
+    						if($sections->count() > 0)
     							$box->sections = $sections;
     					}
 
-    					$wardrobe->boxes = $boxes;
+    					$shelf->boxes = $boxes;
     				}
     			}
-    			$room->wardrobes = $wardrobes;
+    			$room->shelves = $shelves;
     		}
     	}
+        // dd($rooms);
 
     	return view('storages/index', ['rooms' => $rooms]);
     }

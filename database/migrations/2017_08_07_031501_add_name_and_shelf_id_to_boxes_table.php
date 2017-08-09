@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWardrobesTable extends Migration
+class AddNameAndWardrobeIdToBoxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateWardrobesTable extends Migration
      */
     public function up()
     {
-        Schema::create('wardrobes', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('boxes', function (Blueprint $table) {
             $table->string('name');
-            $table->tinyInteger('room_id');
-            $table->timestamps();
+            $table->tinyInteger('shelf_id');
         });
     }
 
@@ -28,6 +26,9 @@ class CreateWardrobesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wardrobes');
+        Schema::table('boxes', function (Blueprint $table) {
+            $table->dropColumn('name');
+            $table->dropColumn('wardrobe_id');
+        });
     }
 }

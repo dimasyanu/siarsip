@@ -41,24 +41,24 @@
 
                         <li id="menu-item-items">
                             <a href="{{ url('items') }}">
-                                <div><i class="fa fa-gift fa-lg"></i> {{ Lang::get('app.documents') }}</div>
+                                <div><i class="fa fa-file-text-o fa-lg"></i> {{ Lang::get('app.documents') }}</div>
                             </a>
                         </li>
 
                         <li id="menu-item-storages">
                             <a href="{{ url('storages') }}">
-                                <div><i class="fa fa-gift fa-lg"></i> {{ Lang::get('app.storages') }}</div>
+                                <div><i class="fa fa-cubes fa-lg"></i> {{ Lang::get('app.storages') }}</div>
                             </a>
                         </li>
 
                         <li data-toggle="collapse" data-target="#storage" class="collapsed">
-                            <a href="#"><i class="fa fa-cubes fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
+                            <a href="#"><i class="fa fa-book fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
                         </li>  
                         <ul class="sub-menu collapse" id="storage">
                             <li id="menu-item-rooms">
                                 <a href="{{ url('rooms') }}"><div>{{ Lang::get('app.rooms') }}</div></a>
                             </li>
-                            <li id="menu-item-wardrobes"><a href="{{ url('wardrobes') }}"><div>{{ Lang::get('app.wardrobe') }}</div></a></li>
+                            <li id="menu-item-shelves"><a href="{{ url('shelves') }}"><div>{{ Lang::get('app.shelf') }}</div></a></li>
                             <li id="menu-item-boxes"><a href="{{ url('boxes') }}"><div>{{ Lang::get('app.boxes') }}</div></a></li>
                             <li id="menu-item-sections"><a href="{{ url('sections') }}"><div>{{ Lang::get('app.sections') }}</div></a></li>
                         </ul>
@@ -125,15 +125,18 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var view = '{{ Route::getFacadeRoot()->current()->uri() }}';
             if(view == '/')
                 $('#menu-item-dashboard').addClass('active')
             else
-                $('#menu-item-' + view).addClass('active')
+                $('#menu-item-' + view.split('/')[0]).addClass('active')
                 .closest('ul.sub-menu').collapse('show')
                 .prev('[data-toggle="collapse"]').addClass('active');
+
+            $('.select2').select2();
         });
     </script>
 </body>

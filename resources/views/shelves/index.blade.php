@@ -5,11 +5,11 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-th fa-2x"></i>
-            <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.wardrobes') }}</h3>
+            <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.shelves') }}</h3>
             <div class="btn-group pull-right" role="group">
-                <a class="btn btn-success" href="{{ url('wardrobes/create') }}">
+                <a class="btn btn-success" href="{{ url('shelves/create') }}">
                     <i class="fa fa-plus"></i>
-                    {{ Lang::get('app.add') . ' ' . Lang::get('app.wardrobes') }}
+                    {{ Lang::get('app.add') . ' ' . Lang::get('app.shelves') }}
                 </a>
             </div>
         </div>
@@ -22,6 +22,7 @@
                     <tr>
                         <th class="text-center" style="width: 50px;">No.</th>
                         <th>Name</th>
+                        <th>Ruangan</th>
                         <th class="text-center" style="width: 100px;">{{ Lang::get('app.actions') }}</th>
                     </tr>
                 </thead>
@@ -33,14 +34,15 @@
                                     {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                 </td>
                                 <td class="data-name">{{ $item->name }}</td>
+                                <td class="data-room">{{ $item->room_name }}</td>
                                 <td>
                                     <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('rooms/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                        <a href="{{ url('shelves/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('rooms/' . $item->id) }}" method="post">
+                                            <form action="{{ url('shelves/' . $item->id) }}" method="post">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                             </form>
@@ -50,7 +52,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
+                        <tr><td colspan="4" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
                     @endif
                 </tbody>
             </table>
@@ -82,18 +84,20 @@
 
 <script type="text/javascript" src="{{ asset('js/crud.js') }}"></script>
 <script type="text/javascript">
-    var selectedItem;
-    $('.delete-btn').click(function(event) {
-        selectedItem = $(this).closest('tr');
-        var name = selectedItem.find('.data-name').text();
-        itemId = selectedItem.data('id');
-        $('#delete-modal').modal('show')
-        .find('.modal-body').find('strong').text(name);
-    });
+    $(document).ready(function() {
+        var selectedItem;
+        $('.delete-btn').click(function(event) {
+            selectedItem = $(this).closest('tr');
+            var name = selectedItem.find('.data-name').text();
+            itemId = selectedItem.data('id');
+            $('#delete-modal').modal('show')
+            .find('.modal-body').find('strong').text(name);
+        });
 
-    $('#delete-modal').on('show.bs.modal', function(e) {
-        $('#confirm-delete').click(function(event) {
-            selectedItem.find('.delete-btn form').submit();
+        $('#delete-modal').on('show.bs.modal', function(e) {
+            $('#confirm-delete').click(function(event) {
+                selectedItem.find('.delete-btn form').submit();
+            });
         });
     });
 </script>

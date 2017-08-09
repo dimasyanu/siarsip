@@ -7,6 +7,7 @@ return [
 	'data'                			=> 'Data', 
 	'dashboard'           			=> 'Dashboard',
 	'documents'           			=> 'Dokumen',
+	'edit'                 			=> 'Edit :item',
 	'new'                 			=> 'Tambah :item',
 	'no_items'            			=> 'Tidak ada data',
 	'references'          			=> 'Referensi',
@@ -14,9 +15,10 @@ return [
 	'rooms'               			=> 'Ruangan',
 	'sections'            			=> 'Kelompok Dokumen',
 	'storage'             			=> 'Penyimpanan',
+	'storages'             			=> 'Penyimpanan',
 	'users'               			=> 'User',
-	'wardrobe'            			=> 'Almari',
-	'wardrobes'            			=> 'Almari',
+	'shelf'            				=> 'Almari',
+	'shelves'            			=> 'Almari',
 
 	/* Fields */
 	'name'                			=> 'Nama',

@@ -3,20 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Wardrobe;
 
-class WardrobeController extends Controller {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+class ItemController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $items = Wardrobe::paginate(25);
-        return view('wardrobes/index', ['items' => $items]);
+        return view('items/index');
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wardrobe extends Model
+class Shelf extends Model
 {
     //
 }
