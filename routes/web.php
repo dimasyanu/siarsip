@@ -20,3 +20,6 @@ Route::resource('users', 'UserController');
 Route::resource('shelves', 'ShelfController');
 
 Route::get('storages', 'StorageController@index');
+Route::group(['prefix' => 'api'], function() {
+	Route::get('shelves/{id}', 'ApiController@getShelvesInRoom');
+});

@@ -127,6 +127,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script type="text/javascript">
+        var root = "{{ url('/') }}";
         $(document).ready(function() {
             var view = '{{ Route::getFacadeRoot()->current()->uri() }}';
             if(view == '/')
@@ -135,8 +136,6 @@
                 $('#menu-item-' + view.split('/')[0]).addClass('active')
                 .closest('ul.sub-menu').collapse('show')
                 .prev('[data-toggle="collapse"]').addClass('active');
-
-            $('.select2').select2();
         });
     </script>
 </body>

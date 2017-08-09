@@ -38,5 +38,6 @@ return [
 	'save'                			=> 'Simpan',
 	'save_and_close'      			=> 'Simpan dan Tutup',
 	'save_and_new'        			=> 'Simpan dan Buat Baru',
+	'select_item'					=> 'Pilih :item ...'
 ];
 ?>
