@@ -30,9 +30,17 @@ class ShelfController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
+        $room_id = $request->input('room_id');
+
+        $item = new Shelf();
+        $item->room_id = $room_id;
+        if($room_id)
+            $item->storage_mode = true;
+
         $rooms = Room::get();
-        return view('shelves/edit', ['item' => new Shelf(), 'rooms' => $rooms]);
+
+        return view('shelves/edit', ['item' => $item, 'rooms' => $rooms]);
     }
 
     /**
@@ -52,17 +60,17 @@ class ShelfController extends Controller {
         
         switch ($request->get('action')) {
             case 'save':
-                $action = '/' . $item->id.'/edit';
+                $action = 'shelves/' . $item->id.'/edit';
                 break;
             case 'save-new':
-                $action = '/create';
+                $action = 'shelves/create';
                 break;
             default:
-                $action = '';
+                $action = $request->input('storage_mode')?'storages':'shelves';
                 break;
         }
 
-        return redirect('shelves' . $action)->with('status', $status)->with('messages', $messages);
+        return redirect($action)->with('status', $status)->with('messages', $messages);
     }
 
     /**

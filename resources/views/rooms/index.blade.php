@@ -6,11 +6,39 @@
         <div class="panel-heading">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.rooms') }}</h3>
-            <div class="btn-group pull-right" role="group">
+            <div class="pull-right">
                 <a class="btn btn-success" href="{{ url('rooms/create') }}">
                     <i class="fa fa-plus"></i>
                     {{ Lang::get('app.add') . ' ' . Lang::get('app.rooms') }}
                 </a>
+                <button type="button" class="filter-toggle btn btn-primary collapsed" data-toggle="collapse" data-target="#filter-panel">
+                    <i class="fa fa-filter"></i> {{ Lang::get('app.filter') }}
+                </button>
+            </div>
+        </div>
+        <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
+            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
+                <div class="col-md-4">
+                    <form action="" class="search-form">
+                        <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
+                            <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
+                            <input type="text" class="form-control" name="search" id="search" placeholder="{{ Lang::get('app.search') }}..." value="{{ $filters->search }}">
+                            <i class="fa fa-search form-control-feedback"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
+                        <select id="filter-limit" class="form-control" name="limit">
+                            <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
+                            <option value="10" {{ $items->perPage()==10?'selected':'' }}>10</option>
+                            <option value="15" {{ $items->perPage()==15?'selected':'' }}>15</option>
+                            <option value="25" {{ $items->perPage()==25?'selected':'' }}>25</option>
+                            <option value="50" {{ $items->perPage()==50?'selected':'' }}>50</option>
+                            <option value="100" {{ $items->perPage()==100?'selected':'' }}>100</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="panel-body">
@@ -97,6 +125,18 @@
                 selectedItem.find('.delete-btn form').submit();
             });
         });
+
+        $('.search-form .form-group').focusin(function(event) { searchboxEnabled($(this)); });
+        $('.search-form .form-group').focusout(function() { searchboxDisabled($(this)); });
+
+        function searchboxEnabled(elm) {
+            elm.addClass('open');
+        }
+
+        function searchboxDisabled(elm) {
+            if(elm.find('input.form-control').val() == '')
+                elm.removeClass('open');
+        }
     });
 </script>
 @endsection

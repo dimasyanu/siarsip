@@ -1,5 +1,5 @@
 
-.list-table li[data-toggle="collapse"] span:after {
+.list-table li div[data-toggle="collapse"] span:after {
 	font-family: FontAwesome;
 	content: "\f067";
 	display: inline-block;
@@ -7,7 +7,7 @@
 	vertical-align: middle;
 }
 
-.list-table li[data-toggle="collapse"][aria-expanded="true"] span:after {
+.list-table li div[data-toggle="collapse"][aria-expanded="true"] span:after {
 	content: "\f068";
 }
 
@@ -85,4 +85,7 @@
   -o-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   transition: all 0.25s ease;
+}
+.list-table li:hover > div > .act-btn {
+	display: block;
 }

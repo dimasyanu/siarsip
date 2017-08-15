@@ -4,12 +4,12 @@
 <div class="app-contents">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-cubes fa-2x"></i>
-            <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.boxes') }}</h3>
+            <i class="fa fa-file-text fa-2x"></i>
+            <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.categories') }}</h3>
             <div class="btn-group pull-right" role="group">
-                <a class="btn btn-success" href="{{ url('boxes/create') }}">
+                <a class="btn btn-success" href="{{ url('categories/create') }}">
                     <i class="fa fa-plus"></i>
-                    {{ Lang::get('app.add') . ' ' . Lang::get('app.boxes') }}
+                    {{ Lang::get('app.add') . ' ' . Lang::get('app.categories') }}
                 </a>
             </div>
         </div>
@@ -21,9 +21,8 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 50px;">No.</th>
-                        <th>Name</th>
-                        <th>Rak</th>
-                        <th>Ruangan</th>
+                        <th>{{ Lang::get('app.code')}}</th>
+                        <th>{{ Lang::get('app.name')}}</th>
                         <th class="text-center" style="width: 100px;">{{ Lang::get('app.actions') }}</th>
                     </tr>
                 </thead>
@@ -34,17 +33,16 @@
                                 <td>
                                     {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                 </td>
+                                <td class="data-code">{{ $item->code }}</td>
                                 <td class="data-name">{{ $item->name }}</td>
-                                <td class="data-shelf">{{ $item->shelf_name }}</td>
-                                <td class="data-room">{{ $item->room_name }}</td>
                                 <td>
                                     <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('boxes/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                        <a href="{{ url('categories/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('boxes/' . $item->id) }}" method="post">
+                                            <form action="{{ url('categories/' . $item->id) }}" method="post">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                             </form>
@@ -54,7 +52,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr><td colspan="4" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
+                        <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
                     @endif
                 </tbody>
             </table>

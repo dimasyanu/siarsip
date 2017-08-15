@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 <div class="panel panel-default">
     <div class="panel-heading">
     	<div class="row">
@@ -28,7 +27,7 @@
 		@endif
 
     	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
-		{{ Form::open(['url' => url('shelves/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
+		{{ Form::open(['url' => url('shelves/'.$item->id.($item->storage_mode?'?storage_mode=true':'')), 'method' => $method, 'class' => 'form-horizontal']) }}
 			<div class="form-group">
 				<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.room') }}</label>
 				<div class="col-sm-4 col-md-4">
@@ -58,7 +57,7 @@
 						<button type="submit" class="btn btn-info" name="action" value="save-close">
 							<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 						</button>
-						<a href="{{ url('shelves') }}" class="btn btn-default">
+						<a href="{{ url($item->storage_mode?'storages':'shelves') }}" class="btn btn-default">
 							<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 						</a>
 					</div>

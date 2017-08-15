@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 <div class="panel panel-default">
     <div class="panel-heading">
     	<div class="row">
 			<div class="col-md-6" style="font-size: 14pt;">
 				@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
-				{{ Lang::get($action, ['item' => Lang::get('app.shelf')]) }}
+				{{ Lang::get($action, ['item' => Lang::get('app.box')]) }}
 			</div>
     	</div>
     </div>

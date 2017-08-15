@@ -16,6 +16,21 @@ body.auth {
 	margin-bottom: 0;
 }
 
+.badge-danger {
+    color: $fff;
+    background-color: #bf5329;
+}
+
+.badge-primary {
+    color: $fff;
+    background-color: #337ab7;
+}
+
+.badge-teal {
+    color: $fff;
+    background-color: #009688;
+}
+
 .btn.btn-siarsip,
 .span-siarsip {
 	background-color: #FF5722;
@@ -24,6 +39,29 @@ body.auth {
 
 .data-table	> tbody > tr.hovered {
 	background-color: #FBE9E7;
+}
+
+#filter-panel {
+  background-color: #2e353d;
+}
+
+.filter-toggle.btn-primary:not(.collapsed) {
+  color: #fff;
+  border-color: #e4a633;
+  background-color: #e4a633;
+  -webkit-transition: all 0.35s, border-radius 0s;
+	transition: all 0.35s, border-radius 0s;
+}
+
+.filter-toggle.btn-primary.collapsed {
+  color: #fff;
+  background-color: #2579a9;
+  -webkit-transition: all 0.35s, border-radius 0s;
+	transition: all 0.35s, border-radius 0s;
+}
+
+.link-teal {
+    color: #009688;
 }
 
 .material-icons {
@@ -65,17 +103,17 @@ body.auth {
   line-height: 35px;
   cursor: pointer;
   /*    
-    .collapsed{
-       .arrow:before{
-                 font-family: FontAwesome;
-                 content: "\f053";
-                 display: inline-block;
-                 padding-left:10px;
-                 padding-right: 10px;
-                 vertical-align: middle;
-                 float:right;
-            }
-     }
+	.collapsed{
+	   .arrow:before{
+				 font-family: FontAwesome;
+				 content: "\f053";
+				 display: inline-block;
+				 padding-left:10px;
+				 padding-right: 10px;
+				 vertical-align: middle;
+				 float:right;
+			}
+	 }
 */
 }
 .nav-side-menu ul :not(collapsed) .arrow:before,
@@ -146,33 +184,33 @@ body.auth {
 }
 @media (max-width: 767px) {
   .nav-side-menu {
-    position: relative;
-    width: 100%;
-    margin-bottom: 10px;
+	position: relative;
+	width: 100%;
+	margin-bottom: 10px;
   }
   .nav-side-menu .toggle-btn {
-    display: block;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 10 !important;
-    padding: 3px;
-    background-color: #ffffff;
-    color: #000;
-    width: 40px;
-    text-align: center;
+	display: block;
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	z-index: 10 !important;
+	padding: 3px;
+	background-color: #ffffff;
+	color: #000;
+	width: 40px;
+	text-align: center;
   }
   .brand {
-    text-align: left !important;
-    font-size: 22px;
-    padding-left: 20px;
-    line-height: 50px !important;
+	text-align: left !important;
+	font-size: 22px;
+	padding-left: 20px;
+	line-height: 50px !important;
   }
 }
 @media (min-width: 767px) {
   .nav-side-menu .menu-list .menu-content {
-    display: block;
+	display: block;
   }
 }
 
@@ -183,9 +221,9 @@ body.auth {
 /* End of Sidebar Nav */
 
 .panel .panel-body .navbar-brand {
-    float: none;
-    margin-bottom: 20px;
-    font-size: 20pt;
+	float: none;
+	margin-bottom: 20px;
+	font-size: 20pt;
 }
 
 .panel-default .panel-heading {
@@ -201,6 +239,77 @@ body.auth {
 	/*margin-top: 8px;*/
 }
 
+.act-btn {
+	padding: 7px 0;
+}
+
+.search-form .form-group {
+  width: 100%;
+  float: right;
+  height: 32px;
+  background-color: #fafafa;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  margin: 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  transition: all 0.35s, border-radius 0s;
+}
+.search-form .form-group.open {
+  background-color: #fff;
+  border-color: #0180A0;
+  
+  -webkit-box-shadow: 0 0 5px #0180A0;
+  -moz-box-shadow: 0 0 5px #0180A0;
+  box-shadow: 0 0 5px #0180A0;
+}
+
+.search-form .form-group input.form-control {
+  padding: 0px 20px 7px 12px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+  color: #999;
+}
+
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+  color: #999;
+}
+
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+  color: #999;
+}
+
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+  color: #999;
+}
+
+.search-form .form-group i.form-control-feedback {
+  position: absolute;
+  top: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #929292;
+  left: initial;
+  font-size: 16px;
+}
+.search-form .form-group.open i.form-control-feedback {
+  color: #0180A0;
+}
+
 .siarsip-login-brand {
 	padding: 14px 15px;
 }
@@ -208,8 +317,8 @@ body.auth {
 .siarsip-login-brand img {
 	height: 36px;
 }
-ul.sub-menu li {
-	inli
+.tree {
+  margin: 10px;
 }
 .vertical-center {
   min-height: 100%;

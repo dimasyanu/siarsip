@@ -3,32 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Room;
 use Lang;
 
-class RoomController extends Controller {
+use App\ItemCategory;
+
+class ItemCategoryController extends Controller {
     public function __construct(){
         $this->middleware('auth');
     }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
-        $filters = new \stdClass();
-        $filters->search = $request->input('search');
-        $filters->limit  = $request->input('limit');
-        $filters->page   = $request->input('page');
-
-        if(!$filters->limit) $filters->limit = 25;
-
-        $items = Room::paginate($filters->limit);
-
-        // dd($items->perPage());
-
-        return view('rooms/index', ['items' => $items, 'filters' => $filters]);
+    public function index() {
+        $items = ItemCategory::orderBy('code')->paginate(25);
+        return view('item_categories/index', ['items' => $items]);
     }
 
     /**
@@ -37,7 +27,11 @@ class RoomController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('rooms/edit', ['item' => new Room()]);
+        $item            = new ItemCategory();
+        $parent          = new \stdClass();
+        $parent->closest = ItemCategory::find($item->parent_id);
+        $parent->tree    = null;
+        return view('item_categories/edit', ['item' => $item, 'parent' => $parent]);
     }
 
     /**
@@ -49,7 +43,7 @@ class RoomController extends Controller {
     public function store(Request $request) {
         $this->validateForm($request);
         
-        $item = new Room();
+        $item = new ItemCategory();
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -67,7 +61,7 @@ class RoomController extends Controller {
                 break;
         }
 
-        return redirect('rooms' . $action)->with('status', $status)->with('messages', $messages);
+        return redirect('categories' . $action)->with('status', $status)->with('messages', $messages);
     }
 
     /**
@@ -76,9 +70,7 @@ class RoomController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -87,8 +79,12 @@ class RoomController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $item = Room::find($id);
-        return view('rooms/edit', ['item' => $item]);
+        $item            = ItemCategory::find($id);
+        $parent          = new \stdClass();
+        $parent->closest = ItemCategory::find($item->parent_id);
+        $parent->tree    = ItemCategory::getNest($id);
+
+        return view('item_categories/edit', ['item' => $item, 'parent' => $parent]);
     }
 
     /**
@@ -101,7 +97,7 @@ class RoomController extends Controller {
     public function update(Request $request, $id) {
         $this->validateForm($request);
         
-        $item = Room::find($request->input('id'));
+        $item = ItemCategory::find($request->input('id'));
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -119,7 +115,7 @@ class RoomController extends Controller {
                 break;
         }
 
-        return redirect('rooms' . $action)->with('status', $status)->with('messages', $messages);
+        return redirect('categories' . $action)->with('status', $status)->with('messages', $messages);
     }
 
     /**
@@ -128,22 +124,26 @@ class RoomController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room) {
-        $status = $room->delete();
-        $data   = Room::orderBy('created_at', 'desc')->get();
+    public function destroy(ItemCategory $category) {
+        $status = $category->delete();
+        $data   = ItemCategory::orderBy('created_at', 'desc')->get();
 
         $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
         
-        return redirect()->route('rooms.index')->with('status', $status)->with('messages', $messages);
+        return redirect()->route('categories.index')->with('status', $status)->with('messages', $messages);
     }
 
     private function setAttributes($item, Request $request){
+        $item->parent_id     = $request->input('parent_id');
         $item->name          = $request->input('name');
+        $item->code          = $request->input('code');
     }
 
     private function validateForm(Request $request){
         $this->validate($request, [
+            'parent_id'  => 'required',
             'name'  => 'required',
+            'code'  => 'required'
         ]);
     }
 }
