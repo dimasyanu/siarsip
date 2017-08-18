@@ -49,12 +49,6 @@
                             </a>
                         </li>
 
-                        <li id="menu-item-storages">
-                            <a href="{{ url('storages') }}">
-                                <div><i class="fa fa-cubes fa-lg"></i> {{ Lang::get('app.storages') }}</div>
-                            </a>
-                        </li>
-
                         <li data-toggle="collapse" data-target="#storage" class="collapsed">
                             <a href="#"><i class="fa fa-book fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
                         </li>  
