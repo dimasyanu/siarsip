@@ -317,6 +317,10 @@ body.auth {
 .siarsip-login-brand img {
 	height: 36px;
 }
+.animate {
+    -webkit-transition: all 0.05s ease-in;
+    transition: all 0.05s ease-in;
+}
 .tree {
   margin: 10px;
 }

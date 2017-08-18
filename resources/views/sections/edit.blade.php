@@ -6,7 +6,7 @@
     	<div class="row">
 			<div class="col-md-6" style="font-size: 14pt;">
 				@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
-				{{ Lang::get($action, ['item' => Lang::get('app.box')]) }}
+				{{ Lang::get($action, ['item' => Lang::get('app.section')]) }}
 			</div>
     	</div>
     </div>
@@ -27,12 +27,12 @@
 		@endif
 
     	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
-		{{ Form::open(['url' => url('boxes/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
+		{{ Form::open(['url' => url('sections/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
 			<div class="form-group">
-				<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.room') }}</label>
+				<label for="select_room" class="col-sm-2 control-label">{{ Lang::get('app.room') }}</label>
 				<div class="col-sm-4 col-md-4">
 					<select id="select_room" class="select2" name="room_id" style="width: 100%;" data-chain="#select_shelf">
-						<option value="0">Pilih Ruangan...</option>
+						<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.room')]) }}</option>
 						@foreach($references->rooms as $i => $room)
 						<option value="{{ $room->id }}" @if($item->room_id == $room->id) selected @endif>{{ $room->name }}</option>
 						@endforeach
@@ -40,10 +40,24 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.shelf') }}</label>
+				<label for="select_shelf" class="col-sm-2 control-label">{{ Lang::get('app.shelf') }}</label>
 				<div class="col-sm-4 col-md-4">
-					<select id="select_shelf" class="select2" name="shelf_id" style="width: 100%;" data-alias="shelves">
-					<option value="{{ $references->shelf->id }}" selected>{{ $references->shelf->name }}</option>
+					<select id="select_shelf" class="select2" name="shelf_id" style="width: 100%;" data-chain="#select_box" data-alias="shelves">
+						<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.shelf')]) }}</option>
+						@foreach($references->shelves as $i => $shelf)
+						<option value="{{ $shelf->id }}" @if($item->shelf_id == $shelf->id) selected @endif>{{ $shelf->name }}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="select_box" class="col-sm-2 control-label">{{ Lang::get('app.box') }}</label>
+				<div class="col-sm-4 col-md-4">
+					<select id="select_box" class="select2" name="box_id" style="width: 100%;" data-alias="boxes">
+						<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.box')]) }}</option>
+						@foreach($references->boxes as $i => $box)
+						<option value="{{ $box->id }}" @if($item->box_id == $box->id) selected @endif>{{ $box->name }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
@@ -66,7 +80,7 @@
 						<button type="submit" class="btn btn-info" name="action" value="save-close">
 							<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 						</button>
-						<a href="{{ url('boxes') }}" class="btn btn-default">
+						<a href="{{ url('sections') }}" class="btn btn-default">
 							<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 						</a>
 					</div>

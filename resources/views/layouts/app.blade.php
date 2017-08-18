@@ -13,11 +13,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bs-card.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/animate.js') }}"></script>
 </head>
 <body class="{{ Auth::guest() ? 'auth' : '' }}">
     <div id="app">
@@ -41,8 +43,8 @@
                           </a>
                         </li>
 
-                        <li id="menu-item-items">
-                            <a href="{{ url('items') }}">
+                        <li id="menu-item-records">
+                            <a href="{{ url('records') }}">
                                 <div><i class="fa fa-file-text-o fa-lg"></i> {{ Lang::get('app.documents') }}</div>
                             </a>
                         </li>
@@ -129,6 +131,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('js/bs-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript">
         var root = "{{ url('/') }}";
         $(document).ready(function() {

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Lang;
 
-use App\ItemCategory;
+use App\RecordCategory;
 
-class ItemCategoryController extends Controller {
+class RecordCategoryController extends Controller {
     public function __construct(){
         $this->middleware('auth');
     }
@@ -17,8 +17,8 @@ class ItemCategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $items = ItemCategory::orderBy('code')->paginate(25);
-        return view('item_categories/index', ['items' => $items]);
+        $items = RecordCategory::orderBy('code')->paginate(25);
+        return view('record_categories/index', ['items' => $items]);
     }
 
     /**
@@ -27,11 +27,11 @@ class ItemCategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $item            = new ItemCategory();
+        $item            = new RecordCategory();
         $parent          = new \stdClass();
-        $parent->closest = ItemCategory::find($item->parent_id);
+        $parent->closest = RecordCategory::find($item->parent_id);
         $parent->tree    = null;
-        return view('item_categories/edit', ['item' => $item, 'parent' => $parent]);
+        return view('record_categories/edit', ['item' => $item, 'parent' => $parent]);
     }
 
     /**
@@ -43,7 +43,7 @@ class ItemCategoryController extends Controller {
     public function store(Request $request) {
         $this->validateForm($request);
         
-        $item = new ItemCategory();
+        $item = new RecordCategory();
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -79,12 +79,12 @@ class ItemCategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $item            = ItemCategory::find($id);
+        $item            = RecordCategory::find($id);
         $parent          = new \stdClass();
-        $parent->closest = ItemCategory::find($item->parent_id);
-        $parent->tree    = ItemCategory::getNest($id);
+        $parent->closest = RecordCategory::find($item->parent_id);
+        $parent->tree    = RecordCategory::getNest($id);
 
-        return view('item_categories/edit', ['item' => $item, 'parent' => $parent]);
+        return view('record_categories/edit', ['item' => $item, 'parent' => $parent]);
     }
 
     /**
@@ -97,7 +97,7 @@ class ItemCategoryController extends Controller {
     public function update(Request $request, $id) {
         $this->validateForm($request);
         
-        $item = ItemCategory::find($request->input('id'));
+        $item = RecordCategory::find($request->input('id'));
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -124,9 +124,9 @@ class ItemCategoryController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemCategory $category) {
+    public function destroy(RecordCategory $category) {
         $status = $category->delete();
-        $data   = ItemCategory::orderBy('created_at', 'desc')->get();
+        $data   = RecordCategory::orderBy('created_at', 'desc')->get();
 
         $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
         

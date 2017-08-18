@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ItemCategory extends Model {	
+class RecordCategory extends Model {	
 	public static function makeTree($id, &$data, &$code = '') {
-		$item   = ItemCategory::find($id);
+		$item   = RecordCategory::find($id);
 		
     	if($item->parent_id != 0)
-    		ItemCategory::makeTree($item->parent_id, $data, $code);
+    		RecordCategory::makeTree($item->parent_id, $data, $code);
 
 		if(count($data) > 0) {
 			$code .= end($data)->code.'-';
@@ -21,7 +21,7 @@ class ItemCategory extends Model {
 	// Get list of Collection objects with parent-child sorting.
 	public static function getNest($id) {
 		$data = array();
-		ItemCategory::makeTree($id, $data);
+		RecordCategory::makeTree($id, $data);
     	return $data;
     }
 }

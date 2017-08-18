@@ -7,27 +7,34 @@ use Lang;
 
 use App\Box;
 use App\Room;
+use App\Section;
 use App\Shelf;
 
-class BoxController extends Controller {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+class SectionController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $items = Box::select(
-            'boxes.id', 
-            'boxes.name', 
-            'x.name AS shelf_name', 
-            'y.name AS room_name'
-        )->leftJoin('shelves AS x', 'boxes.shelf_id', 'x.id')
-        ->leftJoin('rooms AS y', 'x.room_id', 'y.id')->paginate(25);
+    public function index(Request $request) {
+        $filters = new \stdClass();
+        $filters->search = $request->input('search');
+        $filters->limit  = $request->input('limit');
+        $filters->page   = $request->input('page');
 
-        return view('boxes/index', ['items' => $items]);
+        if(!$filters->limit) $filters->limit = 25;
+
+        $items = Section::select(
+            'sections.id', 
+            'sections.name', 
+            'x.name AS box_name', 
+            'y.name AS shelf_name', 
+            'z.name AS room_name'
+        )->leftJoin('boxes AS x', 'sections.box_id', 'x.id')
+        ->leftJoin('shelves AS y', 'x.shelf_id', 'y.id')
+        ->leftJoin('rooms AS z', 'y.room_id', 'z.id')->paginate($filters->limit);
+
+        return view('sections/index', ['items' => $items, 'filters' => $filters]);
     }
 
     /**
@@ -36,13 +43,12 @@ class BoxController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $references = new \stdClass();
-        $references->rooms = Room::get();
-        $references->shelf = new \stdClass();
-        $references->shelf->id = 0;
-        $references->shelf->name = Lang::get('app.select_item', ['item' => Lang::get('app.shelf')]);
+        $references              = new \stdClass();
+        $references->rooms       = Room::get();
+        $references->shelves     = array();
+        $references->boxes       = array();
 
-        return view('boxes/edit', ['item' => new Shelf(), 'references' => $references]);
+        return view('sections/edit', ['item' => new Section(), 'references' => $references]);
     }
 
     /**
@@ -54,7 +60,7 @@ class BoxController extends Controller {
     public function store(Request $request) {
         $this->validateForm($request);
         
-        $item = new Box();
+        $item = new Section();
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -72,7 +78,7 @@ class BoxController extends Controller {
                 break;
         }
 
-        return redirect('boxes' . $action)->with('status', $status)->with('messages', $messages);
+        return redirect('sections' . $action)->with('status', $status)->with('messages', $messages);
     }
 
     /**
@@ -81,9 +87,8 @@ class BoxController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+        
     }
 
     /**
@@ -93,13 +98,20 @@ class BoxController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $item = Box::select('boxes.id', 'boxes.name', 'boxes.shelf_id','shelves.room_id')
-            ->leftJoin('shelves', 'boxes.shelf_id', 'shelves.id')
-            ->find($id);
+        $item = Section::select(
+            'sections.id', 
+            'sections.name', 
+            'sections.box_id',
+            'x.shelf_id',
+            'y.room_id'
+        )->leftJoin('boxes AS x', 'sections.box_id', 'x.id')
+        ->leftJoin('shelves AS y', 'x.shelf_id', 'y.id')->find($id);
         $references = new \stdClass();
         $references->rooms = Room::get();
-        $references->shelf = Shelf::find($item->shelf_id);
-        return view('boxes/edit', ['item' => $item, 'references' => $references]);
+        $references->shelves = Shelf::where('room_id', $item->room_id)->get();
+        $references->boxes = Box::where('shelf_id', $item->shelf_id)->get();
+
+        return view('sections/edit', ['item' => $item, 'references' => $references]);
     }
 
     /**
@@ -112,7 +124,7 @@ class BoxController extends Controller {
     public function update(Request $request, $id) {
         $this->validateForm($request);
         
-        $item = Box::find($request->input('id'));
+        $item = Section::find($request->input('id'));
         $this->setAttributes($item, $request);
         
         $status     = $item->save();
@@ -130,7 +142,7 @@ class BoxController extends Controller {
                 break;
         }
 
-        return redirect('boxes' . $action)->with('status', $status)->with('messages', $messages);
+        return redirect('sections' . $action)->with('status', $status)->with('messages', $messages);
     }
 
     /**
@@ -139,24 +151,24 @@ class BoxController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Box $box) {
-        $status = $box->delete();
-        $data   = Box::orderBy('created_at', 'desc')->get();
+    public function destroy(Section $section) {
+        $status = $section->delete();
+        $data   = Section::orderBy('created_at', 'desc')->get();
 
         $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
         
-        return redirect()->route('boxes.index')->with('status', $status)->with('messages', $messages);
+        return redirect()->route('sections.index')->with('status', $status)->with('messages', $messages);
     }
 
     private function setAttributes($item, Request $request){
         $item->name          = $request->input('name');
-        $item->shelf_id       = $request->input('shelf_id');
+        $item->box_id    = $request->input('box_id');
     }
 
     private function validateForm(Request $request){
         $this->validate($request, [
-            'name'  => 'required',
-            'shelf_id'  => 'required'
+            'name'    => 'required',
+            'box_id'  => 'required'
         ]);
     }
 }

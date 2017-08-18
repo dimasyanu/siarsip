@@ -14,16 +14,19 @@ Auth::routes();
 
 Route::get('/', 'DashboardController');
 Route::resource('boxes', 'BoxController');
-Route::resource('categories', 'ItemCategoryController');
-Route::resource('items', 'ItemController');
+Route::resource('categories', 'RecordCategoryController');
+Route::resource('records', 'RecordController');
 Route::resource('rooms', 'RoomController');
+Route::resource('sections', 'SectionController');
 Route::resource('users', 'UserController');
 Route::resource('shelves', 'ShelfController');
 
 Route::get('storages', 'StorageController@index');
 Route::group(['prefix' => 'api'], function() {
+	Route::get('boxes/{shelf_id}', 'ApiController@getBoxesInShelf');
 	Route::get('category', 'ApiController@getCategory');
 	Route::get('categories', 'ApiController@getCategories');
 	Route::get('nestedcat', 'ApiController@getNestedCategories');
-	Route::get('shelves/{id}', 'ApiController@getShelvesInRoom');
+	Route::get('sections/{box_id}', 'ApiController@getSectionsInBox');
+	Route::get('shelves/{room_id}', 'ApiController@getShelvesInRoom');
 });
