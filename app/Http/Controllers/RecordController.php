@@ -29,7 +29,12 @@ class RecordController extends Controller {
 
 		if(!$filters->limit) $filters->limit = 25;
 
-		$items = Record::with('section')->orderBy('records.name')->paginate($filters->limit);
+		$query = Record::with('section');
+
+		if($filters->search)
+            $query = $query->where ('records.name', 'regexp', $filters->search);
+
+        $items = $query->orderBy('records.name')->paginate($filters->limit);
 		
 		return view('records/index', ['items' => $items, 'filters' => $filters]);
 	}

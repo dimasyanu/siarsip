@@ -137,6 +137,12 @@
             if(elm.find('input.form-control').val() == '')
                 elm.removeClass('open');
         }
+
+        $('#filter-limit').change(function(){
+            var action = $(this).closest('form').attr('action');
+            $(this).closest('form').attr('action', action + $(this).val());
+            $(this).closest('form').submit();
+        });
     });
 </script>
 @endsection

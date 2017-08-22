@@ -49,12 +49,12 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 50px;">No.</th>
-                        <th class="col-md-6">{{ Lang::get('app.content') }}</th>
+                        <th class="col-md-5">{{ Lang::get('app.content') }}</th>
                         <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
                         <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
                         <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
-                        <th class="col-md-3">{{ Lang::get('app.saved_at') }}</th>
-                        <th class="text-center" style="width: 100px;">{{ Lang::get('app.actions') }}</th>
+                        <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
+                        <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,6 +71,9 @@
                                 <td class="data-name">{{ $item->section->name }}</td>
                                 <td>
                                     <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                        <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info btn-xs">
+                                            <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
+                                        </a>
                                         <a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>

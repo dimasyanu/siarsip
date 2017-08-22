@@ -17,12 +17,24 @@ class ShelfController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $items = Shelf::select('shelves.id', 'shelves.name', 'rooms.name AS room_name')
-                ->leftJoin('rooms', 'shelves.room_id', 'rooms.id')
-                ->paginate(25);
+    public function index(Request $request) {
+        $filters = new \stdClass();
+        $filters->search = $request->input('search');
+        $filters->limit  = $request->input('limit');
+        $filters->page   = $request->input('page');
 
-        return view('shelves/index', ['items' => $items]);
+        if(!$filters->limit) $filters->limit = 25;
+
+        $query = Shelf::select('shelves.id', 'shelves.name', 'rooms.name AS room_name')
+                ->leftJoin('rooms', 'shelves.room_id', 'rooms.id');
+
+        if($filters->search)
+            $query = $query->where ('shelves.name', 'regexp', $filters->search);
+                        //->orWhere ('rooms.name', 'regexp', $filters->search);
+
+        $items = $query->orderBy('name')->paginate(25);
+
+        return view('shelves/index', ['items' => $items, 'filters' => $filters]);
     }
 
     /**

@@ -24,7 +24,7 @@ class SectionController extends Controller {
 
         if(!$filters->limit) $filters->limit = 25;
 
-        $items = Section::select(
+        $query = Section::select(
             'sections.id', 
             'sections.name', 
             'x.name AS box_name', 
@@ -32,7 +32,12 @@ class SectionController extends Controller {
             'z.name AS room_name'
         )->leftJoin('boxes AS x', 'sections.box_id', 'x.id')
         ->leftJoin('shelves AS y', 'x.shelf_id', 'y.id')
-        ->leftJoin('rooms AS z', 'y.room_id', 'z.id')->paginate($filters->limit);
+        ->leftJoin('rooms AS z', 'y.room_id', 'z.id');
+
+        if($filters->search)
+            $query = $query->where ('sections.name', 'regexp', $filters->search);
+
+        $items = $query->orderBy('name')->paginate($filters->limit);
 
         return view('sections/index', ['items' => $items, 'filters' => $filters]);
     }

@@ -18,16 +18,28 @@ class BoxController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $items = Box::select(
+    public function index(Request $request) {
+        $filters = new \stdClass();
+        $filters->search = $request->input('search');
+        $filters->limit  = $request->input('limit');
+        $filters->page   = $request->input('page');
+
+        if(!$filters->limit) $filters->limit = 25;
+
+        $query = Box::select(
             'boxes.id', 
             'boxes.name', 
             'x.name AS shelf_name', 
             'y.name AS room_name'
         )->leftJoin('shelves AS x', 'boxes.shelf_id', 'x.id')
-        ->leftJoin('rooms AS y', 'x.room_id', 'y.id')->paginate(25);
+        ->leftJoin('rooms AS y', 'x.room_id', 'y.id');
 
-        return view('boxes/index', ['items' => $items]);
+        if($filters->search)
+            $query = $query->where ('boxes.name', 'regexp', $filters->search);
+
+         $items = $query->orderBy('name')->paginate(25);
+
+        return view('boxes/index', ['items' => $items, 'filters' => $filters]);
     }
 
     /**
