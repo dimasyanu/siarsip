@@ -7,7 +7,7 @@
     	<div class="row">
 			<div class="col-md-6" style="font-size: 14pt;">
 				@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
-				{{ Lang::get($action, ['item' => Lang::get('app.room')]) }}
+				{{ Lang::get($action, ['item' => Lang::get('app.record')]) }}
 			</div>
     	</div>
     </div>
@@ -36,7 +36,7 @@
 				<div class="col-sm-8 col-md-8">
 					<div class="panel panel default">
 						<div class="panel-body">
-							<select id="select_category" class="select2" name="category_id" style="width: 50%;">
+							<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;">
 								@if($item->category != null)
 								<option value="{{ $item->category->id }}">{{ $item->category->code . ' - ' . $item->category->name }}</option>
 								@else
@@ -45,7 +45,7 @@
 							</select>
 							<div class="tree">
 								<ul>
-								@if($item->category->tree)
+								@if($item->category)
 								@for($i = 0; $i < sizeof($item->category->tree)-1; $i++)
 									<li style="list-style: none; padding-left: {{ $i*18 }}px">{{ $item->category->tree[$i]->code.' - '.$item->category->tree[$i]->name }}</li>
 								@endfor
@@ -101,7 +101,7 @@
 			<div class="form-group">
 				<label for="input-section-id" class="col-sm-2 control-label">{{ Lang::get('app.save_to') }}</label>
 				<div class="col-sm-4 col-md-4">
-					<a id="select-storage" class="btn btn-default col-md-12">{{ $item->section_name?$item->section_name:(Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
+					<a id="select-storage" class="btn btn-default col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
 					<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
 				</div>
 			</div>
@@ -211,7 +211,6 @@
 			$('#storage-select-modal').modal('show');
 			$('#storage-select-modal').find('.btn#finish')
 			.click(function() {
-				console.log($('#select_section').val());
 				if($('#select_section').val() && $('#select_section').val() != 0){
 					$('#input-section-id').val($('#select_section').val());
 					$(self).text($('#select_section option:selected').text())
@@ -219,6 +218,48 @@
 				}else{
 					$('#storage-select-modal').animateCss('shake');
 				}
+			});
+		});
+
+		$('.select2-remote').select2({
+			ajax: {
+				url: root + '/api/categories',
+				dataType: 'json',
+				data: function (params) {
+					return { q: params.term };
+				},
+				processResults: function (data, params) {
+					var items = [];
+					for(var i = 0; i < data.length; i++)
+						items.push({id: data[i].id, text: data[i].code + ' - ' + data[i].name});
+					return { results: items };
+				},
+				cache: true
+			},
+			escapeMarkup: function (markup) { return markup; },
+			minimumInputLength: 1
+		}).on('select2:select', function(){
+			var self = this;
+			$.ajax({
+				url: root + '/api/nestedcat',
+				type: 'GET',
+				dataType: 'json',
+				data: { id: $(self).val() }
+			})
+			.done(function(results) {
+				$('.tree ul').empty();
+				for(var i = 0; i < results.length; i++) {
+					var li = document.createElement('li');
+					li.innerHTML = results[i].code+' - '+results[i].name;
+					$(li).css({
+						'padding-left': i*18 + 'px',
+						'list-style': 'none'
+					});
+					$('.tree ul').append(li);
+				}
+			})
+			.fail(function() {
+				console.log("Ajax error");
 			});
 		});
 	});

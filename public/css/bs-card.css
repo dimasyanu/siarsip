@@ -7,22 +7,33 @@
   box-sizing: border-box;
   border-radius: 2px;
   background-clip: padding-box;
+  min-height: 250px;
 }
 .card .card-title {
-	background-color: #009688;
+	background-color: #F44336;
 	color: #fff;
-	/*font-size: 24px;
-	font-weight: 300;
-	text-transform: uppercase;*/
-}
-
-.card .card-title {
   position: relative;
   overflow: hidden;
 }
+
+.card.card-blue .card-title {
+  background-color: #2196F3;
+}
+
+.card.card-indigo .card-title {
+  background-color: #3F51B5;
+}
+
+.card.card-teal .card-title {
+  background-color: #009688;
+}
+
 .card .card-title i.fa {
 	margin-top: 10px;
 	font-size: 50px;
+}
+.card .card-title.title-sm i.fa {
+  font-size: 20px;
 }
 .card .card-image span.card-title {
   /*position: absolute;
@@ -42,6 +53,7 @@
 }
 .card .card-content ul li {
 	list-style: none;
+  margin: 12px 0;
 }
 .card .card-content ul li a,
 .card .card-content ul li a:hover {

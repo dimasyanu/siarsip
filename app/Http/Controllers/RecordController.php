@@ -41,8 +41,8 @@ class RecordController extends Controller {
 	 */
 	public function create(Request $request) {
 		$item                 = new Record();
-        $item->category       = new RecordCategory();
-        $item->category->tree = null;
+        $item->category       = RecordCategory::find($item->id);
+        // dd($item->section);
 
 		$references             = new \stdClass();
         $references->rooms      = Room::get();
@@ -100,22 +100,12 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$item = Record::select(
-            'records.id', 
-            'records.name', 
-            'records.section_id',
-            'period',
-			'quantity',
-			'progress',
-			'descriptions',
-            'x.box_id',
-            'x.name AS section_name',
-            'y.shelf_id',
-            'z.room_id'
-        )->leftJoin('sections AS x', 'records.section_id', 'x.id')
-        ->leftJoin('boxes AS y', 'x.box_id', 'y.id')
-        ->leftJoin('shelves AS z', 'y.shelf_id', 'z.id')->find($id);
-        // dd($item);
+		$item = Record::find($id);
+		$item->room_id		= $item->section->box->shelf->room->id;
+		$item->shelf_id		= $item->section->box->shelf->id;
+		$item->box_id		= $item->section->box->id;
+		$item->section_id	= $item->section->id;
+
         $references = new \stdClass();
         $references->rooms    = Room::get();
         $references->shelves  = Shelf::where('room_id', $item->room_id)->get();
@@ -162,8 +152,13 @@ class RecordController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
-		
+	public function destroy(Record $record) {
+		$status = $record->delete();
+        $data   = Record::orderBy('created_at', 'desc')->get();
+
+        $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
+        
+        return redirect()->route('records.index')->with('status', $status)->with('messages', $messages);
 	}
 
 	private function setAttributes($item, Request $request){

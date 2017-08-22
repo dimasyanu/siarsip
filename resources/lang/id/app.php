@@ -1,6 +1,7 @@
 <?php
 
 return [
+
 	'actions'             			=> 'Actions',
 	'add'                 			=> 'Tambah',
 	'box'               			=> 'Kotak/Box',
@@ -11,6 +12,7 @@ return [
 	'dashboard'           			=> 'Dashboard',
 	'documents'           			=> 'Arsip',
 	'edit'                 			=> 'Edit :item',
+	'last_modified_item'			=> ':item terakhir yang diubah\ditambahkan',
 	'new'                 			=> 'Tambah :item',
 	'no_items'            			=> 'Tidak ada data',
 	'record'          				=> 'Arsip',

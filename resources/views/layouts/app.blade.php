@@ -27,7 +27,8 @@
         <div class="nav-side-menu">
             <div class="brand">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo/logo-white.png') }}">
+                    <img src="{{ asset('images/logo/logo2-white.png') }}">
+                    <!-- <h4>Sistem Informasi Arsip Negara</h4> -->
                 </a>
             </div>
             <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -45,7 +46,10 @@
 
                         <li id="menu-item-records">
                             <a href="{{ url('records') }}">
-                                <div><i class="fa fa-file-text-o fa-lg"></i> {{ Lang::get('app.documents') }}</div>
+                                <div>
+                                    <i class="fa fa-file-text-o fa-lg"></i> 
+                                    <span class="text-label">{{ Lang::get('app.documents') }}</span>
+                                </div>
                             </a>
                         </li>
 

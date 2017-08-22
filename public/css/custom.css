@@ -16,19 +16,29 @@ body.auth {
 	margin-bottom: 0;
 }
 
+.badge-blue {
+	color: $fff;
+	background-color: #2196F3;
+}
+
 .badge-danger {
-    color: $fff;
-    background-color: #bf5329;
+	color: $fff;
+	background-color: #bf5329;
+}
+
+.badge-indigo {
+	color: #fff;
+	background-color: #3F51B5;
 }
 
 .badge-primary {
-    color: $fff;
-    background-color: #337ab7;
+	color: $fff;
+	background-color: #337ab7;
 }
 
 .badge-teal {
-    color: $fff;
-    background-color: #009688;
+	color: $fff;
+	background-color: #009688;
 }
 
 .btn.btn-siarsip,
@@ -60,8 +70,16 @@ body.auth {
 	transition: all 0.35s, border-radius 0s;
 }
 
+.link-blue {
+	color: #2196F3;
+}
+
+.link-indigo {
+	color: #3F51B5;
+}
+
 .link-teal {
-    color: #009688;
+	color: #009688;
 }
 
 .material-icons {
@@ -239,6 +257,20 @@ body.auth {
 	/*margin-top: 8px;*/
 }
 
+#pictures-slider {
+  margin-top: 10px;
+  margin-left: -15px;
+  max-height: 250px;
+}
+
+#pictures-slider .carousel-inner .item img {
+  width: 100%;
+}
+
+#pictures-slider .carousel-inner {
+	max-height: 250px;
+}
+
 .act-btn {
 	padding: 7px 0;
 }
@@ -318,15 +350,23 @@ body.auth {
 	height: 36px;
 }
 .animate {
-    -webkit-transition: all 0.05s ease-in;
-    transition: all 0.05s ease-in;
+	-webkit-transition: all 0.05s ease-in;
+	transition: all 0.05s ease-in;
 }
 .tree {
   margin: 10px;
 }
+.tree ul {
+  padding-left: 0;
+}
+
 .vertical-center {
   min-height: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
+}
+
+table > tbody > tr > td.text-middle {
+	vertical-align: middle;
 }
