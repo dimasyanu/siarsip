@@ -1,0 +1,1 @@
+git archive -o commit.zip HEAD $(git diff --diff-filter=ACMRTUXB --name-only %1 %2)

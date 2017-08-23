@@ -13,13 +13,18 @@
 Auth::routes();
 
 Route::get('/', 'DashboardController');
+Route::get('box/print/{id}', 'PDFController@printBoxPreview');
+Route::get('records/print', 'PDFController@printAllPreview');
+Route::get('shelf/print/{id}', 'PDFController@printShelfPreview');
+
+
 Route::resource('boxes', 'BoxController');
 Route::resource('categories', 'RecordCategoryController');
 Route::resource('records', 'RecordController');
-Route::resource('rooms', 'RoomController');
 Route::resource('sections', 'SectionController');
-Route::resource('users', 'UserController');
 Route::resource('shelves', 'ShelfController');
+Route::resource('rooms', 'RoomController');
+Route::resource('users', 'UserController');
 
 Route::get('storages', 'StorageController@index');
 Route::group(['prefix' => 'api'], function() {

@@ -367,6 +367,10 @@ body.auth {
   align-items: center;
 }
 
+table > thead > tr > th.text-middle {
+	vertical-align: middle;
+}
+
 table > tbody > tr > td.text-middle {
 	vertical-align: middle;
 }

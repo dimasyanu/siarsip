@@ -6,6 +6,12 @@
         <div class="panel-heading">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.records') }}</h3>
+            <div style="display: inline-block;">
+                <a class="btn btn-info" href="{{ url('records/print') }}" target="_blank">
+                    <i class="fa fa-print"></i>
+                    {{ Lang::get('app.print') }}
+                </a>
+            </div>
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ url('records/create') }}">
                     <i class="fa fa-plus"></i>

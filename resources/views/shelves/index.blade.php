@@ -65,6 +65,11 @@
                                 <td class="data-room">{{ $item->room_name }}</td>
                                 <td>
                                     <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                        @if($item->hasRecords)
+                                        <a href="{{ url('shelf/print/'.$item->id) }}" type="button" class="btn btn-info btn-xs" target="_blank">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+                                        </a>
+                                        @endif
                                         <a href="{{ url('shelves/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>

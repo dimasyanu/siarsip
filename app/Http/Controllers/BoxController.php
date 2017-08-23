@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lang;
 
 use App\Box;
@@ -37,7 +38,16 @@ class BoxController extends Controller {
         if($filters->search)
             $query = $query->where ('boxes.name', 'regexp', $filters->search);
 
-         $items = $query->orderBy('name')->paginate(25);
+        $items = $query->orderBy('name')->paginate(25);
+
+        $usedBoxes_obj = $this->buildQuery('boxes.id', 'boxes.id')->get();
+        $usedBoxes = array();
+        foreach ($usedBoxes_obj as $box)
+            $usedBoxes[] = $box->id;
+        
+        foreach ($items as $item)
+            if(in_array((string)$item->id, $usedBoxes))
+               $item->hasRecords = true;
 
         return view('boxes/index', ['items' => $items, 'filters' => $filters]);
     }
@@ -170,5 +180,21 @@ class BoxController extends Controller {
             'name'  => 'required',
             'shelf_id'  => 'required'
         ]);
+    }
+
+    private function buildQuery($fields, $group = null, $condition = null) {
+        $query = DB::table('records')->select($fields)
+        ->leftJoin('sections', 'records.section_id', 'sections.id')
+        ->leftJoin('boxes', 'sections.box_id', 'boxes.id')
+        ->leftJoin('shelves', 'boxes.shelf_id', 'shelves.id')
+        ->leftJoin('rooms', 'shelves.room_id', 'rooms.id');
+
+        if($group)
+            $query = $query->groupBy($group);
+        if($condition)
+            $query = $query->where($condition[0], $condition[1], $condition[2]);
+
+
+        return $query;
     }
 }
