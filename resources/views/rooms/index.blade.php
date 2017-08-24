@@ -83,7 +83,17 @@
                 </tbody>
             </table>
             <div class="text-center">
-                {{ $items->links() }}
+                @php 
+                    $link_requests = array();
+
+                    if($filters->limit != 25)
+                        $link_requests['limit'] = $filters->limit;
+                        
+                    if($filters->search)
+                        $link_requests['search'] = $filters->search;
+                @endphp
+
+                {{ $items->appends($link_requests)->links() }}
             </div>
         </div>
     </div>

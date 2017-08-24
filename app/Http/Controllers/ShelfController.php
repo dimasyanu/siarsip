@@ -22,7 +22,7 @@ class ShelfController extends Controller {
         $filters = new \stdClass();
         $filters->search = $request->input('search');
         $filters->limit  = $request->input('limit');
-        $filters->page   = $request->input('page');
+        //$filters->page   = $request->input('page');
 
         if(!$filters->limit) $filters->limit = 25;
 
@@ -33,7 +33,7 @@ class ShelfController extends Controller {
             $query = $query->where ('shelves.name', 'regexp', $filters->search);
                         //->orWhere ('rooms.name', 'regexp', $filters->search);
 
-        $items = $query->orderBy('name')->paginate(25);
+        $items = $query->orderBy('name')->paginate($filters->limit);
         
         $usedShelves_obj = $this->buildQuery('shelves.id', 'shelves.id')->get();
         $usedShelves = array();

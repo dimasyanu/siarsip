@@ -38,7 +38,7 @@ class BoxController extends Controller {
         if($filters->search)
             $query = $query->where ('boxes.name', 'regexp', $filters->search);
 
-        $items = $query->orderBy('name')->paginate(25);
+        $items = $query->orderBy('name')->paginate($filters->limit);
 
         $usedBoxes_obj = $this->buildQuery('boxes.id', 'boxes.id')->get();
         $usedBoxes = array();

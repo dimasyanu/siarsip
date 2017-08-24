@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-2 pull-right">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
-                        <select id="filter-limit" class="form-control" name="limit">
+                        <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
                             <option value="10" {{ $items->perPage()==10?'selected':'' }}>10</option>
                             <option value="15" {{ $items->perPage()==15?'selected':'' }}>15</option>
@@ -90,7 +90,17 @@
                 </tbody>
             </table>
             <div class="text-center">
-                {{ $items->links() }}
+                @php 
+                    $link_requests = array();
+
+                    if($filters->limit != 25)
+                        $link_requests['limit'] = $filters->limit;
+                        
+                    if($filters->search)
+                        $link_requests['search'] = $filters->search;
+                @endphp
+
+                {{ $items->appends($link_requests)->links() }}
             </div>
         </div>
     </div>
