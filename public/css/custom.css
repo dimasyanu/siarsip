@@ -353,6 +353,11 @@ body.auth {
 	-webkit-transition: all 0.05s ease-in;
 	transition: all 0.05s ease-in;
 }
+
+tr.top-parent td{
+    font-weight: 600;
+}
+
 .tree {
   margin: 10px;
 }

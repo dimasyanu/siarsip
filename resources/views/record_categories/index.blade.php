@@ -6,11 +6,51 @@
         <div class="panel-heading">
             <i class="fa fa-file-text fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.categories') }}</h3>
-            <div class="btn-group pull-right" role="group">
+            <div class="pull-right">
                 <a class="btn btn-success" href="{{ url('categories/create') }}">
                     <i class="fa fa-plus"></i>
                     {{ Lang::get('app.add') . ' ' . Lang::get('app.categories') }}
                 </a>
+                <button type="button" class="filter-toggle btn btn-primary collapsed" data-toggle="collapse" data-target="#filter-panel">
+                    <i class="fa fa-filter"></i> {{ Lang::get('app.filter') }}
+                </button>
+            </div>
+        </div>
+        @php 
+            $has_filters = (
+                $filters->search || 
+                $filters->limit != 25
+            );
+        @endphp
+        <div id="filter-panel" class="row collapse{{ $has_filters ? ' in' : '' }}" style="margin: 0;">
+            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
+                <div class="col-md-4">
+                    <form action="" class="search-form">
+                        <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
+                            <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
+                            <input type="text" class="form-control" name="search" id="search" placeholder="{{ Lang::get('app.search') }}..." value="{{ $filters->search }}">
+                            <i class="fa fa-search form-control-feedback"></i>
+                            @if($filters->limit)
+                            <input type="hidden" name="limit" value="{{ $filters->limit }}">
+                            @endif    
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <form action="{{ url()->current() }}">
+                        @if($filters->search)
+                        <input type="hidden" name="search" value="{{ $filters->search }}">
+                        @endif
+                        <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
+                            <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
+                            <option value="10" {{ $items->perPage()==10?'selected':'' }}>10</option>
+                            <option value="15" {{ $items->perPage()==15?'selected':'' }}>15</option>
+                            <option value="25" {{ $items->perPage()==25?'selected':'' }}>25</option>
+                            <option value="50" {{ $items->perPage()==50?'selected':'' }}>50</option>
+                            <option value="100" {{ $items->perPage()==100?'selected':'' }}>100</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="panel-body">
@@ -29,12 +69,13 @@
                 <tbody>
                     @if($items->count() > 0)
                         @foreach($items as $i => $item)
-                            <tr data-id="{{ $item->id }}">
+                            @php $item->depth = count(explode('-', $item->code)); @endphp
+                            <tr data-id="{{ $item->id }}" class="{{ $item->depth==1?'top-parent':'' }}">
                                 <td>
                                     {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                 </td>
                                 <td class="data-code">{{ $item->code }}</td>
-                                <td class="data-name">{{ $item->name }}</td>
+                                <td class="data-name" style="padding-left: {{ 18*$item->depth }}px">{{ $item->name }}</td>
                                 <td>
                                     <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
                                         <a href="{{ url('categories/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
@@ -57,7 +98,17 @@
                 </tbody>
             </table>
             <div class="text-center">
-                {{ $items->links() }}
+                @php 
+                    $link_requests = array();
+
+                    if($filters->limit != 25)
+                        $link_requests['limit'] = $filters->limit;
+                        
+                    if($filters->search)
+                        $link_requests['search'] = $filters->search;
+                @endphp
+
+                {{ $items->appends($link_requests)->links() }}
             </div>
         </div>
     </div>

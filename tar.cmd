@@ -1,1 +1,1 @@
-git archive -o commit.zip HEAD $(git diff --diff-filter=ACMRTUXB --name-only %1 %2)
+git diff-tree -r --no-commit-id --name-only --diff-filter=ACMRT %1 | xargs tar -rf %2
