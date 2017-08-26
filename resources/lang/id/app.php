@@ -10,6 +10,7 @@ return [
 	'categories'					=> 'Klasifikasi Arsip',
 	'data'                			=> 'Data', 
 	'dashboard'           			=> 'Dashboard',
+	'details'              			=> 'Detail :item',
 	'documents'           			=> 'Arsip',
 	'edit'                 			=> 'Edit :item',
 	'last_modified_item'			=> ':item terakhir yang diubah\ditambahkan',
@@ -51,6 +52,7 @@ return [
 	/* Actions */
 	'back'                			=> 'Kembali',
 	'cancel'              			=> 'Batal',
+	'close'              			=> 'Tutup',
 	'delete'              			=> 'Hapus',
 	'delete_item'					=> 'Hapus data',
 	'filter'						=> 'Filter',

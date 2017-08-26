@@ -46,9 +46,9 @@
 							<div class="tree">
 								<ul>
 								@if($item->category)
-								@for($i = 0; $i < sizeof($item->category->tree)-1; $i++)
-									<li style="list-style: none; padding-left: {{ $i*18 }}px">{{ $item->category->tree[$i]->code.' - '.$item->category->tree[$i]->name }}</li>
-								@endfor
+								@foreach($item->category->tree as $i => $cat)
+									<li style="list-style: none; padding-left: {{ ($i+1)*18 }}px">{{ $cat->code.' - '.$cat->name }}</li>
+								@endforeach
 								@endif
 								</ul>
 							</div>

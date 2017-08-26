@@ -82,6 +82,10 @@ body.auth {
 	color: #009688;
 }
 
+.login-panel {
+  width: 100%;
+}
+
 .material-icons {
 	font-size: 20px;
 }
@@ -343,7 +347,7 @@ body.auth {
 }
 
 .siarsip-login-brand {
-	padding: 14px 15px;
+	padding: 8px 15px 24px 15px;
 }
 
 .siarsip-login-brand img {
@@ -372,10 +376,8 @@ tr.top-parent td{
   align-items: center;
 }
 
-table > thead > tr > th.text-middle {
-	vertical-align: middle;
-}
-
+table > thead > tr > th.text-middle,
+table > tbody > tr > th.text-middle,
 table > tbody > tr > td.text-middle {
 	vertical-align: middle;
 }

@@ -45,9 +45,8 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(Request $request) {
-		$item                 = new Record();
-        $item->category       = RecordCategory::find($item->id);
-        // dd($item->section);
+		$item                 	= new Record();
+		$item->category       	= RecordCategory::find($item->id);
 
 		$references             = new \stdClass();
         $references->rooms      = Room::get();
@@ -95,7 +94,9 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id){
-		
+		$item = Record::find($id);
+		$item->category->tree	= RecordCategory::getNest($item->category->id);
+		return view('records/details', ['item' => $item]);
 	}
 
 	/**
@@ -106,10 +107,11 @@ class RecordController extends Controller {
 	 */
 	public function edit($id) {
 		$item = Record::find($id);
-		$item->room_id		= $item->section->box->shelf->room->id;
-		$item->shelf_id		= $item->section->box->shelf->id;
-		$item->box_id		= $item->section->box->id;
-		$item->section_id	= $item->section->id;
+		$item->room_id			= $item->section->box->shelf->room->id;
+		$item->shelf_id			= $item->section->box->shelf->id;
+		$item->box_id			= $item->section->box->id;
+		$item->section_id		= $item->section->id;
+		$item->category->tree	= RecordCategory::getNest($item->category->id);
 
         $references = new \stdClass();
         $references->rooms    = Room::get();
