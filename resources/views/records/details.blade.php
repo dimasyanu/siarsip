@@ -71,7 +71,7 @@
 
         <!-- Quantiy -->
         <div class="form-group">
-            <label for="detail-quantity" class="col-sm-2">{{ Lang::get('app.quantity') }}</label>
+            <label for="detail-quantity" class="col-sm-1">{{ Lang::get('app.quantity') }}</label>
             <div class="col-sm-2 col-md-2">
                 <p id="detail-quantity">{{ $item->quantity }}</p>
             </div>
@@ -79,25 +79,25 @@
 
         <!-- Progress -->
         <div class="form-group">
-            <label for="input-progress" class="col-sm-2">{{ Lang::get('app.progress') }}</label>
-            <div class="col-sm-4 col-md-4">
-                <p id="detail-progress">{{ $item->quantity }}</p>
+            <label for="input-progress" class="col-sm-3">{{ Lang::get('app.progress') }}</label>
+            <div class="col-sm-2 col-md-2">
+                <p id="detail-progress">{{ $item->progress }}</p>
             </div>
         </div>
 
         <!-- Input Descriptions -->
         <div class="form-group">
             <label for="detail-descriptions" class="col-sm-2">{{ Lang::get('app.descriptions') }}</label>
-            <div class="col-sm-4 col-md-4">
-                <p id="detail-quantity">{{ $item->descriptions }}</p>
+            <div class="col-sm-5 col-md-5">
+                <p id="detail-descriptions">{{ $item->descriptions }}</p>
             </div>
         </div>
 
         <!-- Section -->
         <div class="form-group">
-            <label for="detail-section-id" class="col-sm-2">{{ Lang::get('app.save_to') }}</label>
-            <div class="col-sm-4 col-md-4">
-                <p id="detail-quantity">{{ $item->section->name }}</p>
+            <label for="detail-section-id" class="col-sm-3">{{ Lang::get('app.save_to') }}</label>
+            <div class="col-sm-2 col-md-2">
+                <p id="detail-section">{{ $item->section->name }}</p>
             </div>
         </div>
 
