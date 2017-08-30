@@ -51,54 +51,56 @@
             @if(session('messages'))
                 <div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
             @endif
-            <table class="table table-striped data-table">
-                <thead>
-                    <tr>
-                        <th class="text-center" style="width: 50px;">No.</th>
-                        <th class="col-md-5">{{ Lang::get('app.content') }}</th>
-                        <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
-                        <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
-                        <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
-                        <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
-                        <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if($items->count() > 0)
-                        @foreach($items as $i => $item)
-                            <tr data-id="{{ $item->id }}">
-                                <td>
-                                    {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
-                                </td>
-                                <td class="data-name">{{ $item->name }}</td>
-                                <td class="data-name text-center">{{ $item->period }}</td>
-                                <td class="data-name text-center">{{ $item->progress }}</td>
-                                <td class="data-name text-center">{{ $item->quantity }}</td>
-                                <td class="data-name">{{ $item->section->name }}</td>
-                                <td>
-                                    <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info btn-xs">
-                                            <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
-                                        </a>
-                                        <a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('records/' . $item->id) }}" method="post">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                            </form>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr><td colspan="7" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
-                    @endif
-                </tbody>
-            </table>
+            <div class="data-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 50px;">No.</th>
+                            <th class="col-md-5">{{ Lang::get('app.content') }}</th>
+                            <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
+                            <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
+                            <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
+                            <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
+                            <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($items->count() > 0)
+                            @foreach($items as $i => $item)
+                                <tr data-id="{{ $item->id }}">
+                                    <td>
+                                        {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
+                                    </td>
+                                    <td class="data-name">{{ $item->name }}</td>
+                                    <td class="data-name text-center">{{ $item->period }}</td>
+                                    <td class="data-name text-center">{{ $item->progress }}</td>
+                                    <td class="data-name text-center">{{ $item->quantity }}</td>
+                                    <td class="data-name">{{ $item->section->name }}</td>
+                                    <td>
+                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                            <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info btn-xs">
+                                                <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
+                                            </a>
+                                            <a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                <form action="{{ url('records/' . $item->id) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="7" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
             <div class="text-center">
                 @php 
                     $link_requests = array();

@@ -1,6 +1,5 @@
-
 $(document).ready(function() {
-	$('.data-table tbody').find('tr').hover(function() {
+	$('.table-data tbody').find('tr').hover(function() {
 		$(this).addClass('hovered');
 		addActionButtons(this);
 	}, function() {

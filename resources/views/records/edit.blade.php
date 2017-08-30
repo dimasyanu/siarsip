@@ -2,131 +2,133 @@
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<div class="row">
-			<div class="col-md-6" style="font-size: 14pt;">
-				@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
-				{{ Lang::get($action, ['item' => Lang::get('app.record')]) }}
-			</div>
-    	</div>
-    </div>
+<div class="app-contents">
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+	    	<div class="row">
+				<div class="col-md-6" style="font-size: 14pt;">
+					@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
+					{{ Lang::get($action, ['item' => Lang::get('app.record')]) }}
+				</div>
+	    	</div>
+	    </div>
 
-    <div class="panel-body">
-    	@if(session('messages'))
-    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
-    	@endif
-    	
-    	@if (count($errors) > 0)
-			<div class="alert alert-danger">
-				<ul>
-					@foreach ($errors->all() as $error)
-						<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-			</div>
-		@endif
+	    <div class="panel-body">
+	    	@if(session('messages'))
+	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
+	    	@endif
+	    	
+	    	@if (count($errors) > 0)
+				<div class="alert alert-danger">
+					<ul>
+						@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+				</div>
+			@endif
 
-    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
-		{{ Form::open(['url' => url('records/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
-			
-			<!-- Input Category -->
-			<div class="form-group">
-				<label for="input-category" class="col-sm-2 control-label">{{ Lang::get('app.category') }}</label>
-				<div class="col-sm-8 col-md-8">
-					<div class="panel panel default">
-						<div class="panel-body">
-							<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;">
-								@if($item->category != null)
-								<option value="{{ $item->category->id }}">{{ $item->category->code . ' - ' . $item->category->name }}</option>
-								@else
-								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.categories')]) }}</option>
-								@endif
-							</select>
-							<div class="tree">
-								<ul>
-								@if($item->category)
-								@foreach($item->category->tree as $i => $cat)
-									<li style="list-style: none; padding-left: {{ ($i+1)*18 }}px">{{ $cat->code.' - '.$cat->name }}</li>
-								@endforeach
-								@endif
-								</ul>
+	    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
+			{{ Form::open(['url' => url('records/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
+				
+				<!-- Input Category -->
+				<div class="form-group">
+					<label for="input-category" class="col-sm-2 control-label">{{ Lang::get('app.category') }}</label>
+					<div class="col-sm-8 col-md-8">
+						<div class="panel panel default">
+							<div class="panel-body">
+								<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;">
+									@if($item->category != null)
+									<option value="{{ $item->category->id }}">{{ $item->category->code . ' - ' . $item->category->name }}</option>
+									@else
+									<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.categories')]) }}</option>
+									@endif
+								</select>
+								<div class="tree">
+									<ul>
+									@if($item->category)
+									@foreach($item->category->tree as $i => $cat)
+										<li style="list-style: none; padding-left: {{ ($i+1)*18 }}px">{{ $cat->code.' - '.$cat->name }}</li>
+									@endforeach
+									@endif
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Input Name -->
-			<div class="form-group">
-				<label for="input-name" class="col-sm-2 control-label">{{ Lang::get('app.content') }}</label>
-				<div class="col-sm-4 col-md-4">
-					<textarea id="input-name" name="name" type="text" class="form-control" required>{{ old('name', $item->name) }}</textarea>
-				</div>
-			</div>
-
-			<!-- Input Period -->
-			<div class="form-group">
-				<label for="input-period" class="col-sm-2 control-label">{{ Lang::get('app.period') }}</label>
-				<div class="col-sm-2 col-md-2">
-					<input id="input-period" name="period" type="text" class="datepicker form-control" value="{{ old('period', $item->period) }}" required>
-				</div>
-			</div>
-
-			<!-- Input Quantiy -->
-			<div class="form-group">
-				<label for="input-quantity" class="col-sm-2 control-label">{{ Lang::get('app.quantity') }}</label>
-				<div class="col-sm-2 col-md-2">
-					<input id="input-quantity" name="quantity" type="number" min="1" class="form-control" value="{{ old('quantity', $item->quantity) }}" required>
-				</div>
-			</div>
-
-			<!-- Input Progress -->
-			<div class="form-group">
-				<label for="input-progress" class="col-sm-2 control-label">{{ Lang::get('app.progress') }}</label>
-				<div class="col-sm-4 col-md-4">
-					<textarea id="input-progress" name="progress" type="text" class="form-control">{{ old('progress', $item->progress) }}</textarea>
-				</div>
-			</div>
-
-			<!-- Input Descriptions -->
-			<div class="form-group">
-				<label for="input-descriptions" class="col-sm-2 control-label">{{ Lang::get('app.descriptions') }}</label>
-				<div class="col-sm-4 col-md-4">
-					<textarea id="input-descriptions" name="descriptions" type="text" class="form-control">{{ old('descriptions', $item->descriptions) }}</textarea>
-				</div>
-			</div>
-
-			<!-- Input Section id -->
-			<div class="form-group">
-				<label for="input-section-id" class="col-sm-2 control-label">{{ Lang::get('app.save_to') }}</label>
-				<div class="col-sm-4 col-md-4">
-					<a id="select-storage" class="btn btn-default col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
-					<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
-				</div>
-			</div>
-
-			<input type="hidden" id="id" name="id" value="{{ $item->id }}">
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<div class="btn-group" role="group">
-						<button type="submit" class="btn btn-success" name="action" value="save">
-							<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
-						</button>
-						<button type="submit" class="btn btn-primary" name="action" value="save-new">
-							<i class="fa fa-copy"></i>  {{ Lang::get('app.save_and_new') }}
-						</button>
-						<button type="submit" class="btn btn-info" name="action" value="save-close">
-							<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
-						</button>
-						<a href="{{ url('records') }}" class="btn btn-default">
-							<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
-						</a>
+				<!-- Input Name -->
+				<div class="form-group">
+					<label for="input-name" class="col-sm-2 control-label">{{ Lang::get('app.content') }}</label>
+					<div class="col-sm-4 col-md-4">
+						<textarea id="input-name" name="name" type="text" class="form-control" required>{{ old('name', $item->name) }}</textarea>
 					</div>
 				</div>
-			</div>
-		{{ Form::close() }}
-    </div>
+
+				<!-- Input Period -->
+				<div class="form-group">
+					<label for="input-period" class="col-sm-2 control-label">{{ Lang::get('app.period') }}</label>
+					<div class="col-sm-2 col-md-2">
+						<input id="input-period" name="period" type="text" class="datepicker form-control" value="{{ old('period', $item->period) }}" required>
+					</div>
+				</div>
+
+				<!-- Input Quantiy -->
+				<div class="form-group">
+					<label for="input-quantity" class="col-sm-2 control-label">{{ Lang::get('app.quantity') }}</label>
+					<div class="col-sm-2 col-md-2">
+						<input id="input-quantity" name="quantity" type="number" min="1" class="form-control" value="{{ old('quantity', $item->quantity) }}" required>
+					</div>
+				</div>
+
+				<!-- Input Progress -->
+				<div class="form-group">
+					<label for="input-progress" class="col-sm-2 control-label">{{ Lang::get('app.progress') }}</label>
+					<div class="col-sm-4 col-md-4">
+						<textarea id="input-progress" name="progress" type="text" class="form-control">{{ old('progress', $item->progress) }}</textarea>
+					</div>
+				</div>
+
+				<!-- Input Descriptions -->
+				<div class="form-group">
+					<label for="input-descriptions" class="col-sm-2 control-label">{{ Lang::get('app.descriptions') }}</label>
+					<div class="col-sm-4 col-md-4">
+						<textarea id="input-descriptions" name="descriptions" type="text" class="form-control">{{ old('descriptions', $item->descriptions) }}</textarea>
+					</div>
+				</div>
+
+				<!-- Input Section id -->
+				<div class="form-group">
+					<label for="input-section-id" class="col-sm-2 control-label">{{ Lang::get('app.save_to') }}</label>
+					<div class="col-sm-4 col-md-4">
+						<a id="select-storage" class="btn btn-default col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
+						<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
+					</div>
+				</div>
+
+				<input type="hidden" id="id" name="id" value="{{ $item->id }}">
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<div class="btn-group" role="group">
+							<button type="submit" class="btn btn-success" name="action" value="save">
+								<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
+							</button>
+							<button type="submit" class="btn btn-primary" name="action" value="save-new">
+								<i class="fa fa-copy"></i>  {{ Lang::get('app.save_and_new') }}
+							</button>
+							<button type="submit" class="btn btn-info" name="action" value="save-close">
+								<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
+							</button>
+							<a href="{{ url('records') }}" class="btn btn-default">
+								<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
+							</a>
+						</div>
+					</div>
+				</div>
+			{{ Form::close() }}
+	    </div>
+	</div>
 </div>
 
 <!-- Storage-Select Modal -->

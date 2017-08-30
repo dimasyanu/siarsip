@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+    $has_filters = (
+        $filters->search || 
+        $filters->limit != 25
+    );
+@endphp
 <div class="app-contents">
     <div class="panel panel-default">
+
+        <!-- Heading -->
         <div class="panel-heading">
             <i class="fa fa-file-text fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.categories') }}</h3>
@@ -16,12 +24,8 @@
                 </button>
             </div>
         </div>
-        @php 
-            $has_filters = (
-                $filters->search || 
-                $filters->limit != 25
-            );
-        @endphp
+
+        <!-- Filters panel -->
         <div id="filter-panel" class="row collapse{{ $has_filters ? ' in' : '' }}" style="margin: 0;">
             <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
                 <div class="col-md-4">
@@ -53,50 +57,57 @@
                 </div>
             </div>
         </div>
+
+        <!-- Body -->
         <div class="panel-body">
             @if(session('messages'))
                 <div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
             @endif
-            <table class="table table-striped data-table">
+            
+            <table class="table table-header">
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 50px;">No.</th>
-                        <th>{{ Lang::get('app.code')}}</th>
-                        <th>{{ Lang::get('app.name')}}</th>
+                        <th class="data-code col-md-1">{{ Lang::get('app.code')}}</th>
+                        <th class="data-code col-md-9">{{ Lang::get('app.name')}}</th>
                         <th class="text-center" style="width: 100px;">{{ Lang::get('app.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @if($items->count() > 0)
-                        @foreach($items as $i => $item)
-                            @php $item->depth = count(explode('-', $item->code)); @endphp
-                            <tr data-id="{{ $item->id }}" class="{{ $item->depth==1?'top-parent':'' }}">
-                                <td>
-                                    {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
-                                </td>
-                                <td class="data-code">{{ $item->code }}</td>
-                                <td class="data-name" style="padding-left: {{ 18*$item->depth }}px">{{ $item->name }}</td>
-                                <td>
-                                    <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('categories/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('categories/' . $item->id) }}" method="post">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                            </form>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
-                    @endif
-                </tbody>
             </table>
+            <div class="table-data">
+                <table class="table table-striped">
+                    <tbody>
+                        @if($items->count() > 0)
+                            @foreach($items as $i => $item)
+                                @php $item->depth = count(explode('-', $item->code)); @endphp
+                                <tr data-id="{{ $item->id }}" class="{{ $item->depth==1?'top-parent':'' }}">
+                                    <td class="text-center" style="width: 50px">
+                                        {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
+                                    </td>
+                                    <td class="data-code col-md-1">{{ $item->code }}</td>
+                                    <td class="data-name col-md-9" style="padding-left: {{ 18*$item->depth }}px">{{ $item->name }}</td>
+                                    <td style="width: 100px">
+                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                            <a href="{{ url('categories/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                <form action="{{ url('categories/' . $item->id) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
             <div class="text-center">
                 @php 
                     $link_requests = array();

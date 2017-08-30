@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   padding: 0px;
+  overflow-y: hidden;
 }
 
 
@@ -8,12 +9,35 @@ body.auth {
 	background: #333;
 }
 
-.app-container {
-	margin-left: 300px;
+#app .navbar{
+    width: 100%;
+    margin-bottom: 0;
+    border: 0;
+    background-color: #23282e;
+    border-radius: 0;
 }
 
-.app-container .navbar{
-	margin-bottom: 0;
+/*.app-container .panel {
+    margin-top: 50px;
+    margin-left: 20%;
+}*/
+
+.app-contents {
+    width: 80%;
+    float: left;
+}
+
+.app-contents .panel {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.app-contents .panel .panel-body {
+    height: calc(100% - 57px);
+}
+
+.app-contents .panel .panel-body .pagination{
+  margin: 8px 0;
 }
 
 .badge-blue {
@@ -32,13 +56,18 @@ body.auth {
 }
 
 .badge-primary {
-	color: $fff;
+	color: #fff;
 	background-color: #337ab7;
 }
 
 .badge-teal {
-	color: $fff;
+	color: #fff;
 	background-color: #009688;
+}
+
+.btn.btn-dark {
+    background-color: #23282e;
+    color: #fff;
 }
 
 .btn.btn-siarsip,
@@ -47,12 +76,30 @@ body.auth {
 	color: #fff;
 }
 
-.data-table	> tbody > tr.hovered {
+.table-data {
+    overflow-y: auto;
+    /* max-height: 425px; */
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.table-data	> .table > tbody > tr.hovered {
 	background-color: #FBE9E7;
 }
 
+.table-header {
+    margin-bottom: 0;
+}
+
 #filter-panel {
-  background-color: #2e353d;
+	background-color: #2e353d;
+}
+#filter-panel + .panel-body .table-data {
+	max-height: 425px;
+}
+
+#filter-panel.collapse.in + .panel-body .table-data {
+	max-height: 340px;
 }
 
 .filter-toggle.btn-primary:not(.collapsed) {
@@ -93,26 +140,26 @@ body.auth {
 /* Sidebar Nav */
 
 .nav-side-menu {
+  min-height: 612px;
+  float: left;
   overflow: auto;
   font-family: verdana;
   font-size: 12px;
   font-weight: 200;
   background-color: #2e353d;
-  position: fixed;
-  top: 0px;
-  width: 300px;
+  width: 20%;
   height: 100%;
   color: #e1ffff;
 }
-.nav-side-menu .brand {
+.navbar-nav .brand {
   background-color: #23282e;
   line-height: 50px;
-  display: block;
+  display: inline-block;
   text-align: center;
   font-size: 14px;
 }
-.nav-side-menu .brand img {
-	height: 36px;
+.navbar-nav .brand img {
+	height: 48px;
 }
 .nav-side-menu .toggle-btn {
   display: none;
@@ -234,10 +281,6 @@ body.auth {
   .nav-side-menu .menu-list .menu-content {
 	display: block;
   }
-}
-
-.nav.navbar-nav .btn-toggle {
-	margin-top: 8px;
 }
 
 /* End of Sidebar Nav */
