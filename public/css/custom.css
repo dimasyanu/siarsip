@@ -1,7 +1,7 @@
 body {
   margin: 0px;
   padding: 0px;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/ 
 }
 
 
@@ -10,33 +10,38 @@ body.auth {
 }
 
 #app .navbar{
-    width: 100%;
-    margin-bottom: 0;
-    border: 0;
-    background-color: #23282e;
-    border-radius: 0;
+	width: 100%;
+	margin-bottom: 0;
+	border: 0;
+	background-color: #23282e;
+	border-radius: 0;
 }
 
 /*.app-container .panel {
-    margin-top: 50px;
-    margin-left: 20%;
+	margin-top: 50px;
+	margin-left: 20%;
 }*/
 
 .app-contents {
-    width: 80%;
-    float: left;
+	position: fixed;
+	left: 20%;
+	width: 80%;
+	float: left;
+	height: 100%;
+	overflow-y: auto;
 }
 
-.app-contents .panel {
-    height: 100%;
-    margin-bottom: 0;
+.app-contents .card {
+	height: 100%;
+	overflow-y: hidden;
+	margin: 0;
 }
 
-.app-contents .panel .panel-body {
-    height: calc(100% - 57px);
+.app-contents .card .card-body {
+	height: calc(100% - 153px);
 }
 
-.app-contents .panel .panel-body .pagination{
+.app-contents .card .card-body .pagination{
   margin: 8px 0;
 }
 
@@ -65,9 +70,20 @@ body.auth {
 	background-color: #009688;
 }
 
+button.btn,
+a.btn {
+	border-radius: 0;
+}
+
 .btn.btn-dark {
-    background-color: #23282e;
-    color: #fff;
+	background-color: #23282e;
+	color: #fff;
+}
+
+.btn.btn-teal,
+.span-teal {
+	background-color: #009688;
+	color: #fff;
 }
 
 .btn.btn-siarsip,
@@ -77,29 +93,41 @@ body.auth {
 }
 
 .table-data {
-    overflow-y: auto;
-    /* max-height: 425px; */
-    -webkit-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+	overflow-y: auto;
+	max-height: calc(100% - 51px); 
+	-webkit-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+.table-data	> .table > tbody > tr {
+	height: 56px;
 }
 
 .table-data	> .table > tbody > tr.hovered {
-	background-color: #FBE9E7;
+	background-color: #B2DFDB;
 }
 
 .table-header {
-    margin-bottom: 0;
+	margin-bottom: 0;
+}
+
+.edit-form {
+	padding: 20px;
 }
 
 #filter-panel {
 	background-color: #2e353d;
 }
-#filter-panel + .panel-body .table-data {
-	max-height: 425px;
+#filter-panel .row {
+	padding: 30px 10px 20px 10px;
+	margin: 0;
+}
+#filter-panel[aria-expanded="false"] + .card-body .table-data {
+	max-height: 481px;
 }
 
-#filter-panel.collapse.in + .panel-body .table-data {
-	max-height: 340px;
+#filter-panel[aria-expanded="true"] + .card-body .table-data {
+	max-height: 395px;
 }
 
 .filter-toggle.btn-primary:not(.collapsed) {
@@ -117,6 +145,12 @@ body.auth {
 	transition: all 0.35s, border-radius 0s;
 }
 
+form button.btn,
+form .input-group .input-group-addon,
+form .input-group input.form-control {
+	border-radius: 0;
+}
+
 .link-blue {
 	color: #2196F3;
 }
@@ -130,36 +164,40 @@ body.auth {
 }
 
 .login-panel {
-  width: 100%;
+  width: 400px;
+  margin: auto;
+  margin-top: 8%;
+  padding: 25px 10px;
+  background-color: #fff;
 }
 
 .material-icons {
 	font-size: 20px;
 }
-
-/* Sidebar Nav */
-
-.nav-side-menu {
-  min-height: 612px;
-  float: left;
-  overflow: auto;
-  font-family: verdana;
-  font-size: 12px;
-  font-weight: 200;
-  background-color: #2e353d;
-  width: 20%;
-  height: 100%;
-  color: #e1ffff;
-}
-.navbar-nav .brand {
+.menu-list .brand {
   background-color: #23282e;
   line-height: 50px;
   display: inline-block;
   text-align: center;
   font-size: 14px;
 }
-.navbar-nav .brand img {
-	height: 48px;
+.menu-list .brand img {
+	height: 34px;
+}
+
+/* Sidebar Nav */
+
+.nav-side-menu {
+	position: fixed;
+	float: left;
+	overflow: auto;
+	font-family: verdana;
+	font-size: 12px;
+	font-weight: 200;
+	background-color: #2e353d;
+	width: 20%;
+	height: 100%;
+	color: #e1ffff;
 }
 .nav-side-menu .toggle-btn {
   display: none;
@@ -285,22 +323,26 @@ body.auth {
 
 /* End of Sidebar Nav */
 
-.panel .panel-body .navbar-brand {
+.card .card-body {
+	padding: 0;
+}
+
+.card .card-body .navbar-brand {
 	float: none;
 	margin-bottom: 20px;
 	font-size: 20pt;
 }
 
-.panel-default .panel-heading {
+.card-default .card-heading {
 	color: #e64a19;
 }
 
-.panel .panel-heading h3 {
+.card .card-header h3 {
 	display: inline-block;
 	margin: 5px 8px;
 }
 
-.panel .panel-heading .btn-group {
+.card .card-heading .btn-group {
 	/*margin-top: 8px;*/
 }
 
@@ -343,7 +385,7 @@ body.auth {
 }
 
 .search-form .form-group input.form-control {
-  padding: 0px 20px 7px 12px;
+  padding: 5px 20px 5px 30px;
   border: 0 none;
   background: transparent;
   box-shadow: none;
@@ -402,7 +444,7 @@ body.auth {
 }
 
 tr.top-parent td{
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .tree {

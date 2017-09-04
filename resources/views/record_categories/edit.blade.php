@@ -1,97 +1,101 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<div class="row">
-			<div class="col-md-6" style="font-size: 14pt;">
-				@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
-				{{ Lang::get($action, ['item' => Lang::get('app.category')]) }}
-			</div>
-    	</div>
-    </div>
+<div class="app-contents">
+	<div class="card">
+	    <div class="card-header">
+	    	<div class="row">
+				<div class="col-md-6" style="font-size: 14pt;">
+					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
+					{{ Lang::get($action, ['item' => Lang::get('app.category')]) }}
+				</div>
+	    	</div>
+	    </div>
 
-    <div class="panel-body">
-    	@if(session('messages'))
-    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
-    	@endif
-    	
-    	@if (count($errors) > 0)
-			<div class="alert alert-danger">
-				<ul>
-					@foreach ($errors->all() as $error)
-						<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-			</div>
-		@endif
+	    <div class="card-body">
+	    	@if(session('messages'))
+	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
+	    	@endif
+	    	
+	    	@if (count($errors) > 0)
+				<div class="alert alert-danger">
+					<ul>
+						@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+				</div>
+			@endif
 
-    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
-		{{ Form::open(['url' => url('categories/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
-			<div class="form-group">
-				<label for="parent_id" class="col-sm-2 control-label">{{ Lang::get('app.parent') }}</label>
-				<div class="col-sm-8 col-md-8">
-					<div class="panel panel default">
-						<div class="panel-body">
-							<select id="select_parent" class="select2" name="parent_id" style="width: 50%;">
-								@if($parent->closest)
-								<option value="{{ $parent->closest->id }}">{{ $parent->closest->code . ' - ' . $parent->closest->name }}</option>
-								@else
-								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.categories')]) }}</option>
-								@endif
-							</select>
-							<div class="tree">
-								<ul>
-								@if($parent->tree)
-								@for($i = 0; $i < sizeof($parent->tree)-1; $i++)
-									<li style="list-style: none; padding-left: {{ $i*18 }}px">{{ $parent->tree[$i]->code.' - '.$parent->tree[$i]->name }}</li>
-								@endfor
-								@endif
-								</ul>
+	    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
+	    	<div class="edit-form">
+				{{ Form::open(['url' => url('categories/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
+					<div class="form-group row">
+						<label for="parent_id" class="col-sm-2 col-form-label">{{ Lang::get('app.parent') }}</label>
+						<div class="col-sm-8 col-md-8">
+							<div class="panel panel default">
+								<div class="panel-body">
+									<select id="select_parent" class="select2" name="parent_id" style="width: 50%;">
+										@if($parent->closest)
+										<option value="{{ $parent->closest->id }}">{{ $parent->closest->code . ' - ' . $parent->closest->name }}</option>
+										@else
+										<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.categories')]) }}</option>
+										@endif
+									</select>
+									<div class="tree">
+										<ul>
+										@if($parent->tree)
+										@for($i = 0; $i < sizeof($parent->tree)-1; $i++)
+											<li style="list-style: none; padding-left: {{ $i*18 }}px">{{ $parent->tree[$i]->code.' - '.$parent->tree[$i]->name }}</li>
+										@endfor
+										@endif
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.code') }}</label>
-				<div class="col-sm-4 col-md-3">
-					<div class="input-group">
-						<div id="parent_code" class="input-group-addon">{{ $parent->closest?($parent->closest->code . '-'):'' }}</div>
-						@php $curr_code = explode('-', $item->code) @endphp
-						<input id="new_code" type="text" class="form-control" value="{{ end($curr_code) }}" required="true">
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.code') }}</label>
+						<div class="col-sm-4 col-md-3">
+							<div class="input-group">
+								<div id="parent_code" class="input-group-addon">{{ $parent->closest?($parent->closest->code . '-'):'' }}</div>
+								@php $curr_code = explode('-', $item->code) @endphp
+								<input id="new_code" type="text" class="form-control" value="{{ end($curr_code) }}" required="true">
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.name') }}</label>
-				<div class="col-sm-4 col-md-6">
-					<textarea id="name" name="name" type="text" class="form-control" required="true">{{ old('name', $item->name) }}</textarea>
-				</div>
-			</div>
-			<input type="hidden" name="code">
-			<input type="hidden" id="id" name="id" value="{{ $item->id }}">
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<div class="btn-group" role="group">
-						<button class="submit-btn btn btn-success" data-action="save">
-							<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
-						</button>
-						<button class="submit-btn btn btn-primary" data-action="save-new">
-							<i class="fa fa-copy"></i>  {{ Lang::get('app.save_and_new') }}
-						</button>
-						<button class="submit-btn btn btn-info" data-action="save-close">
-							<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
-						</button>
-						<a href="{{ url('categories') }}" class="btn btn-default">
-							<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
-						</a>
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.name') }}</label>
+						<div class="col-sm-4 col-md-6">
+							<textarea id="name" name="name" type="text" class="form-control" required="true">{{ old('name', $item->name) }}</textarea>
+						</div>
 					</div>
-				</div>
-				<input type="hidden" name="action" value="save">
+					<input type="hidden" name="code">
+					<input type="hidden" id="id" name="id" value="{{ $item->id }}">
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="btn-group" role="group">
+								<button class="submit-btn btn btn-success" data-action="save">
+									<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
+								</button>
+								<button class="submit-btn btn btn-primary" data-action="save-new">
+									<i class="fa fa-copy"></i>  {{ Lang::get('app.save_and_new') }}
+								</button>
+								<button class="submit-btn btn btn-info" data-action="save-close">
+									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
+								</button>
+								<a href="{{ url('categories') }}" class="btn btn-default">
+									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
+								</a>
+							</div>
+						</div>
+						<input type="hidden" name="action" value="save">
+					</div>
+				{{ Form::close() }}
 			</div>
-		{{ Form::close() }}
-    </div>
+	    </div>
+	</div>
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {

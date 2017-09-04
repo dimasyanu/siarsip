@@ -16,6 +16,7 @@ return [
     'failed' => 'Informasi login yang diberikan tidak cocok dengan pengguna manapun.',
     'throttle' => 'Terlalu banyak permintaan login. Silahkan coba lagi setelah :seconds detik.',
 
+    'app_full_name'         => 'Sistem Informasi Arsip Negara',
     'confirm_password'      => 'Konfirmasi Password',
     'email'                 => 'Alamat E-mail',
     'forgot_password'       => 'Lupa password Anda?',

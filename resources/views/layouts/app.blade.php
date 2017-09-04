@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bs-card.css') }}" rel="stylesheet">
     <link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -21,48 +21,73 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/animate.js') }}"></script>
 </head>
-<body class="{{ Auth::guest() ? 'auth' : '' }}">
+<body class="{{ (Auth::guest() ? 'auth' : '') }}">
     <div id="app">
         @if (!Auth::guest())
-        <nav class="navbar navbar-default">
-            <div class="navbar-header">
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
+        <div class="app-container">
+            <div class="nav-side-menu">
+                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+              
+                <div class="menu-list">
+                    <ul id="menu-content" class="menu-content collapse out">
+                        <li>
+                            <div class="brand">
+                                <a href="{{ url('/') }}">
+                                    <img src="{{ asset('images/logo/logo2-white.png') }}">
+                                </a>
+                            </div>
+                        </li>
+                        <li id="menu-item-dashboard">
+                            <a href="{{ url('/') }}">
+                                <div>
+                                    <i class="fa fa-dashboard fa-lg"></i> {{ Lang::get('app.dashboard') }} 
+                                </div>
+                          </a>
+                        </li>
 
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <div class="nav navbar-nav">
-                    <button type="button" class="btn btn-dark btn-toggle">
-                        <i class="fa fa-bars"></i>
-                    </button>   
+                        <li id="menu-item-records">
+                            <a href="{{ url('records') }}">
+                                <div>
+                                    <i class="fa fa-file-text-o fa-lg"></i> 
+                                    <span class="text-label">{{ Lang::get('app.documents') }}</span>
+                                </div>
+                            </a>
+                        </li>
 
-                    <div class="brand">
-                        <a href="{{ url('/') }}">
-                            <img src="{{ asset('images/logo/logo2-white.png') }}">
-                            <!-- <h4>Sistem Informasi Arsip Negara</h4> -->
-                        </a>
-                    </div>
-                </div>
+                        <li data-toggle="collapse" data-target="#storage" class="collapsed">
+                            <a href="#"><i class="fa fa-book fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
+                        </li>  
+                        <ul class="sub-menu collapse" id="storage">
+                            <li id="menu-item-rooms">
+                                <a href="{{ url('rooms') }}"><div>{{ Lang::get('app.rooms') }}</div></a>
+                            </li>
+                            <li id="menu-item-shelves"><a href="{{ url('shelves') }}"><div>{{ Lang::get('app.shelf') }}</div></a></li>
+                            <li id="menu-item-boxes"><a href="{{ url('boxes') }}"><div>{{ Lang::get('app.boxes') }}</div></a></li>
+                            <li id="menu-item-sections"><a href="{{ url('sections') }}"><div>{{ Lang::get('app.sections') }}</div></a></li>
+                            <li id="menu-item-categories"><a href="{{ url('categories') }}"><div>{{ Lang::get('app.categories') }}</div></a></li>
+                        </ul>
+                        
+                        @if(Auth::user()->id == 1)
+                        <li id="menu-item-users">
+                            <a href="{{ url('users') }}">
+                                <div><i class="fa fa-users fa-lg"></i> {{ Lang::get('app.users') }}</div>
+                            </a>
+                        </li>
+                        @endif
 
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
+                        <li data-toggle="collapse" data-target="#user" class="collapsed">
+                            <a href="#">
+                                <i class="fa fa-sign-out"></i>
+                                {{ Auth::user()->name }}
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        <ul class="sub-menu collapse" id="user">
+                            <li id="menu-item-logout">
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                    Logout
+                                    <div>{{ Lang::get('auth.logout') }}</div>
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -70,53 +95,7 @@
                                 </form>
                             </li>
                         </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="app-container">
-            <div class="nav-side-menu">
-                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-              
-                    <div class="menu-list">
-                        <ul id="menu-content" class="menu-content collapse out">
-                            <li id="menu-item-dashboard">
-                                <a href="{{ url('/') }}">
-                                    <div>
-                                        <i class="fa fa-dashboard fa-lg"></i> {{ Lang::get('app.dashboard') }} 
-                                    </div>
-                              </a>
-                            </li>
-
-                            <li id="menu-item-records">
-                                <a href="{{ url('records') }}">
-                                    <div>
-                                        <i class="fa fa-file-text-o fa-lg"></i> 
-                                        <span class="text-label">{{ Lang::get('app.documents') }}</span>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li data-toggle="collapse" data-target="#storage" class="collapsed">
-                                <a href="#"><i class="fa fa-book fa-lg"></i> {{ Lang::get('app.references') }} <span class="arrow"></span></a>
-                            </li>  
-                            <ul class="sub-menu collapse" id="storage">
-                                <li id="menu-item-rooms">
-                                    <a href="{{ url('rooms') }}"><div>{{ Lang::get('app.rooms') }}</div></a>
-                                </li>
-                                <li id="menu-item-shelves"><a href="{{ url('shelves') }}"><div>{{ Lang::get('app.shelf') }}</div></a></li>
-                                <li id="menu-item-boxes"><a href="{{ url('boxes') }}"><div>{{ Lang::get('app.boxes') }}</div></a></li>
-                                <li id="menu-item-sections"><a href="{{ url('sections') }}"><div>{{ Lang::get('app.sections') }}</div></a></li>
-                                <li id="menu-item-categories"><a href="{{ url('categories') }}"><div>{{ Lang::get('app.categories') }}</div></a></li>
-                            </ul>
-                            @if(Auth::user()->id == 1)
-                            <li id="menu-item-users">
-                                <a href="{{ url('users') }}">
-                                    <div><i class="fa fa-users fa-lg"></i> {{ Lang::get('app.users') }}</div>
-                                </a>
-                            </li>
-                            @endif
-                        </ul>
+                    </ul>
                  </div>
             </div>
             @yield('content')
@@ -127,7 +106,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('js/bs-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript">

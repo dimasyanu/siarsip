@@ -29,6 +29,7 @@ class RecordCategoryController extends Controller {
             $query = RecordCategory::orderBy('code');
 
 		$items = $query->paginate($filters->limit);
+		// dd($items->links());
 
 		return view('record_categories/index', ['items' => $items, 'filters' => $filters]);
 	}

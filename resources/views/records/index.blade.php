@@ -3,6 +3,8 @@
 @section('content')
 <div class="app-contents">
     <div class="panel panel-default">
+
+        <!-- Heading -->
         <div class="panel-heading">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.records') }}</h3>
@@ -22,6 +24,8 @@
                 </button>
             </div>
         </div>
+
+        <!-- Filters panel -->
         <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
             <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
                 <div class="col-md-4">
@@ -47,36 +51,41 @@
                 </div>
             </div>
         </div>
+
+        <!-- Body -->
         <div class="panel-body">
             @if(session('messages'))
                 <div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
             @endif
-            <div class="data-table">
+            <table class="table table-header">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px;">No.</th>
+                        <th class="col-md-5">{{ Lang::get('app.content') }}</th>
+                        <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
+                        <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
+                        <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
+                        <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
+                        <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="table-data">
                 <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width: 50px;">No.</th>
-                            <th class="col-md-5">{{ Lang::get('app.content') }}</th>
-                            <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
-                            <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
-                            <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
-                            <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
-                            <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         @if($items->count() > 0)
                             @foreach($items as $i => $item)
                                 <tr data-id="{{ $item->id }}">
-                                    <td>
+                                    <td class="text-center" style="width: 50px;">
                                         {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                     </td>
-                                    <td class="data-name">{{ $item->name }}</td>
-                                    <td class="data-name text-center">{{ $item->period }}</td>
-                                    <td class="data-name text-center">{{ $item->progress }}</td>
-                                    <td class="data-name text-center">{{ $item->quantity }}</td>
-                                    <td class="data-name">{{ $item->section->name }}</td>
-                                    <td>
+                                    <td class="data-name col-md-5">{{ $item->name }}</td>
+                                    <td class="data-period text-center col-md-1">{{ $item->period }}</td>
+                                    <td class="data-progress text-center col-md-2">{{ $item->progress }}</td>
+                                    <td class="data-quantity text-center col-md-1">{{ $item->quantity }}</td>
+                                    <td class="data-sectionname" style="width: 100px;">{{ $item->section->name }}</td>
+                                    <td style="width: 75px;">
                                         <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
                                             <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info btn-xs">
                                                 <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
