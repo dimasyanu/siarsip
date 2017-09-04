@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <i class="fa fa-user fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.users') }}</h3>
             <div class="btn-group pull-right" role="group">

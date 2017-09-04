@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.rooms') }}</h3>
             <div class="pull-right">
@@ -17,8 +17,8 @@
             </div>
         </div>
         <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
-            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
-                <div class="col-md-4">
+            <div class="row col-12">
+                <div class="col-4">
                     <form action="" class="search-form">
                         <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
                             <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
@@ -27,7 +27,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-2 ml-auto">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
                         <select id="filter-limit" class="form-control" name="limit">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
@@ -61,18 +61,20 @@
                                     {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                 </td>
                                 <td class="data-name">{{ $item->name }}</td>
-                                <td>
-                                    <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('rooms/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('rooms/' . $item->id) }}" method="post">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                            </form>
-                                        </a>
+                                <td style="width: 15%">
+                                    <div class="action-buttons pull-right" role="group" style="display: none;">
+                                            <a href="{{ url('rooms/'.$item->id.'/edit') }}" class="btn btn-info btn-sm">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                {{ Lang::get('app.edit') }}
+                                            </a>
+                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-sm">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                {{ Lang::get('app.delete') }}
+                                                <form action="{{ url('rooms/' . $item->id) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            </a>
                                     </div>
                                 </td>
                             </tr>

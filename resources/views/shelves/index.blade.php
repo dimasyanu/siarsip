@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <i class="fa fa-th fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.shelves') }}</h3>
             <div class="pull-right">
@@ -17,8 +17,8 @@
             </div>
         </div>
         <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
-            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
-                <div class="col-md-4">
+            <div class="row col-12">
+                <div class="col-4">
                     <form action="" class="search-form">
                         <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
                             <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
@@ -27,7 +27,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-2 ml-auto">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
                         <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
@@ -63,14 +63,14 @@
                                 </td>
                                 <td class="data-name">{{ $item->name }}</td>
                                 <td class="data-room">{{ $item->room_name }}</td>
-                                <td>
-                                    <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                <td style="width: 15%">
+                                    <div class="action-buttons pull-right" role="group" style="display: none;">
                                         @if($item->hasRecords)
-                                        <a href="{{ url('shelf/print/'.$item->id) }}" type="button" class="btn btn-info btn-xs" target="_blank">
+                                        <a href="{{ url('shelf/print/'.$item->id) }}" type="button" class="btn btn-info" target="_blank">
                                             <i class="fa fa-print" aria-hidden="true"></i>
                                         </a>
                                         @endif
-                                        <a href="{{ url('shelves/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                        <a href="{{ url('shelves/'.$item->id.'/edit') }}" type="button" class="btn btn-warning">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">

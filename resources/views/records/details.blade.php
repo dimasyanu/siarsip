@@ -62,44 +62,40 @@
                 </table>
             </div>
 
-            <!-- Period -->
-            <div class="form-group">
-                <label for="detail-period" class="col-sm-2">{{ Lang::get('app.period') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-period">{{ $item->period }}</p>
-                </div>
-            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <tbody>
+                        <!-- Period -->
+                        <tr>
+                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.period') }}</th>
+                            <td class="col-sm-10 col-md-10">{{ $item->period }}</td>
+                        </tr>
 
-            <!-- Quantiy -->
-            <div class="form-group">
-                <label for="detail-quantity" class="col-sm-1">{{ Lang::get('app.quantity') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-quantity">{{ $item->quantity }}</p>
-                </div>
-            </div>
+                        <!-- Quantiy -->
+                        <tr>
+                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.quantity') }}</th>
+                            <td class="col-sm-10 col-md-10">{{ $item->quantity }}</td>
+                        </tr>
 
-            <!-- Progress -->
-            <div class="form-group">
-                <label for="input-progress" class="col-sm-3">{{ Lang::get('app.progress') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-progress">{{ $item->progress }}</p>
-                </div>
-            </div>
+                        <!-- Progress -->
+                        <tr>
+                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.progress') }}</th>
+                            <td class="text-middle col-sm-10 col-md-10">{{ $item->progress }}</td>
+                        </tr>
 
-            <!-- Input Descriptions -->
-            <div class="form-group">
-                <label for="detail-descriptions" class="col-sm-2">{{ Lang::get('app.descriptions') }}</label>
-                <div class="col-sm-5 col-md-5">
-                    <p id="detail-descriptions">{{ $item->descriptions }}</p>
-                </div>
-            </div>
+                        <!-- Input Descriptions -->
+                        <tr>
+                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.descriptions') }}</th>
+                            <td class="text-middle col-sm-10 col-md-10">{{ $item->descriptions }}</td>
+                        </tr>
 
-            <!-- Section -->
-            <div class="form-group">
-                <label for="detail-section-id" class="col-sm-3">{{ Lang::get('app.save_to') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-section">{{ $item->section->name }}</p>
-                </div>
+                        <!-- Section -->
+                        <tr>
+                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.save_to') }}</th>
+                            <td class="col-sm-10 col-md-10">{{ $item->section->name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <input type="hidden" id="id" name="id" value="{{ $item->id }}">

@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="app-contents">
-    <div class="panel panel-default">
+    <div class="card">
 
         <!-- Heading -->
-        <div class="panel-heading">
+        <div class="card-header">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.records') }}</h3>
             <div style="display: inline-block;">
@@ -27,8 +27,8 @@
 
         <!-- Filters panel -->
         <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
-            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
-                <div class="col-md-4">
+            <div  class="row col-12">
+                <div class="col-4">
                     <form action="" class="search-form">
                         <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
                             <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
@@ -37,7 +37,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-2 ml-auto">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
                         <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
@@ -85,15 +85,13 @@
                                     <td class="data-progress text-center col-md-2">{{ $item->progress }}</td>
                                     <td class="data-quantity text-center col-md-1">{{ $item->quantity }}</td>
                                     <td class="data-sectionname" style="width: 100px;">{{ $item->section->name }}</td>
-                                    <td style="width: 75px;">
-                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                            <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info btn-xs">
-                                                <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
-                                            </a>
-                                            <a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
+                                    <td style="width: 95px;">
+                                        <div class="action-buttons btn-group btn-group-sm" role="group" style="display: none;">
+                                            <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info">
+                                                <i class="fa fa-info" aria-hidden="true";"></i>
+                                            </a><a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
+                                            </a><a href="javascript:void(0);" class="delete-btn btn btn-danger">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                 <form action="{{ url('records/' . $item->id) }}" method="post">
                                                     {{ csrf_field() }}
