@@ -3,8 +3,8 @@
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
         	<div class="row">
     			<div class="col-md-6" style="font-size: 14pt;">
     				{{ Lang::get('app.details', ['item' => Lang::get('app.record')]) }}
@@ -12,7 +12,7 @@
         	</div>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body auto-y">
         	@if(session('messages'))
         		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
         	@endif
@@ -28,23 +28,23 @@
     		@endif
 
             <!-- Category -->
-            <div class="col-md-12">
+            <div class="container" style="margin-top: 16px;">
                 <table class="table table-striped">
                     <tbody>
                         <!-- Name -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">
+                            <th class="text-middle">
                                 {{ Lang::get('app.content') }}
                             </th>
-                            <td class="col-sm-10 col-md-10">{{ $item->name }}</td>
+                            <td>{{ $item->name }}</td>
                         </tr>
 
                         <!-- Record Category -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">
+                            <th class="text-middle">
                                 {{ Lang::get('app.category') }}
                             </th>
-                            <td class="col-sm-10 col-md-10">
+                            <td>
                                 <div class="panel panel default">
                                     <div class="panel-body">
                                         <div class="tree">
@@ -58,48 +58,48 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Period -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.period') }}
+                            </th>
+                            <td>{{ $item->period }}</td>
+                        </tr>
+
+                        <!-- Quantiy -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.quantity') }}
+                            </th>
+                            <td>{{ $item->quantity }}</td>
+                        </tr>
+
+                        <!-- Progress -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.progress') }}
+                            </th>
+                            <td>{{ $item->progress }}</td>
+                        </tr>
+
+                        <!-- Input Descriptions -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.descriptions') }}
+                            </th>
+                            <td>{{ $item->descriptions }}</td>
+                        </tr>
+
+                        <!-- Section -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.save_to') }}
+                            </th>
+                            <td>{{ $item->section->name }}</td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Period -->
-            <div class="form-group">
-                <label for="detail-period" class="col-sm-2">{{ Lang::get('app.period') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-period">{{ $item->period }}</p>
-                </div>
-            </div>
-
-            <!-- Quantiy -->
-            <div class="form-group">
-                <label for="detail-quantity" class="col-sm-1">{{ Lang::get('app.quantity') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-quantity">{{ $item->quantity }}</p>
-                </div>
-            </div>
-
-            <!-- Progress -->
-            <div class="form-group">
-                <label for="input-progress" class="col-sm-3">{{ Lang::get('app.progress') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-progress">{{ $item->progress }}</p>
-                </div>
-            </div>
-
-            <!-- Input Descriptions -->
-            <div class="form-group">
-                <label for="detail-descriptions" class="col-sm-2">{{ Lang::get('app.descriptions') }}</label>
-                <div class="col-sm-5 col-md-5">
-                    <p id="detail-descriptions">{{ $item->descriptions }}</p>
-                </div>
-            </div>
-
-            <!-- Section -->
-            <div class="form-group">
-                <label for="detail-section-id" class="col-sm-3">{{ Lang::get('app.save_to') }}</label>
-                <div class="col-sm-2 col-md-2">
-                    <p id="detail-section">{{ $item->section->name }}</p>
-                </div>
             </div>
 
             <input type="hidden" id="id" name="id" value="{{ $item->id }}">

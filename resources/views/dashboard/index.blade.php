@@ -14,15 +14,15 @@
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
-					<div class="item active">
+					<div class="carousel-item active">
 						<img src="{{ asset('images/picture-1.jpg')}}" alt="picture-1" style="height: 100%; margin-top: -90px;">
 						<div class="carousel-caption"></div>
 					</div>
-					<div class="item">
+					<div class="carousel-item">
 						<img src="{{ asset('images/picture-2.jpg')}}" alt="picture-2" style="margin-top: -180px;">
 						<div class="carousel-caption"></div>
 					</div>
-					<div class="item">
+					<div class="carousel-item">
 						<img src="{{ asset('images/picture-3.jpg')}}" alt="picture-3" style="margin-top: -60px;">
 						<div class="carousel-caption"></div>
 					</div>
