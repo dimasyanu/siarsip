@@ -77,7 +77,7 @@
 
                         <li data-toggle="collapse" data-target="#user" class="collapsed">
                             <a href="#">
-                                <i class="fa fa-sign-out"></i>
+                                <i class="fa fa-user"></i>
                                 {{ Auth::user()->name }}
                                 <span class="arrow"></span>
                             </a>
@@ -87,7 +87,7 @@
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                    <div>{{ Lang::get('auth.logout') }}</div>
+                                    <div><i class="fa fa-sign-out"></i> {{ Lang::get('auth.logout') }}</div>
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
