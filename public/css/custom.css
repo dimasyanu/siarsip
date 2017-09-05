@@ -9,6 +9,11 @@ body.auth {
 	background: #333;
 }
 
+.alt-heading {
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
 #app .navbar{
 	width: 100%;
 	margin-bottom: 0;
@@ -23,6 +28,7 @@ body.auth {
 }*/
 
 .app-contents {
+	background-color: #fafafa;
 	position: fixed;
 	left: 20%;
 	width: 80%;
@@ -31,7 +37,12 @@ body.auth {
 	overflow-y: auto;
 }
 
-.app-contents .card {
+.app-contents.container {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.app-contents > .card {
 	height: 100%;
 	overflow-y: hidden;
 	margin: 0;
@@ -74,6 +85,38 @@ body.auth {
 	background-color: #009688;
 }
 
+.bg-blue {
+	background-color: #418BCA;
+	color: #fff;
+}
+
+.bg-dark {
+	background-color: #1D2939;
+	color: #fff;
+}
+
+.bg-green {
+	background-color: #1CB09A;
+	color: #fff;
+}
+
+.bg-purple {
+	background-color: #9C27B0;
+	color: #fff;
+}
+
+.bg-red {
+	background-color: #DA534F;
+	color: #fff;
+}
+
+
+
+.bg-light-blue {
+	background-color: #03A9F4;
+	color: #fff;
+}
+
 button.btn,
 a.btn {
 	border-radius: 0;
@@ -94,6 +137,10 @@ a.btn {
 .span-siarsip {
 	background-color: #FF5722;
 	color: #fff;
+}
+
+.col-md-12.row {
+	margin: 0;
 }
 
 .table.middle-align td {
@@ -350,7 +397,8 @@ form .input-group input.form-control {
 	color: #e64a19;
 }
 
-.card .card-header h3 {
+.card .card-header h3,
+.card .card-header h4 {
 	display: inline-block;
 	margin: 5px 8px;
 }
@@ -360,8 +408,8 @@ form .input-group input.form-control {
 }
 
 #pictures-slider {
-  margin-top: 10px;
-  margin-left: -15px;
+  /*margin-top: 10px;
+  margin-left: -15px;*/
   max-height: 250px;
 }
 
@@ -465,6 +513,10 @@ tr.top-parent td{
 }
 .tree ul {
   padding-left: 0;
+}
+
+.value-cards {
+	margin-bottom: 15px;
 }
 
 .vertical-center {

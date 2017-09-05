@@ -42,6 +42,7 @@ return [
 	'period'						=> 'Kurun Waktu',
 	'progress'						=> 'Tingkat Perkembangan',
 	'quantity'						=> 'Jumlah',
+	'timestamp' 					=> 'Timestamp',
 
 	/* Messages */
 	'delete_confirmation' 			=> 'Data <strong></strong> akan dihapus permanen. Anda yakin?',

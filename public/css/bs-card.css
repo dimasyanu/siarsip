@@ -3,12 +3,52 @@
 }
 
 .card {
-  margin-top: 10px;
   box-sizing: border-box;
   border-radius: 2px;
   background-clip: padding-box;
-  min-height: 250px;
 }
+
+.card.db-card > .card-body {
+	overflow: hidden;
+}
+
+.card.db-card > .card-body > .container {
+	position: relative;
+	z-index: 1;
+}
+
+.card.db-card > .card-body > i {
+	font-size: 128px;
+	position: relative;
+	z-index: 0;
+	bottom: 95px;
+	left: -10px;
+}
+
+.card.db-card .container {
+	padding: 10px;
+}
+
+.card.db-card.bg-blue i.fa {
+	color: #3277B4;
+}
+
+.card.db-card.bg-dark i.fa {
+	color: #2b2e33;
+}
+
+.card.db-card.bg-green i.fa {
+	color: #17917F;
+}
+
+.card.db-card.bg-purple i.fa {
+	color: #7B1FA2;
+}
+
+.card.db-card.bg-red i.fa {
+	color: #D3332D;
+}
+
 .card .card-title {
 	background-color: #F44336;
 	color: #fff;
@@ -24,8 +64,9 @@
   background-color: #3F51B5;
 }
 
-.card.card-teal .card-title {
+.card.card-teal .card-header {
   background-color: #009688;
+  color: #fff;
 }
 
 .card .card-title i.fa {
