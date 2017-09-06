@@ -3,8 +3,8 @@
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
         	<div class="row">
     			<div class="col-md-6" style="font-size: 14pt;">
     				{{ Lang::get('app.details', ['item' => Lang::get('app.record')]) }}
@@ -12,7 +12,7 @@
         	</div>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body auto-y">
         	@if(session('messages'))
         		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
         	@endif
@@ -28,23 +28,23 @@
     		@endif
 
             <!-- Category -->
-            <div class="col-md-12">
+            <div class="container" style="margin-top: 16px;">
                 <table class="table table-striped">
                     <tbody>
                         <!-- Name -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">
+                            <th class="text-middle">
                                 {{ Lang::get('app.content') }}
                             </th>
-                            <td class="col-sm-10 col-md-10">{{ $item->name }}</td>
+                            <td>{{ $item->name }}</td>
                         </tr>
 
                         <!-- Record Category -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">
+                            <th class="text-middle">
                                 {{ Lang::get('app.category') }}
                             </th>
-                            <td class="col-sm-10 col-md-10">
+                            <td>
                                 <div class="panel panel default">
                                     <div class="panel-body">
                                         <div class="tree">
@@ -58,41 +58,45 @@
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
 
-            <div class="col-md-12">
-                <table class="table">
-                    <tbody>
                         <!-- Period -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.period') }}</th>
-                            <td class="col-sm-10 col-md-10">{{ $item->period }}</td>
+                            <th class="text-middle">
+                                {{ Lang::get('app.period') }}
+                            </th>
+                            <td>{{ $item->period }}</td>
                         </tr>
 
                         <!-- Quantiy -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.quantity') }}</th>
-                            <td class="col-sm-10 col-md-10">{{ $item->quantity }}</td>
+                            <th class="text-middle">
+                                {{ Lang::get('app.quantity') }}
+                            </th>
+                            <td>{{ $item->quantity }}</td>
                         </tr>
 
                         <!-- Progress -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.progress') }}</th>
-                            <td class="text-middle col-sm-10 col-md-10">{{ $item->progress }}</td>
+                            <th class="text-middle">
+                                {{ Lang::get('app.progress') }}
+                            </th>
+                            <td>{{ $item->progress }}</td>
                         </tr>
 
                         <!-- Input Descriptions -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.descriptions') }}</th>
-                            <td class="text-middle col-sm-10 col-md-10">{{ $item->descriptions }}</td>
+                            <th class="text-middle">
+                                {{ Lang::get('app.descriptions') }}
+                            </th>
+                            <td>{{ $item->descriptions }}</td>
                         </tr>
 
                         <!-- Section -->
                         <tr>
-                            <th class="text-middle col-sm-2 col-md-2">{{ Lang::get('app.save_to') }}</th>
-                            <td class="col-sm-10 col-md-10">{{ $item->section->name }}</td>
+                            <th class="text-middle">
+                                {{ Lang::get('app.save_to') }}
+                            </th>
+                            <td>{{ $item->section->name }}</td>
                         </tr>
                     </tbody>
                 </table>

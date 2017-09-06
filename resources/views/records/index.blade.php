@@ -3,7 +3,6 @@
 @section('content')
 <div class="app-contents">
     <div class="card">
-
         <!-- Heading -->
         <div class="card-header">
             <i class="fa fa-home fa-2x"></i>
@@ -27,8 +26,8 @@
 
         <!-- Filters panel -->
         <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
-            <div  class="row col-12">
-                <div class="col-4">
+            <div class="row col-md-12">
+                <div class="col-md-4">
                     <form action="" class="search-form">
                         <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
                             <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
@@ -37,7 +36,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-2 ml-auto">
+                <div class="col-md-2 ml-md-auto">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
                         <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
@@ -53,45 +52,45 @@
         </div>
 
         <!-- Body -->
-        <div class="panel-body">
+        <div class="card-body">
             @if(session('messages'))
                 <div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
             @endif
             <table class="table table-header">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px;">No.</th>
-                        <th class="col-md-5">{{ Lang::get('app.content') }}</th>
-                        <th class="text-center col-md-1">{{ Lang::get('app.period') }}</th>
-                        <th class="text-center col-md-2">{{ Lang::get('app.progress') }}</th>
-                        <th class="text-center col-md-1">{{ Lang::get('app.quantity') }}</th>
-                        <th style="width: 100px;">{{ Lang::get('app.saved_at') }}</th>
-                        <th class="text-center" style="width: 75px;">{{ Lang::get('app.actions') }}</th>
+                        <th class="text-center" style="width: 5%;">No.</th>
+                        <th style="width: 50%;">{{ Lang::get('app.content') }}</th>
+                        <th class="text-center" style="width: 12%;">{{ Lang::get('app.period') }}</th>
+                        <th class="text-center" style="width: 5%;">{{ Lang::get('app.quantity') }}</th>
+                        <th style="width: 16%;">{{ Lang::get('app.saved_at') }}</th>
+                        <th class="text-center" style="width: 12%;">{{ Lang::get('app.actions') }}</th>
                     </tr>
                 </thead>
             </table>
 
             <div class="table-data">
-                <table class="table table-striped">
+                <table class="table table-striped middle-align">
                     <tbody>
                         @if($items->count() > 0)
                             @foreach($items as $i => $item)
                                 <tr data-id="{{ $item->id }}">
-                                    <td class="text-center" style="width: 50px;">
+                                    <td class="text-center" style="width: 5%;">
                                         {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
                                     </td>
-                                    <td class="data-name col-md-5">{{ $item->name }}</td>
-                                    <td class="data-period text-center col-md-1">{{ $item->period }}</td>
-                                    <td class="data-progress text-center col-md-2">{{ $item->progress }}</td>
-                                    <td class="data-quantity text-center col-md-1">{{ $item->quantity }}</td>
-                                    <td class="data-sectionname" style="width: 100px;">{{ $item->section->name }}</td>
-                                    <td style="width: 95px;">
-                                        <div class="action-buttons btn-group btn-group-sm" role="group" style="display: none;">
-                                            <a href="{{ url('records/'.$item->id) }}" type="button" class="btn btn-info">
-                                                <i class="fa fa-info" aria-hidden="true";"></i>
-                                            </a><a href="{{ url('records/'.$item->id.'/edit') }}" type="button" class="btn btn-warning">
+                                    <td class="data-name" style="width: 50%;">{{ $item->name }}</td>
+                                    <td class="data-period text-center" style="width: 12%;">{{ $item->period }}</td>
+                                    <td class="data-quantity text-center" style="width: 5%;">{{ $item->quantity }}</td>
+                                    <td class="data-sectionname" style="width: 16%;">{{ $item->section->name }}</td>
+                                    <td style="width: 12%;">
+                                        <div class="action-buttons btn-group" role="group" style="display: none;">
+                                            <a href="{{ url('records/'.$item->id) }}" class="btn btn-info btn-sm">
+                                                <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
+                                            </a>
+                                            <a href="{{ url('records/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a><a href="javascript:void(0);" class="delete-btn btn btn-danger">
+                                            </a>
+                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-sm">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                 <form action="{{ url('records/' . $item->id) }}" method="post">
                                                     {{ csrf_field() }}
@@ -130,8 +129,8 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{{ Lang::get('app.delete_item') }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <p>{!! trans('app.delete_confirmation') !!}</p>

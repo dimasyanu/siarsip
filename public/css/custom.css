@@ -9,12 +9,21 @@ body.auth {
 	background: #333;
 }
 
+.animate {
+	-webkit-transition: all 0.05s ease-in;
+	transition: all 0.05s ease-in;
+}
+
 .alt-heading {
 	font-weight: 400;
 	margin-bottom: 20px;
 }
 
 #app .navbar{
+	padding-left: 5px;
+	height: 50px;
+	position: fixed;
+	z-index: 5;
 	width: 100%;
 	margin-bottom: 0;
 	border: 0;
@@ -31,10 +40,20 @@ body.auth {
 	background-color: #fafafa;
 	position: fixed;
 	left: 20%;
+	top: 50px;
 	width: 80%;
 	float: left;
 	height: 100%;
 	overflow-y: auto;
+	-webkit-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+
+.app-contents.full {
+	width: 100%;
+	left: 0;
+	-webkit-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
 }
 
 .app-contents.container {
@@ -43,7 +62,7 @@ body.auth {
 }
 
 .app-contents > .card {
-	height: 100%;
+	height: calc(100% - 50px);
 	overflow-y: hidden;
 	margin: 0;
 }
@@ -90,8 +109,12 @@ body.auth {
 	color: #fff;
 }
 
-.bg-dark {
+.bg-darker {
 	background-color: #1D2939;
+	color: #fff;
+}
+
+.bg-dark {
 	color: #fff;
 }
 
@@ -122,7 +145,7 @@ a.btn {
 	border-radius: 0;
 }
 
-.btn.btn-dark {
+.btn.btn-darker {
 	background-color: #23282e;
 	color: #fff;
 }
@@ -174,7 +197,7 @@ a.btn {
 	background-color: #2e353d;
 }
 #filter-panel .row {
-	padding: 30px 10px 20px 10px;
+	padding: 5px 10px 5px 10px;
 	margin: 0;
 }
 #filter-panel[aria-expanded="false"] + .card-body .table-data {
@@ -234,22 +257,42 @@ form .input-group input.form-control {
 .material-icons {
 	font-size: 20px;
 }
-.menu-list .brand {
+.navbar .brand {
   background-color: #23282e;
   line-height: 50px;
   display: inline-block;
   text-align: center;
   font-size: 14px;
 }
-.menu-list .brand img {
-	height: 34px;
+.navbar .brand img {
+	height: 45px;
+}
+
+.navbar.row {
+	margin: 0;
+}
+
+.navbar-nav .dropdown .dropdown-menu {
+	position: absolute;
+	max-height: 0;
+	opacity: 0;
+	display: block;
+	overflow: hidden;
+
+	-webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.navbar-nav .dropdown.show .dropdown-menu {
+	max-height: 250px;
+	opacity: 1;
 }
 
 /* Sidebar Nav */
 
 .nav-side-menu {
 	position: fixed;
-	float: left;
+	top: 50px;
 	overflow: auto;
 	font-family: verdana;
 	font-size: 12px;
@@ -259,6 +302,23 @@ form .input-group input.form-control {
 	height: 100%;
 	color: #e1ffff;
 }
+
+.nav-side-menu.hidden {
+	left: -20%;
+	-webkit-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+
+.nav-side-menu.shown {
+	left: 0;
+	-webkit-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+
+/*.nav-side-menu.shown {
+	width: 20%;
+}*/
+
 .nav-side-menu .toggle-btn {
   display: none;
 }
@@ -432,7 +492,7 @@ form .input-group input.form-control {
   background-color: #fafafa;
   border-radius: 25px;
   border: 1px solid #ccc;
-  margin: 0;
+  margin: 3px 0 0 0;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   transition: all 0.35s, border-radius 0s;
 }
@@ -477,7 +537,7 @@ form .input-group input.form-control {
 
 .search-form .form-group i.form-control-feedback {
   position: absolute;
-  top: -2px;
+  top: 2px;
   z-index: 2;
   display: block;
   width: 34px;
@@ -499,9 +559,9 @@ form .input-group input.form-control {
 .siarsip-login-brand img {
 	height: 36px;
 }
-.animate {
-	-webkit-transition: all 0.05s ease-in;
-	transition: all 0.05s ease-in;
+
+#sidebar-toggle {
+	border-color: #4e4e4e;
 }
 
 tr.top-parent td{

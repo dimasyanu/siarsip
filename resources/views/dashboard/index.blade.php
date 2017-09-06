@@ -102,7 +102,7 @@
 		                			@foreach($data->latest_records as $record)
 		                			<tr>
 		                				<td style="width: 80%; text-align: justify;">{{ $record->name }}</td>
-		                				<td class="text-center" style="width: 20%;">{{ $record->updated_at }}</td>
+		                				<td class="text-center" style="width: 20%;">{{ date('d M Y', strtotime($record->updated_at)) . ', ' . date('H:i', strtotime($record->updated_at)) }}</td>
 		                			</tr>
 		                			@endforeach
 		                		</tbody>

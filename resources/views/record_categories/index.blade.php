@@ -30,7 +30,7 @@
 			<div class="row col-12">
 				<div class="col-4">
 					<form action="" class="search-form">
-						<div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
+						<div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}" style="">
 							<label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
 							<input type="text" class="form-control" name="search" id="search" placeholder="{{ Lang::get('app.search') }}..." value="{{ $filters->search }}">
 							<i class="fa fa-search form-control-feedback"></i>
