@@ -46,6 +46,9 @@
                                 document.getElementById('logout-form').submit();">
                             	{{ Lang::get('auth.logout') }} <i class="fa fa-sign-out"></i>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
 						</div>
 					</li>
 				</ul>

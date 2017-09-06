@@ -10,7 +10,7 @@
 <div class="app-contents">
 	<div class="card">
 
-		<!-- Heading -->
+		<!-- Header -->
 		<div class="card-header">
 			<i class="fa fa-file-text fa-2x"></i>
 			<h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.categories') }}</h3>
@@ -19,18 +19,18 @@
 					<i class="fa fa-plus"></i>
 					{{ Lang::get('app.add') . ' ' . Lang::get('app.categories') }}
 				</a>
-				<button type="button" class="filter-toggle btn btn-primary collapsed" data-toggle="collapse" data-target="#filter-panel">
+				<button type="button" class="filter-toggle btn btn-primary{{ $has_filters ? '' : ' collapsed' }}" data-toggle="collapse" data-target="#filter-panel">
 					<i class="fa fa-filter"></i> {{ Lang::get('app.filter') }}
 				</button>
 			</div>
 		</div>
 
 		<!-- Filters panel -->
-		<div id="filter-panel" class="row collapse{{ $has_filters ? ' in' : '' }}" style="margin: 0">
+		<div id="filter-panel" class="row collapse{{ $has_filters ? ' show' : '' }}" style="margin: 0">
 			<div class="row col-12">
 				<div class="col-4">
 					<form action="" class="search-form">
-						<div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}" style="">
+						<div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
 							<label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
 							<input type="text" class="form-control" name="search" id="search" placeholder="{{ Lang::get('app.search') }}..." value="{{ $filters->search }}">
 							<i class="fa fa-search form-control-feedback"></i>
@@ -89,7 +89,7 @@
 									<td class="data-name" style="width: 65%; padding-left: {{ 18*$item->depth }}px">{{ $item->name }}</td>
 									<td style="width: 15%">
 										<div class="action-buttons pull-right" role="group" style="display: none;">
-											<a href="{{ url('categories/'.$item->id.'/edit') }}" class="btn btn-info btn-sm">
+											<a href="{{ url('categories/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
 												<i class="fa fa-pencil" aria-hidden="true"></i>
 												{{ Lang::get('app.edit') }}
 											</a>

@@ -25,7 +25,7 @@
         </div>
 
         <!-- Filters panel -->
-        <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
+        <div id="filter-panel" class="row collapse{{ $filters->search ? ' show':'' }}" style="margin: 0;">
             <div class="row col-md-12">
                 <div class="col-md-4">
                     <form action="" class="search-form">
@@ -87,7 +87,7 @@
                                             <a href="{{ url('records/'.$item->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
                                             </a>
-                                            <a href="{{ url('records/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm">
+                                            <a href="{{ url('records/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                             <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-sm">

@@ -106,7 +106,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="btn-group" role="group">
-                        <a href="{{ url('records') }}" class="btn btn-default">
+                        <a href="{{ url('records') }}" class="btn btn-light">
                             <i class="fa fa-times"></i>  {{ Lang::get('app.close') }}
                         </a>
                     </div>

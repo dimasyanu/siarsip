@@ -33,8 +33,8 @@
 					<div class="form-group row">
 						<label for="parent_id" class="col-sm-2 col-form-label">{{ Lang::get('app.parent') }}</label>
 						<div class="col-sm-8 col-md-8">
-							<div class="panel panel default">
-								<div class="panel-body">
+							<div class="card" style="padding: 5px; box-shadow: none;">
+								<div class="card-body">
 									<select id="select_parent" class="select2" name="parent_id" style="width: 50%;">
 										@if($parent->closest)
 										<option value="{{ $parent->closest->id }}">{{ $parent->closest->code . ' - ' . $parent->closest->name }}</option>

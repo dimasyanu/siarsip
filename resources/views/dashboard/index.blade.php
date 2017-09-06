@@ -41,51 +41,59 @@
 		        	<h4 class="alt-heading">{{ Lang::get('app.storages') }}</h4>
 					<div class="row value-cards">
 						<div class="col-md-3 col-sm-6">
-				            <div class="card db-card bg-blue" style="height: 100px;">
-				                <div class="card-body">
-				                	<div class="container">
-					                	<h2 style="font-weight: 300; text-align: right;">{{ $data->room_count }}</h2>
-					                	<h4>{{ Lang::get('app.rooms') }}</h4>
+							<a href="{{ url('rooms') }}" style="text-decoration: none;">
+					            <div class="card db-card bg-blue" style="height: 100px;">
+					                <div class="card-body">
+					                	<div class="container">
+						                	<h2 id="room-count" style="font-weight: 300; text-align: right;">{{ $data->room_count }}</h2>
+						                	<h4>{{ Lang::get('app.rooms') }}</h4>
+						                </div>
+					                	<i class="fa fa-home"></i>
 					                </div>
-				                	<i class="fa fa-home"></i>
-				                </div>
-				            </div>
+					            </div>
+				            </a>
 				        </div>
 
 				        <div class="col-md-3 col-sm-6">
-				            <div class="card db-card bg-red" style="height: 100px;">
-				                <div class="card-body">
-				                	<div class="container">
-					                	<h2 style="font-weight: 300; text-align: right;">{{ $data->shelf_count }}</h2>
-					                	<h4>{{ Lang::get('app.shelves') }}</h4>
+					        <a href="{{ url('shelves') }}" style="text-decoration: none;">
+					            <div class="card db-card bg-red" style="height: 100px;">
+					                <div class="card-body">
+					                	<div class="container">
+						                	<h2 id="shelf-count" style="font-weight: 300; text-align: right;">{{ $data->shelf_count }}</h2>
+						                	<h4>{{ Lang::get('app.shelves') }}</h4>
+						                </div>
+					                	<i class="fa fa-columns"></i>
 					                </div>
-				                	<i class="fa fa-columns"></i>
-				                </div>
-				            </div>
+					            </div>
+				            </a>
 				        </div>
 
 				        <div class="col-md-3 col-sm-6">
-				            <div class="card db-card bg-green" style="height: 100px;">
-				                <div class="card-body">
-				                	<div class="container">
-					                	<h2 style="font-weight: 300; text-align: right;">{{ $data->box_count }}</h2>
-					                	<h4>{{ Lang::get('app.boxes') }}</h4>
+					        <a href="{{ url('boxes') }}" style="text-decoration: none;">
+					            <div class="card db-card bg-green" style="height: 100px;">
+					                <div class="card-body">
+					                	<div class="container">
+						                	<h2 id="box-count" style="font-weight: 300; text-align: right;">{{ $data->box_count }}</h2>
+						                	<h4>{{ Lang::get('app.boxes') }}</h4>
+						                </div>
+					                	<i class="fa fa-dropbox"></i>
 					                </div>
-				                	<i class="fa fa-dropbox"></i>
-				                </div>
-				            </div>
+					            </div>
+				            </a>
 				        </div>
 
 				        <div class="col-md-3 col-sm-6">
-				            <div class="card db-card bg-dark" style="height: 100px;">
-				                <div class="card-body">
-				                	<div class="container">
-					                	<h2 style="font-weight: 300; text-align: right;">{{ $data->record_count }}</h2>
-					                	<h4>{{ Lang::get('app.records') }}</h4>
+					        <a href="{{ url('records') }}" style="text-decoration: none;">
+					            <div class="card db-card bg-dark" style="height: 100px;">
+					                <div class="card-body">
+					                	<div class="container">
+						                	<h2 id="record-count" style="font-weight: 300; text-align: right;">{{ $data->record_count }}</h2>
+						                	<h4>{{ Lang::get('app.records') }}</h4>
+						                </div>
+					                	<i class="fa fa-files-o"></i>
 					                </div>
-				                	<i class="fa fa-files-o"></i>
-				                </div>
-				            </div>
+					            </div>
+				            </a>
 				        </div>
 			        </div>
 		        </div>
@@ -115,10 +123,24 @@
 	</div>
 </div>
 <script type="text/javascript">
+	function animateCount(el) {
+		var value = parseInt($(el).text());
+		$({someValue: 0}).animate({someValue: value}, {
+		    duration:2000,
+		    step: function() { 
+		        $(el).text(Math.ceil(this.someValue));
+		    }
+		});
+	}
 	$(document).ready(function() {
 		$('.carousel').carousel({
 			interval: 2000
-		})
+		});
+		
+		animateCount($('#room-count'));
+		animateCount($('#shelf-count'));
+		animateCount($('#box-count'));
+		animateCount($('#record-count'));
 	});
 </script>
 @endsection

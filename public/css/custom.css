@@ -161,6 +161,9 @@ a.btn {
 	background-color: #FF5722;
 	color: #fff;
 }
+.btn.btn-warning {
+	color: #fff;
+}
 
 .col-md-12.row {
 	margin: 0;
@@ -577,6 +580,13 @@ tr.top-parent td{
 
 .value-cards {
 	margin-bottom: 15px;
+}
+
+.value-cards .card.db-card:hover {
+	margin-top: -2px;
+	box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.36);
+	-webkit-transition: margin-top 0.5s ease-out;
+	transition: margin-top 0.1s ease-out;
 }
 
 .vertical-center {
