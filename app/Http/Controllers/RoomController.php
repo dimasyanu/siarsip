@@ -135,7 +135,7 @@ class RoomController extends Controller {
      */
     public function destroy(Room $room) {
         $status = $room->delete();
-        $data   = Room::orderBy('created_at', 'desc')->get();
+        $data   = Room::orderBy('name')->get();
 
         $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
         

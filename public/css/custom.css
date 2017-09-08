@@ -20,7 +20,7 @@ body.auth {
 }
 
 #app .navbar{
-	padding-left: 5px;
+	padding: 0 8px 0 0;
 	height: 50px;
 	position: fixed;
 	z-index: 5;
@@ -161,10 +161,6 @@ a.btn {
 	background-color: #FF5722;
 	color: #fff;
 }
-.btn.btn-warning {
-	color: #fff;
-}
-
 .col-md-12.row {
 	margin: 0;
 }

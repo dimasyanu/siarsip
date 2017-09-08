@@ -81,7 +81,7 @@
                                     <td class="data-name" style="width: 19%">{{ $item->shelf_name }}</td>
                                     <td class="data-name" style="width: 19%">{{ $item->room_name }}</td>
                                     <td style="width: 17%;">
-                                        <div class="action-buttons btn-group btn-group-sm pull-right" role="group" style="display: none;">
+                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
                                             <a href="{{ url('sections/'.$item->id.'/edit') }}" class="btn btn-primary">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i> 
                                                 {{ Lang::get('app.edit') }}

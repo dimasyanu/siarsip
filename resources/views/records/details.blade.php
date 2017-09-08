@@ -47,6 +47,9 @@
                             <td>
                                 <div class="panel panel default">
                                     <div class="panel-body">
+                                        @if($item->category_id == 0)
+                                        {{ Lang::get('app.not_categorized') }}
+                                        @else
                                         <div class="tree">
                                             <ul>
                                             @foreach($item->category->tree as $i => $cat)
@@ -54,6 +57,7 @@
                                             @endforeach
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -96,7 +100,28 @@
                             <th class="text-middle">
                                 {{ Lang::get('app.save_to') }}
                             </th>
-                            <td>{{ $item->section->name }}</td>
+                            <td><div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 20%">{{ Lang::get('app.room') }}</th>
+                                            <td style="width: 80%">{{ $item->section->box->shelf->room->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 20%">{{ Lang::get('app.shelf') }}</th>
+                                            <td style="width: 80%">{{ $item->section->box->shelf->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 20%">{{ Lang::get('app.box') }}</th>
+                                            <td style="width: 80%">{{ $item->section->box->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 20%">{{ Lang::get('app.section') }}</th>
+                                            <td style="width: 80%">{{ $item->section->name }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div></td>
                         </tr>
                     </tbody>
                 </table>

@@ -41,7 +41,7 @@ return [
     'email'                => ':attribute harus berupa alamat email yang valid.',
     'exists'               => ':attribute yang dipilih tidak valid.',
     'file'                 => ':attribute harus berupa file.',
-    'filled'               => ':attribute wajib diisi.',
+    'filled'               => ':attribute harus diisi.',
     'image'                => ':attribute harus berupa gambar.',
     'in'                   => ':attribute yang dipilih tidak valid.',
     'in_array'             => ':attribute tidak ada di :other.',

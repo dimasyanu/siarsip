@@ -76,7 +76,7 @@
                                     <td class="data-shelf" style="width: 26%">{{ $item->shelf_name }}</td>
                                     <td class="data-room" style="width: 26%">{{ $item->room_name }}</td>
                                     <td style="width: 15%;">
-                                        <div class="action-buttons btn-group btn-group-sm pull-right" role="group" style="display: none;">
+                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
                                             @if($item->hasRecords)
                                             <a href="{{ url('box/print/'.$item->id) }}" class="btn btn-dark btn-sm" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i>

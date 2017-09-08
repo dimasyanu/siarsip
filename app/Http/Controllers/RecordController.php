@@ -95,7 +95,8 @@ class RecordController extends Controller {
 	 */
 	public function show($id){
 		$item = Record::find($id);
-		$item->category->tree	= RecordCategory::getNest($item->category->id);
+		if($item->category_id != 0)
+			$item->category->tree	= RecordCategory::getNest($item->category->id);
 		return view('records/details', ['item' => $item]);
 	}
 

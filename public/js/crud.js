@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 function addActionButtons(el) {
-	$(el).find('.action-buttons').css('display', 'block');
+	$(el).find('.action-buttons').css('display', 'inline-flex');
 }
 
 function removeActionButtons(el) {

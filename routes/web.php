@@ -24,6 +24,10 @@ Route::resource('records', 'RecordController');
 Route::resource('sections', 'SectionController');
 Route::resource('shelves', 'ShelfController');
 Route::resource('rooms', 'RoomController');
+Route::get('users/{id}/resetpass', 'UserController@viewResetPass');
+Route::post('users/{id}/resetpass', 'UserController@doResetPass');
+Route::get('users/{id}/changepass', 'UserController@viewChangePass');
+Route::post('users/{id}/changepass', 'UserController@doChangePass');
 Route::resource('users', 'UserController');
 
 Route::get('storages', 'StorageController@index');

@@ -79,7 +79,7 @@
 									</td>
 									<td class="data-name" style="width: 77%;">{{ $item->name }}</td>
 									<td style="width: 15%;">
-										<div class="action-buttons pull-right" role="group" style="display: none;">
+										<div class="action-buttons btn-group pull-right" role="group" style="display: none;">
 												<a href="{{ url('rooms/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 													{{ Lang::get('app.edit') }}

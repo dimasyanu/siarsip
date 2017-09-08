@@ -6,8 +6,7 @@
 	    <div class="card-header">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
-					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
-					{{ Lang::get($action, ['item' => Lang::get('app.room')]) }}
+					{{ Lang::get('app.change_password') }}
 				</div>
 	    	</div>
 	    </div>
@@ -27,13 +26,18 @@
 				</div>
 			@endif
 
-	    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
 	    	<div class="edit-form">
-				{{ Form::open(['url' => url('rooms/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
+				{{ Form::open(['url' => url('users/'.$item->id.'/resetpass'), 'method' => 'POST', 'class' => 'form-horizontal']) }}
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.name') }}</label>
+						<label for="new-password" class="col-sm-2 col-form-label">{{ Lang::get('app.new_password') }}</label>
 						<div class="col-sm-4 col-md-3">
-							<input id="name" name="name" type="text" class="form-control" value="{{ old('name', $item->name) }}" required>
+							<input id="new-password" name="new_password" type="password" class="form-control" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="confirm-password" class="col-sm-2 col-form-label">{{ Lang::get('app.confirm_new_password') }}</label>
+						<div class="col-sm-4 col-md-3">
+							<input id="confirm-password" name="confirm_password" type="password" class="form-control" required>
 						</div>
 					</div>
 					<input type="hidden" id="id" name="id" value="{{ $item->id }}">
@@ -43,13 +47,7 @@
 								<button type="submit" class="btn btn-success" name="action" value="save">
 									<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
 								</button>
-								<button type="submit" class="btn btn-primary" name="action" value="save-new">
-									<i class="fa fa-copy"></i>  {{ Lang::get('app.save_and_new') }}
-								</button>
-								<button type="submit" class="btn btn-info" name="action" value="save-close">
-									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
-								</button>
-								<a href="{{ url('rooms') }}" class="btn btn-light">
+								<a href="{{ url('users') }}" class="btn btn-light">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

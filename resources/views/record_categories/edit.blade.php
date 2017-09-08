@@ -85,7 +85,7 @@
 								<button class="submit-btn btn btn-info" data-action="save-close">
 									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 								</button>
-								<a href="{{ url('categories') }}" class="btn btn-default">
+								<a href="{{ url('categories') }}" class="btn btn-light">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>
