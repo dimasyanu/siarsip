@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+    $has_filters = (
+        $filters->search || 
+        $filters->limit != 25
+    );
+@endphp
 <div class="app-contents">
     <div class="card">
         <!-- Heading -->
@@ -18,14 +24,14 @@
                     <i class="fa fa-plus"></i>
                     {{ Lang::get('app.add') . ' ' . Lang::get('app.records') }}
                 </a>
-                <button type="button" class="filter-toggle btn btn-primary collapsed" data-toggle="collapse" data-target="#filter-panel">
+                <button type="button" class="filter-toggle btn btn-primary{{ $has_filters ? '' : ' collapsed' }}" data-toggle="collapse" data-target="#filter-panel">
                     <i class="fa fa-filter"></i> {{ Lang::get('app.filter') }}
                 </button>
             </div>
         </div>
 
         <!-- Filters panel -->
-        <div id="filter-panel" class="row collapse{{ $filters->search ? ' show':'' }}" style="margin: 0;">
+        <div id="filter-panel" class="row collapse{{ $has_filters ? ' show' : '' }}" style="margin: 0;">
             <div class="row col-md-12">
                 <div class="col-md-4">
                     <form action="" class="search-form">

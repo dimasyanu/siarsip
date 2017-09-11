@@ -7,7 +7,7 @@
 	    <div class="card-header">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
-					@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
+					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
 					{{ Lang::get($action, ['item' => Lang::get('app.record')]) }}
 				</div>
 	    	</div>
@@ -66,12 +66,20 @@
 							<textarea id="input-name" name="name" type="text" class="form-control" required>{{ old('name', $item->name) }}</textarea>
 						</div>
 					</div>
+					
+					<!-- Input Date -->
+					<div class="form-group row">
+						<label for="input-date" class="col-sm-2 col-form-label">{{ Lang::get('app.date') }}</label>
+						<div class="col-sm-2 col-md-2">
+							<input id="input-date" name="date" type="text" class="datepicker date form-control" value="{{ old('date', $item->date) }}">
+						</div>
+					</div>
 
 					<!-- Input Period -->
 					<div class="form-group row">
 						<label for="input-period" class="col-sm-2 col-form-label">{{ Lang::get('app.period') }}</label>
 						<div class="col-sm-2 col-md-2">
-							<input id="input-period" name="period" type="text" class="datepicker form-control" value="{{ old('period', $item->period) }}" required>
+							<input id="input-period" name="period" type="text" class="datepicker year form-control" value="{{ old('period', $item->period) }}" required>
 						</div>
 					</div>
 
@@ -204,7 +212,12 @@
 <script type="text/javascript" src="{{ asset('js/chained-select2.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.datepicker').datepicker({
+		$('.datepicker.date').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose: true
+		});
+
+		$('.datepicker.year').datepicker({
 			autoclose: true,
         	format: 'yyyy',
 			minViewMode: 2

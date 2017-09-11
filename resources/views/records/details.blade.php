@@ -63,6 +63,14 @@
                             </td>
                         </tr>
 
+                        <!-- Date -->
+                        <tr>
+                            <th class="text-middle">
+                                {{ Lang::get('app.date') }}
+                            </th>
+                            <td>{{ $item->date?$item->date:'-' }}</td>
+                        </tr>
+
                         <!-- Period -->
                         <tr>
                             <th class="text-middle">

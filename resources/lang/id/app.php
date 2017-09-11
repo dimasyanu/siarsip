@@ -40,6 +40,7 @@ return [
 	'confirm_new_password'			=> 'Konfirmasi Password Baru',
 	'content'						=> 'Isi/Uraian',
 	'email'							=> 'Email',
+	'date'							=> 'Tanggal',
 	'description'					=> 'Deskripsi',
 	'descriptions'					=> 'Deskripsi',
 	'ket'							=> 'Ket',
