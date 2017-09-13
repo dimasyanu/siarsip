@@ -31,7 +31,7 @@
 	    	<div class="edit-form">
 				{{ Form::open(['url' => url('categories/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
 					<div class="form-group row">
-						<label for="parent_id" class="col-sm-2 col-form-label">{{ Lang::get('app.parent') }}</label>
+						<label for="parent_id" class="col-sm-2 control-label">{{ Lang::get('app.parent') }}</label>
 						<div class="col-sm-8 col-md-8">
 							<div class="card" style="padding: 5px; box-shadow: none;">
 								<div class="card-body">
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.code') }}</label>
+						<label for="code" class="col-sm-2 control-label">{{ Lang::get('app.code') }}</label>
 						<div class="col-sm-4 col-md-3">
 							<div class="input-group">
 								<div id="parent_code" class="input-group-addon">{{ $parent->closest?($parent->closest->code . '-'):'' }}</div>
@@ -66,7 +66,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.name') }}</label>
+						<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.name') }}</label>
 						<div class="col-sm-4 col-md-6">
 							<textarea id="name" name="name" type="text" class="form-control" required="true">{{ old('name', $item->name) }}</textarea>
 						</div>

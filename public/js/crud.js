@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	$('.table-data tbody').find('tr').hover(function() {
-		$(this).addClass('hovered');
+		// $(this).addClass('hovered');
 		addActionButtons(this);
 	}, function() {
-		$(this).removeClass('hovered');
+		// $(this).removeClass('hovered');
 		removeActionButtons(this);
 	});	
 });
