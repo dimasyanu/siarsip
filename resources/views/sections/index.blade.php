@@ -1,9 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+    $has_filters = (
+        $filters->search || 
+        $filters->limit != 25
+    );
+@endphp
 <div class="app-contents">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+
+        <!-- Header -->
+        <div class="card-header">
             <i class="fa fa-home fa-2x"></i>
             <h3>{{ Lang::get('app.data') . ' ' . Lang::get('app.sections') }}</h3>
             <div class="pull-right">
@@ -11,14 +19,16 @@
                     <i class="fa fa-plus"></i>
                     {{ Lang::get('app.add') . ' ' . Lang::get('app.sections') }}
                 </a>
-                <button type="button" class="filter-toggle btn btn-primary collapsed" data-toggle="collapse" data-target="#filter-panel">
+                <button type="button" class="filter-toggle btn btn-primary{{ $has_filters ? '' : ' collapsed' }}" data-toggle="collapse" data-target="#filter-panel">
                     <i class="fa fa-filter"></i> {{ Lang::get('app.filter') }}
                 </button>
             </div>
         </div>
-        <div id="filter-panel" class="row collapse{{ $filters->search ? ' in':'' }}" style="margin: 0;">
-            <div class="col-md-12" style="padding: 30px 10px 20px 10px;">
-                <div class="col-md-4">
+
+        <!-- Filters panel -->
+        <div id="filter-panel" class="row collapse{{ $has_filters ? ' show' : '' }}" style="margin: 0;">
+            <div class="row col-12">
+                <div class="col-4">
                     <form action="" class="search-form">
                         <div class="form-group has-feedback{{ $filters->search ? ' open' : '' }}">
                             <label for="search" class="sr-only">{{ Lang::get('app.search') }}</label>
@@ -27,9 +37,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-2 ml-auto">
                     <form action="{{ url()->current() . '?' . ($filters->search ? 'search='.$filters->search.'&':'') . 'limit=' }}">
-                        <select id="filter-limit" class="form-control" name="limit">
+                        <select id="filter-limit" class="form-control" name="limit" onchange="this.form.submit()">
                             <option value="5" {{ $items->perPage()==5?'selected':'' }}>5</option>
                             <option value="10" {{ $items->perPage()==10?'selected':'' }}>10</option>
                             <option value="15" {{ $items->perPage()==15?'selected':'' }}>15</option>
@@ -41,55 +51,71 @@
                 </div>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             @if(session('messages'))
                 <div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
             @endif
-            <table class="table table-striped data-table">
+            <table class="table table-header">
                 <thead>
-                    <tr>
-                        <th class="text-center" style="width: 50px;">No.</th>
-                        <th>{{ Lang::get('app.name') }}</th>
-                        <th>{{ Lang::get('app.box') }}</th>
-                        <th>{{ Lang::get('app.shelf') }}</th>
-                        <th>{{ Lang::get('app.room') }}</th>
-                        <th class="text-center" style="width: 100px;">{{ Lang::get('app.actions') }}</th>
-                    </tr>
+                    <th class="text-center" style="width: 7%;">No.</th>
+                        <th style="width: 19%">{{ Lang::get('app.name') }}</th>
+                        <th style="width: 19%">{{ Lang::get('app.box') }}</th>
+                        <th style="width: 19%">{{ Lang::get('app.shelf') }}</th>
+                        <th style="width: 19%">{{ Lang::get('app.room') }}</th>
+                        <th class="text-center" style="width: 17%;">{{ Lang::get('app.actions') }}
+                    </th>
                 </thead>
-                <tbody>
-                    @if($items->count() > 0)
-                        @foreach($items as $i => $item)
-                            <tr data-id="{{ $item->id }}">
-                                <td>
-                                    {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
-                                </td>
-                                <td class="data-name">{{ $item->name }}</td>
-                                <td class="data-name">{{ $item->box_name }}</td>
-                                <td class="data-name">{{ $item->shelf_name }}</td>
-                                <td class="data-name">{{ $item->room_name }}</td>
-                                <td>
-                                    <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-                                        <a href="{{ url('sections/'.$item->id.'/edit') }}" type="button" class="btn btn-warning btn-xs">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                            <form action="{{ url('sections/' . $item->id) }}" method="post">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                            </form>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
-                    @endif
-                </tbody>
             </table>
-            <div class="text-center">
-                {{ $items->links() }}
+
+            <div class="table-data">
+                <table class="table table-striped">
+                    <tbody>
+                        @if($items->count() > 0)
+                            @foreach($items as $i => $item)
+                                <tr data-id="{{ $item->id }}">
+                                    <td style="width: 7%;">
+                                        {{ ($items->perPage()*($items->currentPage()-1)) + $i + 1 }}
+                                    </td>
+                                    <td class="data-name" style="width: 19%">{{ $item->name }}</td>
+                                    <td class="data-name" style="width: 19%">{{ $item->box_name }}</td>
+                                    <td class="data-name" style="width: 19%">{{ $item->shelf_name }}</td>
+                                    <td class="data-name" style="width: 19%">{{ $item->room_name }}</td>
+                                    <td style="width: 17%;">
+                                        <div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+                                            <a href="{{ url('sections/'.$item->id.'/edit') }}" class="btn btn-primary">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i> 
+                                                {{ Lang::get('app.edit') }}
+                                            </a>
+                                            <a href="javascript:void(0);" class="delete-btn btn btn-danger">
+                                                <i class="fa fa-trash" aria-hidden="true"></i> 
+                                                {{ Lang::get('app.delete') }}
+                                                <form action="{{ url('sections/' . $item->id) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="3" class="text-center">{{ Lang::get('app.no_items') }}</td></tr>
+                        @endif
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    @php 
+                        $link_requests = array();
+
+                        if($filters->limit != 25)
+                            $link_requests['limit'] = $filters->limit;
+                            
+                        if($filters->search)
+                            $link_requests['search'] = $filters->search;
+                    @endphp
+
+                    {{ $items->appends($link_requests)->links() }}
+                </div>
             </div>
         </div>
     </div>

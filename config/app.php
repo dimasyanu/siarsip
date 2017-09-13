@@ -180,6 +180,7 @@ return [
         /*
          * Custom Providers...
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
         'Collective\Html\HtmlServiceProvider',
 
     ],
@@ -233,6 +234,7 @@ return [
 
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

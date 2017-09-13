@@ -1,0 +1,21 @@
+body {
+	background-color: #fff;
+	font-size: 12pt;
+}
+
+h1.box-title {
+	font-size: 72pt;
+}
+
+.header {
+	margin: 24px 0;
+}
+
+.header h3 {
+	margin: 10px 0;
+}
+
+.outline {
+	margin-top: 50px;
+	border: 1px solid #333;
+}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lang;
 
 use App\Room;
@@ -17,12 +18,33 @@ class ShelfController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $items = Shelf::select('shelves.id', 'shelves.name', 'rooms.name AS room_name')
-                ->leftJoin('rooms', 'shelves.room_id', 'rooms.id')
-                ->paginate(25);
+    public function index(Request $request) {
+        $filters = new \stdClass();
+        $filters->search = $request->input('search');
+        $filters->limit  = $request->input('limit');
+        //$filters->page   = $request->input('page');
 
-        return view('shelves/index', ['items' => $items]);
+        if(!$filters->limit) $filters->limit = 25;
+
+        $query = Shelf::select('shelves.id', 'shelves.name', 'rooms.name AS room_name')
+                ->leftJoin('rooms', 'shelves.room_id', 'rooms.id');
+
+        if($filters->search)
+            $query = $query->where ('shelves.name', 'regexp', $filters->search);
+                        //->orWhere ('rooms.name', 'regexp', $filters->search);
+
+        $items = $query->orderBy('name')->paginate($filters->limit);
+        
+        $usedShelves_obj = $this->buildQuery('shelves.id', 'shelves.id')->get();
+        $usedShelves = array();
+        foreach ($usedShelves_obj as $key => $shelf)
+            $usedShelves[] = $shelf->id;
+
+        foreach ($items as $item)
+            if(in_array((string)$item->id, $usedShelves))
+                $item->hasRecords = true;
+
+        return view('shelves/index', ['items' => $items, 'filters' => $filters]);
     }
 
     /**
@@ -152,5 +174,21 @@ class ShelfController extends Controller {
             'name'  => 'required',
             'room_id'  => 'required'
         ]);
+    }
+
+    private function buildQuery($fields, $group = null, $condition = null) {
+        $query = DB::table('records')->select($fields)
+        ->leftJoin('sections', 'records.section_id', 'sections.id')
+        ->leftJoin('boxes', 'sections.box_id', 'boxes.id')
+        ->leftJoin('shelves', 'boxes.shelf_id', 'shelves.id')
+        ->leftJoin('rooms', 'shelves.room_id', 'rooms.id');
+
+        if($group)
+            $query = $query->groupBy($group);
+        if($condition)
+            $query = $query->where($condition[0], $condition[1], $condition[2]);
+
+
+        return $query;
     }
 }

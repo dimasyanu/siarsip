@@ -20,11 +20,16 @@ class RoomController extends Controller {
         $filters = new \stdClass();
         $filters->search = $request->input('search');
         $filters->limit  = $request->input('limit');
-        $filters->page   = $request->input('page');
+        // $filters->page   = $request->input('page');
 
         if(!$filters->limit) $filters->limit = 25;
 
-        $items = Room::paginate($filters->limit);
+        if($filters->search)
+            $query = Room::where('name', 'REGEXP', $filters->search)->orderBy('name');
+        else
+            $query = Room::orderBy('name');
+        
+        $items = $query->paginate($filters->limit);
 
         // dd($items->perPage());
 
@@ -130,7 +135,7 @@ class RoomController extends Controller {
      */
     public function destroy(Room $room) {
         $status = $room->delete();
-        $data   = Room::orderBy('created_at', 'desc')->get();
+        $data   = Room::orderBy('name')->get();
 
         $messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
         

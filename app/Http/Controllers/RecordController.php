@@ -14,8 +14,8 @@ use App\Shelf;
 
 class RecordController extends Controller {
 	public function __construct(){
-        $this->middleware('auth');
-    }
+		$this->middleware('auth');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -29,7 +29,12 @@ class RecordController extends Controller {
 
 		if(!$filters->limit) $filters->limit = 25;
 
-		$items = Record::with('section')->orderBy('records.name')->paginate($filters->limit);
+		$query = Record::with('section');
+
+		if($filters->search)
+			$query = $query->where ('records.name', 'regexp', $filters->search);
+
+		$items = $query->orderBy('records.name')->paginate($filters->limit);
 		
 		return view('records/index', ['items' => $items, 'filters' => $filters]);
 	}
@@ -40,17 +45,16 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(Request $request) {
-		$item                 = new Record();
-        $item->category       = new RecordCategory();
-        $item->category->tree = null;
+		$item                 	= new Record();
+		$item->category       	= RecordCategory::find($item->id);
 
 		$references             = new \stdClass();
-        $references->rooms      = Room::get();
-        $references->shelves 	= array();
-        $references->boxes   	= array();
-        $references->sections	= array();
+		$references->rooms      = Room::get();
+		$references->shelves 	= array();
+		$references->boxes   	= array();
+		$references->sections	= array();
 
-        return view('records/edit', ['item' => $item, 'references' => $references]);
+		return view('records/edit', ['item' => $item, 'references' => $references]);
 	}
 
 	/**
@@ -90,7 +94,12 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id){
-		
+		$item = Record::find($id);
+		if($item->category_id != 0)
+			$item->category->tree	= RecordCategory::getNest($item->category->id);
+		if($item->date)
+			$item->date = date("d-m-Y", strtotime($item->date));
+		return view('records/details', ['item' => $item]);
 	}
 
 	/**
@@ -100,29 +109,23 @@ class RecordController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$item = Record::select(
-            'records.id', 
-            'records.name', 
-            'records.section_id',
-            'period',
-			'quantity',
-			'progress',
-			'descriptions',
-            'x.box_id',
-            'x.name AS section_name',
-            'y.shelf_id',
-            'z.room_id'
-        )->leftJoin('sections AS x', 'records.section_id', 'x.id')
-        ->leftJoin('boxes AS y', 'x.box_id', 'y.id')
-        ->leftJoin('shelves AS z', 'y.shelf_id', 'z.id')->find($id);
-        // dd($item);
-        $references = new \stdClass();
-        $references->rooms    = Room::get();
-        $references->shelves  = Shelf::where('room_id', $item->room_id)->get();
-        $references->boxes    = Box::where('shelf_id', $item->shelf_id)->get();
-        $references->sections = Section::where('box_id', $item->box_id)->get();
+		$item = Record::find($id);
+		$item->room_id			= $item->section->box->shelf->room->id;
+		$item->shelf_id			= $item->section->box->shelf->id;
+		$item->box_id			= $item->section->box->id;
+		$item->section_id		= $item->section->id;
+		$item->category->tree	= RecordCategory::getNest($item->category->id);
+		
+		if($item->date)
+			$item->date 		= date("d-m-Y", strtotime($item->date));
 
-        return view('records/edit', ['item' => $item, 'references' => $references]);
+		$references = new \stdClass();
+		$references->rooms    = Room::get();
+		$references->shelves  = Shelf::where('room_id', $item->room_id)->get();
+		$references->boxes    = Box::where('shelf_id', $item->shelf_id)->get();
+		$references->sections = Section::where('box_id', $item->box_id)->get();
+
+		return view('records/edit', ['item' => $item, 'references' => $references]);
 	}
 
 	/**
@@ -134,26 +137,27 @@ class RecordController extends Controller {
 	 */
 	public function update(Request $request, $id) {
 		$this->validateForm($request);
-        
-        $item = Record::find($request->input('id'));
-        $this->setAttributes($item, $request);
-        
-        $status     = $item->save();
-        $messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
-        
-        switch ($request->get('action')) {
-            case 'save':
-                $action = '/' . $item->id.'/edit';
-                break;
-            case 'save-new':
-                $action = '/create';
-                break;
-            default:
-                $action = '';
-                break;
-        }
+		// dd($request->input('date'));
+		
+		$item = Record::find($request->input('id'));
+		$this->setAttributes($item, $request);
+		
+		$status     = $item->save();
+		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
+		
+		switch ($request->get('action')) {
+			case 'save':
+				$action = '/' . $item->id.'/edit';
+				break;
+			case 'save-new':
+				$action = '/create';
+				break;
+			default:
+				$action = '';
+				break;
+		}
 
-        return redirect('records' . $action)->with('status', $status)->with('messages', $messages);
+		return redirect('records' . $action)->with('status', $status)->with('messages', $messages);
 	}
 
 	/**
@@ -162,18 +166,25 @@ class RecordController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
+	public function destroy(Record $record) {
+		$status = $record->delete();
+		$data   = Record::orderBy('created_at', 'desc')->get();
+
+		$messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
 		
+		return redirect()->route('records.index')->with('status', $status)->with('messages', $messages);
 	}
 
 	private function setAttributes($item, Request $request){
 		$item->name         = $request->input('name');
 		$item->section_id   = $request->input('section_id');
 		$item->category_id  = $request->input('category_id');
+		$item->date 		= date("Y-m-d", strtotime($request->input('date')));
 		$item->period       = $request->input('period');
 		$item->quantity     = $request->input('quantity');
 		$item->progress     = $request->input('progress');
 		$item->descriptions = $request->input('descriptions');
+		// dd(strtotime($date), $date, $formattedDate);
 	}
 
 	private function validateForm(Request $request){
