@@ -2,17 +2,17 @@
 
 @section('content')
 <div class="app-contents">
-	<div class="card">
-	    <div class="card-header">
+	<div class="panel auto-y">
+	    <div class="panel-heading">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
-					@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
+					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
 					{{ Lang::get($action, ['item' => Lang::get('app.section')]) }}
 				</div>
 	    	</div>
 	    </div>
 
-	    <div class="card-body auto-y">
+	    <div class="panel-body">
 	    	@if(session('messages'))
 	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 	    	@endif
@@ -82,7 +82,7 @@
 								<button type="submit" class="btn btn-info" name="action" value="save-close">
 									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 								</button>
-								<a href="{{ url('sections') }}" class="btn btn-light">
+								<a href="{{ url('sections') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

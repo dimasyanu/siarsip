@@ -28,7 +28,7 @@
 			<nav class="navbar navbar-dark bg-darker row">
 				<div class="col-md-4" style="padding-left: 5px;">
 					<button id="sidebar-toggle" class="btn btn-darker btn-sm">
-						<span class="navbar-toggler-icon"></span>
+				        <i class="fa fa-bars"></i>
 					</button>
 					<div class="brand">
 						<a href="{{ url('/') }}">
@@ -36,20 +36,20 @@
 						</a>
 					</div>
 				</div>
-				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-					<li class="dropdown">
-						<button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-user" style="padding-right: 10px;"></i>{{ Auth::user()->name }}
-						</button>
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style="left: -50px">
-							<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+				<ul class="nav navbar-nav navbar-right">
+        			<li class="dropdown">
+        				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li>
+          						<a href="{{ route('logout') }}" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
-                            	{{ Lang::get('auth.logout') }} <i class="fa fa-sign-out"></i>
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-						</div>
+                            		{{ Lang::get('auth.logout') }} <i class="fa fa-sign-out"></i>
+	                            </a>
+	                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+	                                {{ csrf_field() }}
+	                            </form>
+          					</li>
+          				</ul>
 					</li>
 				</ul>
 			</nav>

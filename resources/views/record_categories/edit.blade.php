@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="app-contents">
-	<div class="card">
-	    <div class="card-header">
+	<div class="panel">
+	    <div class="panel-heading">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
 					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
@@ -12,7 +12,7 @@
 	    	</div>
 	    </div>
 
-	    <div class="card-body">
+	    <div class="panel-body">
 	    	@if(session('messages'))
 	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 	    	@endif
@@ -31,7 +31,7 @@
 	    	<div class="edit-form">
 				{{ Form::open(['url' => url('categories/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
 					<div class="form-group row">
-						<label for="parent_id" class="col-sm-2 col-form-label">{{ Lang::get('app.parent') }}</label>
+						<label for="parent_id" class="col-sm-2 control-label">{{ Lang::get('app.parent') }}</label>
 						<div class="col-sm-8 col-md-8">
 							<div class="card" style="padding: 5px; box-shadow: none;">
 								<div class="card-body">
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.code') }}</label>
+						<label for="code" class="col-sm-2 control-label">{{ Lang::get('app.code') }}</label>
 						<div class="col-sm-4 col-md-3">
 							<div class="input-group">
 								<div id="parent_code" class="input-group-addon">{{ $parent->closest?($parent->closest->code . '-'):'' }}</div>
@@ -66,7 +66,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.name') }}</label>
+						<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.name') }}</label>
 						<div class="col-sm-4 col-md-6">
 							<textarea id="name" name="name" type="text" class="form-control" required="true">{{ old('name', $item->name) }}</textarea>
 						</div>
@@ -85,7 +85,7 @@
 								<button class="submit-btn btn btn-info" data-action="save-close">
 									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 								</button>
-								<a href="{{ url('categories') }}" class="btn btn-light">
+								<a href="{{ url('categories') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

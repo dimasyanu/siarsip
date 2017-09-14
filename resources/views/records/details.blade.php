@@ -3,8 +3,8 @@
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
 <div class="app-contents">
-    <div class="card">
-        <div class="card-header">
+    <div class="panel auto-y">
+        <div class="panel-heading">
         	<div class="row">
     			<div class="col-md-6" style="font-size: 14pt;">
     				{{ Lang::get('app.details', ['item' => Lang::get('app.record')]) }}
@@ -12,7 +12,7 @@
         	</div>
         </div>
 
-        <div class="card-body auto-y">
+        <div class="panel-body auto-y">
         	@if(session('messages'))
         		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
         	@endif
@@ -33,7 +33,7 @@
                     <tbody>
                         <!-- Name -->
                         <tr>
-                            <th class="text-middle">
+                            <th class="text-middle" style="width">
                                 {{ Lang::get('app.content') }}
                             </th>
                             <td>{{ $item->name }}</td>
@@ -136,13 +136,11 @@
             </div>
 
             <input type="hidden" id="id" name="id" value="{{ $item->id }}">
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="btn-group" role="group">
-                        <a href="{{ url('records') }}" class="btn btn-light">
-                            <i class="fa fa-times"></i>  {{ Lang::get('app.close') }}
-                        </a>
-                    </div>
+            <div class="col-sm-2">
+                <div class="btn-group" role="group">
+                    <a href="{{ url('records') }}" class="btn btn-default">
+                        <i class="fa fa-times"></i>  {{ Lang::get('app.close') }}
+                    </a>
                 </div>
             </div>
         </div>

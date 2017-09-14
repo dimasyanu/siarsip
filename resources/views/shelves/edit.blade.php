@@ -2,17 +2,17 @@
 
 @section('content')
 <div class="app-contents">
-	<div class="card">
-	    <div class="card-header">
+	<div class="panel">
+	    <div class="panel-heading">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
-					@php $action = (!empty($item->id))? 'app.edit' : 'app.new'; @endphp
+					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
 					{{ Lang::get($action, ['item' => Lang::get('app.shelf')]) }}
 				</div>
 	    	</div>
 	    </div>
 
-	    <div class="card-body">
+	    <div class="panel-body">
 	    	@if(session('messages'))
 	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 	    	@endif
@@ -31,9 +31,9 @@
 	    	<div class="edit-form">
 				{{ Form::open(['url' => url('shelves/'.$item->id.($item->storage_mode?'?storage_mode=true':'')), 'method' => $method, 'class' => 'form-horizontal']) }}
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.room') }}</label>
+						<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.room') }}</label>
 						<div class="col-sm-4 col-md-4">
-							<select class="select2" name="room_id" style="width: 100%;">
+							<select class="select2 form-control" name="room_id" style="width: 100%;">
 								@foreach($rooms as $i => $room)
 								<option value="{{ $room->id }}" @if($item->room_id == $room->id) selected @endif>{{ $room->name }}</option>
 								@endforeach
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="name" class="col-sm-2 col-form-label">{{ Lang::get('app.name') }}</label>
+						<label for="name" class="col-sm-2 control-label">{{ Lang::get('app.name') }}</label>
 						<div class="col-sm-4 col-md-4">
 							<input id="name" name="name" type="text" class="form-control" value="{{ old('name', $item->name) }}" required>
 						</div>
@@ -59,7 +59,7 @@
 								<button type="submit" class="btn btn-info" name="action" value="save-close">
 									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 								</button>
-								<a href="{{ url($item->storage_mode?'storages':'shelves') }}" class="btn btn-light">
+								<a href="{{ url($item->storage_mode?'storages':'shelves') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

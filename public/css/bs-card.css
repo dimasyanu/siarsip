@@ -8,10 +8,6 @@
   background-clip: padding-box;
 }
 
-.card.db-card > .card-body {
-	overflow: hidden;
-}
-
 .card.db-card > .card-body > .container {
 	position: relative;
 	z-index: 1;

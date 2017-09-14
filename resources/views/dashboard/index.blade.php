@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="app-contents">
-	<div class="card">	
-		<div class="card-header">
+	<div class="panel auto-y">	
+		<div class="panel-heading">
 			<i class="fa fa-dashboard fa-2x"></i>
 			<h4>{{ Lang::get('app.dashboard') }}</h4>
 		</div>
-		<div class="card-body" style="padding: 15px; overflow-y: auto;">
+		<div class="panel-body" style="padding: 15px; overflow-y: auto;">
 		    <div class="row">
 		    	@if(false)
 		    	<div class="col-md-8">
@@ -42,7 +42,7 @@
 					<div class="row value-cards">
 						<div class="col-md-3 col-sm-6">
 							<a href="{{ url('rooms') }}" style="text-decoration: none;">
-					            <div class="card db-card bg-blue" style="height: 100px;">
+					            <div class="card db-card bg-blue" style="height: 100px; overflow: hidden">
 					                <div class="card-body">
 					                	<div class="container">
 						                	<h2 id="room-count" data-val="{{ $data->room_count }}" style="font-weight: 300; text-align: right;">0</h2>
@@ -56,7 +56,7 @@
 
 				        <div class="col-md-3 col-sm-6">
 					        <a href="{{ url('shelves') }}" style="text-decoration: none;">
-					            <div class="card db-card bg-red" style="height: 100px;">
+					            <div class="card db-card bg-red" style="height: 100px; overflow: hidden">
 					                <div class="card-body">
 					                	<div class="container">
 						                	<h2 id="shelf-count" data-val="{{ $data->shelf_count }}" style="font-weight: 300; text-align: right;">0</h2>
@@ -70,7 +70,7 @@
 
 				        <div class="col-md-3 col-sm-6">
 					        <a href="{{ url('boxes') }}" style="text-decoration: none;">
-					            <div class="card db-card bg-green" style="height: 100px;">
+					            <div class="card db-card bg-green" style="height: 100px; overflow: hidden">
 					                <div class="card-body">
 					                	<div class="container">
 						                	<h2 id="box-count" data-val="{{ $data->box_count }}" style="font-weight: 300; text-align: right;">0</h2>
@@ -84,7 +84,7 @@
 
 				        <div class="col-md-3 col-sm-6">
 					        <a href="{{ url('records') }}" style="text-decoration: none;">
-					            <div class="card db-card bg-dark" style="height: 100px;">
+					            <div class="card db-card bg-dark" style="height: 100px; overflow: hidden">
 					                <div class="card-body">
 					                	<div class="container">
 						                	<h2 id="record-count" data-val="{{ $data->record_count }}" style="font-weight: 300; text-align: right;">0</h2>
@@ -102,7 +102,7 @@
 		            <div class="card" style="border: 0;">
 		                <div class="card-body col-md-12" style="padding: 0">
 		                	<table class="table middle-align">
-		                		<thead class="thead-inverse">
+		                		<thead class="grey">
 		                			<th>{{ Lang::get('app.name') }}</th>
 		                			<th class="text-center">{{ Lang::get('app.timestamp') }}</th>
 		                		</thead>
