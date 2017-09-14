@@ -112,6 +112,7 @@ body.auth {
 }
 
 .bg-dark {
+	background-color: #363a40;
 	color: #fff;
 }
 
@@ -455,12 +456,6 @@ form .input-group input.form-control {
 }
 
 /* End of Sidebar Nav */
-
-.panel .panel-body {
-	padding: 0;
-	/*background-color: #fafafa;*/
-}
-
 .panel .panel-body .navbar-brand {
 	float: none;
 	margin-bottom: 20px;

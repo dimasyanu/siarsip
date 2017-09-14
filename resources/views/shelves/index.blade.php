@@ -40,10 +40,10 @@
 					<table class="table table-hover">
 						<thead class="grey">
 							<tr>
-								<th class="text-center" style="width: 7%;">No.</th>
-								<th style="width: 39%;">Name</th>
-								<th style="width: 39%;">Ruangan</th>
-								<th class="text-center" style="width: 15%;">{{ Lang::get('app.actions') }}</th>
+								<th class="text-center" style="width: 5%;">No.</th>
+								<th style="width: 40%;">Name</th>
+								<th style="width: 35%;">Ruangan</th>
+								<th class="text-center" style="width: 20%;">{{ Lang::get('app.actions') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,13 +60,16 @@
 												@if($item->hasRecords)
 												<a href="{{ url('shelf/print/'.$item->id) }}" class="btn btn-dark btn-xs" target="_blank">
 													<i class="fa fa-print" aria-hidden="true"></i>
+													{{ Lang::get('app.print') }}
 												</a>
 												@endif
 												<a href="{{ url('shelves/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
+													{{ Lang::get('app.edit') }}
 												</a>
 												<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
 													<i class="fa fa-trash" aria-hidden="true"></i>
+													{{ Lang::get('app.delete') }}
 													<form action="{{ url('shelves/' . $item->id) }}" method="post">
 														{{ csrf_field() }}
 														{{ method_field('DELETE') }}
@@ -83,7 +86,7 @@
 					</table>
 				</div>
 				<div class="row" style="display: inline-block; margin: 8px 0; width: 30%;">
-					<label class="col-md-6" style="padding-top: 7px; margin-bottom: 0; text-align: right;">{{ Lang::get('app.data_per_page') }} :</label>
+					<label class="col-md-7" style="padding-top: 7px; margin-bottom: 0; text-align: right;">{{ Lang::get('app.data_per_page') }} :</label>
 					<div class="col-md-4">
 						<form action="{{ url()->current() }}">
 							@if($filters->search)

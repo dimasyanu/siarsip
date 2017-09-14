@@ -3,8 +3,8 @@
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
 <div class="app-contents">
-	<div class="card">
-	    <div class="card-header">
+	<div class="panel auto-y">
+	    <div class="panel-heading">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
 					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
@@ -13,7 +13,7 @@
 	    	</div>
 	    </div>
 
-	    <div class="card-body auto-y">
+	    <div class="panel-body">
 	    	@if(session('messages'))
 	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 	    	@endif
@@ -34,9 +34,9 @@
 					
 					<!-- Input Category -->
 					<div class="form-group row">
-						<label for="input-category" class="col-sm-2 col-form-label">{{ Lang::get('app.category') }}</label>
+						<label for="input-category" class="col-sm-2 control-label">{{ Lang::get('app.category') }}</label>
 						<div class="col-sm-8 col-md-8">
-							<div class="panel panel default">
+							<div class="panel panel-default">
 								<div class="panel-body">
 									<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;">
 										@if($item->category != null)
@@ -61,7 +61,7 @@
 
 					<!-- Input Name -->
 					<div class="form-group row">
-						<label for="input-name" class="col-sm-2 col-form-label">{{ Lang::get('app.content') }}</label>
+						<label for="input-name" class="col-sm-2 control-label">{{ Lang::get('app.content') }}</label>
 						<div class="col-sm-4 col-md-4">
 							<textarea id="input-name" name="name" type="text" class="form-control" required>{{ old('name', $item->name) }}</textarea>
 						</div>
@@ -69,7 +69,7 @@
 					
 					<!-- Input Date -->
 					<div class="form-group row">
-						<label for="input-date" class="col-sm-2 col-form-label">{{ Lang::get('app.date') }}</label>
+						<label for="input-date" class="col-sm-2 control-label">{{ Lang::get('app.date') }}</label>
 						<div class="col-sm-2 col-md-2">
 							<input id="input-date" name="date" type="text" class="datepicker date form-control" value="{{ old('date', $item->date) }}">
 						</div>
@@ -77,7 +77,7 @@
 
 					<!-- Input Period -->
 					<div class="form-group row">
-						<label for="input-period" class="col-sm-2 col-form-label">{{ Lang::get('app.period') }}</label>
+						<label for="input-period" class="col-sm-2 control-label">{{ Lang::get('app.period') }}</label>
 						<div class="col-sm-2 col-md-2">
 							<input id="input-period" name="period" type="text" class="datepicker year form-control" value="{{ old('period', $item->period) }}" required>
 						</div>
@@ -85,7 +85,7 @@
 
 					<!-- Input Quantiy -->
 					<div class="form-group row">
-						<label for="input-quantity" class="col-sm-2 col-form-label">{{ Lang::get('app.quantity') }}</label>
+						<label for="input-quantity" class="col-sm-2 control-label">{{ Lang::get('app.quantity') }}</label>
 						<div class="col-sm-2 col-md-2">
 							<input id="input-quantity" name="quantity" type="number" min="1" class="form-control" value="{{ old('quantity', $item->quantity) }}" required>
 						</div>
@@ -93,7 +93,7 @@
 
 					<!-- Input Progress -->
 					<div class="form-group row">
-						<label for="input-progress" class="col-sm-2 col-form-label">{{ Lang::get('app.progress') }}</label>
+						<label for="input-progress" class="col-sm-2 control-label">{{ Lang::get('app.progress') }}</label>
 						<div class="col-sm-4 col-md-4">
 							<textarea id="input-progress" name="progress" type="text" class="form-control">{{ old('progress', $item->progress) }}</textarea>
 						</div>
@@ -101,7 +101,7 @@
 
 					<!-- Input Descriptions -->
 					<div class="form-group row">
-						<label for="input-descriptions" class="col-sm-2 col-form-label">{{ Lang::get('app.descriptions') }}</label>
+						<label for="input-descriptions" class="col-sm-2 control-label">{{ Lang::get('app.descriptions') }}</label>
 						<div class="col-sm-4 col-md-4">
 							<textarea id="input-descriptions" name="descriptions" type="text" class="form-control">{{ old('descriptions', $item->descriptions) }}</textarea>
 						</div>
@@ -109,9 +109,9 @@
 
 					<!-- Input Section id -->
 					<div class="form-group row">
-						<label for="input-section-id" class="col-sm-2 col-form-label">{{ Lang::get('app.save_to') }}</label>
+						<label for="input-section-id" class="col-sm-2 control-label">{{ Lang::get('app.save_to') }}</label>
 						<div class="col-sm-4 col-md-4">
-							<a href="#" id="select-storage" class="btn btn-secondary col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
+							<a href="#" id="select-storage" class="btn btn-dark col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
 							<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
 						</div>
 					</div>
@@ -129,7 +129,7 @@
 								<button type="submit" class="btn btn-info" name="action" value="save-close">
 									<i class="fa fa-check-square-o"></i>  {{ Lang::get('app.save_and_close') }}
 								</button>
-								<a href="{{ url('records') }}" class="btn btn-light">
+								<a href="{{ url('records') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>
@@ -146,59 +146,61 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{{Lang::get('app.select_item', ['item' => Lang::get('app.storage')])}}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body container">
-            	<!-- Select Room -->
-                <div class="form-group row">
-					<label for="select_room" class="col-sm-4 col-form-label">{{ Lang::get('app.room') }}</label>
-					<div class="col-sm-8 col-md-8">
-						<select id="select_room" class="select2" name="room_id" style="width: 100%;" data-chain="#select_shelf">
-							<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.room')]) }}</option>
-							@foreach($references->rooms as $i => $room)
-							<option value="{{ $room->id }}" @if($item->room_id == $room->id) selected @endif>{{ $room->name }}</option>
-							@endforeach
-						</select>
+            <div class="modal-body">
+            	<div class="form-horizontal">
+	            	<!-- Select Room -->
+	                <div class="form-group row">
+						<label for="select_room" class="col-sm-2 col-sm-offset-2 control-label">{{ Lang::get('app.room') }}</label>
+						<div class="col-sm-6 col-md-6">
+							<select id="select_room" class="select2" name="room_id" style="width: 100%;" data-chain="#select_shelf">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.room')]) }}</option>
+								@foreach($references->rooms as $i => $room)
+								<option value="{{ $room->id }}" @if($item->room_id == $room->id) selected @endif>{{ $room->name }}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
-				</div>
 
-				<!-- Select Shelf -->
-				<div class="form-group row">
-					<label for="select_shelf" class="col-sm-4 col-form-label">{{ Lang::get('app.shelf') }}</label>
-					<div class="col-sm-8 col-md-8">
-						<select id="select_shelf" class="select2" name="shelf_id" style="width: 100%;" data-chain="#select_box" data-alias="shelves">
-							<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.shelf')]) }}</option>
-							@foreach($references->shelves as $i => $shelf)
-							<option value="{{ $shelf->id }}" @if($item->shelf_id == $shelf->id) selected @endif>{{ $shelf->name }}</option>
-							@endforeach
-						</select>
+					<!-- Select Shelf -->
+					<div class="form-group row">
+						<label for="select_shelf" class="col-sm-2 col-sm-offset-2 control-label">{{ Lang::get('app.shelf') }}</label>
+						<div class="col-sm-6 col-md-6">
+							<select id="select_shelf" class="select2" name="shelf_id" style="width: 100%;" data-chain="#select_box" data-alias="shelves">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.shelf')]) }}</option>
+								@foreach($references->shelves as $i => $shelf)
+								<option value="{{ $shelf->id }}" @if($item->shelf_id == $shelf->id) selected @endif>{{ $shelf->name }}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
-				</div>
 
-				<!-- Select Box -->
-				<div class="form-group row">
-					<label for="select_box" class="col-sm-4 col-form-label">{{ Lang::get('app.box') }}</label>
-					<div class="col-sm-8 col-md-8">
-						<select id="select_box" class="select2" name="box_id" style="width: 100%;" data-chain="#select_section" data-alias="boxes">
-							<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.box')]) }}</option>
-							@foreach($references->boxes as $i => $box)
-							<option value="{{ $box->id }}" @if($item->box_id == $box->id) selected @endif>{{ $box->name }}</option>
-							@endforeach
-						</select>
+					<!-- Select Box -->
+					<div class="form-group row">
+						<label for="select_box" class="col-sm-2 col-sm-offset-2 control-label">{{ Lang::get('app.box') }}</label>
+						<div class="col-sm-6 col-md-6">
+							<select id="select_box" class="select2" name="box_id" style="width: 100%;" data-chain="#select_section" data-alias="boxes">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.box')]) }}</option>
+								@foreach($references->boxes as $i => $box)
+								<option value="{{ $box->id }}" @if($item->box_id == $box->id) selected @endif>{{ $box->name }}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
-				</div>
 
-				<!-- Select Section -->
-				<div class="form-group row">
-					<label for="select_section" class="col-sm-4 col-form-label">{{ Lang::get('app.section') }}</label>
-					<div class="col-sm-8 col-md-8">
-						<select id="select_section" class="select2" name="section_id" style="width: 100%;" data-alias="sections">
-							<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.section')]) }}</option>
-							@foreach($references->sections as $i => $section)
-							<option value="{{ $section->id }}" @if($item->section_id == $section->id) selected @endif>{{ $section->name }}</option>
-							@endforeach
-						</select>
+					<!-- Select Section -->
+					<div class="form-group row">
+						<label for="select_section" class="col-sm-2 col-sm-offset-2 control-label">{{ Lang::get('app.section') }}</label>
+						<div class="col-sm-6 col-md-6">
+							<select id="select_section" class="select2" name="section_id" style="width: 100%;" data-alias="sections">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.section')]) }}</option>
+								@foreach($references->sections as $i => $section)
+								<option value="{{ $section->id }}" @if($item->section_id == $section->id) selected @endif>{{ $section->name }}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
 				</div>
             </div>
