@@ -181,7 +181,8 @@ a.btn {
 	margin: 0;
 }
 
-.table.middle-align td {
+.table.middle-align td,
+.table.middle-align th {
 	vertical-align: middle;
 }
 
@@ -208,7 +209,7 @@ a.btn {
 }
 
 #filter-panel {
-	background-color: #2e353d;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.24);
 }
 #filter-panel .row {
 	padding: 5px 10px 5px 10px;

@@ -17,10 +17,20 @@ class SectionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        $references             = new \stdClass();
+        $references->rooms      = Room::get();
+        $references->shelves    = array();
+        $references->boxes      = array();
+        $references->sections   = array();
+
         $filters = new \stdClass();
         $filters->search = $request->input('search');
         $filters->limit  = $request->input('limit');
         $filters->page   = $request->input('page');
+
+        $filters->room_id  = $request->input('room');
+        $filters->shelf_id = $request->input('shelf');
+        $filters->box_id   = $request->input('box');
 
         if(!$filters->limit) $filters->limit = 25;
 
@@ -34,12 +44,34 @@ class SectionController extends Controller {
         ->leftJoin('shelves AS y', 'x.shelf_id', 'y.id')
         ->leftJoin('rooms AS z', 'y.room_id', 'z.id');
 
+        if($filters->room_id || $filters->shelf_id || $filters->box_id){
+            if($filters->box_id) {
+                $query = $query->where('x.id', $filters->box_id);
+                $box = Box::find($filters->box_id);
+                $filters->room_id = $box->shelf->room->id;
+                $filters->shelf_id = $box->shelf->id;
+                $references->boxes = Box::where('shelf_id', $box->shelf->id)->get();
+                $references->shelves = Shelf::where('room_id', $box->shelf->room->id)->get();
+            }
+            elseif($filters->shelf_id) {
+                $query = $query->where('y.id', $filters->shelf_id);
+                $shelf = Shelf::find($filters->shelf_id);
+                $filters->room_id = $shelf->room->id;
+                $references->boxes = Box::where('shelf_id', $shelf->id)->get();
+                $references->shelves = Shelf::where('room_id', $shelf->room->id)->get();
+            }
+            elseif($filters->room_id) {
+                $query = $query->where('z.id', $filters->room_id);
+                $references->shelves = Shelf::where('room_id', $filters->room_id)->get();
+            }
+        }
+
         if($filters->search)
-            $query = $query->where ('sections.name', 'regexp', $filters->search);
+            $query = $query->where('sections.name', 'regexp', $filters->search);
 
         $items = $query->orderBy('name')->paginate($filters->limit);
-
-        return view('sections/index', ['items' => $items, 'filters' => $filters]);
+        // dd(sizeof($references->shelves));
+        return view('sections/index', ['items' => $items, 'filters' => $filters, 'references' => $references]);
     }
 
     /**
