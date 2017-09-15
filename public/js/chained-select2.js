@@ -1,11 +1,20 @@
 $(document).ready(function() {
 		$('.select2').select2();
+
 		if($('#select_room').val() == 0){
 			checkSelect($('#select_room').val(), $('#select_shelf'));
 		}
 
 		$('#select_room').on("select2:select", function(e) {
 			checkSelect($(this).val(), $('#select_shelf'));
+		});
+
+		$('#select_shelf').on("select2:select", function(e) {
+			checkSelect($(this).val(), $('#select_box'));
+		});
+
+		$('#select_box').on("select2:select", function(e) {
+			checkSelect($(this).val(), $('#select_section'));
 		});
 
 		function checkSelect(id, el) {

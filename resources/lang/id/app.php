@@ -68,6 +68,7 @@ return [
 	'user_delete_confirmation'		=> 'Data User <strong></strong> akan dihapus permanen. Anda yakin?',
 
 	/* Actions */
+	'apply'                			=> 'Terapkan',
 	'back'                			=> 'Kembali',
 	'cancel'              			=> 'Batal',
 	'close'              			=> 'Tutup',
@@ -76,12 +77,13 @@ return [
 	'filter'						=> 'Filter',
 	'finish'						=> 'Selesai',
 	'print'                			=> 'Cetak',
+	'reset'                			=> 'Reset',
 	'save'                			=> 'Simpan',
 	'save_and_close'      			=> 'Simpan dan Tutup',
 	'save_and_new'        			=> 'Simpan dan Buat Baru',
 	'save_to'        				=> 'Simpan di',
 	'saved_at'        				=> 'Disimpan di',
 	'search'               			=> 'Cari',
-	'select_item'					=> 'Pilih :item ...'
+	'select_item'					=> 'Pilih :item'
 ];
 ?>

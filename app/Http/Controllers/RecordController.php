@@ -27,16 +27,70 @@ class RecordController extends Controller {
 		$filters->limit  = $request->input('limit');
 		$filters->page   = $request->input('page');
 
+		$filters->room_id      = $request->input('room');
+		$filters->shelf_id     = $request->input('shelf');
+		$filters->box_id       = $request->input('box');
+		$filters->section_id   = $request->input('section');
+
+		$references             = new \stdClass();
+		$references->rooms      = Room::get();
+		$references->shelves    = array();
+		$references->boxes      = array();
+		$references->sections   = array();
+
 		if(!$filters->limit) $filters->limit = 25;
 
-		$query = Record::with('section');
+		// $query = Record::with('section');
+		$query = Record::select(
+            'records.*', 
+            'a.name AS section_name', 
+            'b.name AS box_name', 
+            'c.name AS shelf_name', 
+            'd.name AS room_name'
+        )->leftJoin('sections AS a', 'records.section_id', 'a.id')
+        ->leftJoin('boxes AS b', 'a.box_id', 'b.id')
+        ->leftJoin('shelves AS c', 'b.shelf_id', 'c.id')
+        ->leftJoin('rooms AS d', 'c.room_id', 'd.id');
+
+		if($filters->room_id || $filters->shelf_id || $filters->box_id || $filters->section_id){
+			if($filters->section_id) {
+				$query = $query->where('a.id', $filters->section_id);
+				$section = Section::find($filters->section_id);
+				$filters->room_id     	= $section->box->shelf->room->id;
+				$filters->shelf_id    	= $section->box->shelf->id;
+				$filters->box_id      	= $section->box->id;
+				$references->sections 	= Section::where('box_id', $section->box->id)->get();
+				$references->boxes    	= Box::where('shelf_id', $section->box->shelf->id)->get();
+				$references->shelves  	= Shelf::where('room_id', $section->box->shelf->room->id)->get();
+			}
+			elseif($filters->box_id) {
+				$query = $query->where('b.id', $filters->box_id);
+				$box = Box::find($filters->box_id);
+				$filters->room_id       = $box->shelf->room->id;
+				$filters->shelf_id      = $box->shelf->id;
+				$references->sections 	= Section::where('box_id', $box->id)->get();
+				$references->boxes      = Box::where('shelf_id', $box->shelf->id)->get();
+				$references->shelves    = Shelf::where('room_id', $box->shelf->room->id)->get();
+			}
+			elseif($filters->shelf_id) {
+				$query = $query->where('c.id', $filters->shelf_id);
+				$shelf = Shelf::find($filters->shelf_id);
+				$filters->room_id = $shelf->room->id;
+				$references->boxes = Box::where('shelf_id', $shelf->id)->get();
+				$references->shelves = Shelf::where('room_id', $shelf->room->id)->get();
+			}
+			elseif($filters->room_id) {
+				$query = $query->where('d.id', $filters->room_id);
+				$references->shelves = Shelf::where('room_id', $filters->room_id)->get();
+			}
+		}
 
 		if($filters->search)
 			$query = $query->where ('records.name', 'regexp', $filters->search);
 
 		$items = $query->orderBy('records.name')->paginate($filters->limit);
 		
-		return view('records/index', ['items' => $items, 'filters' => $filters]);
+		return view('records/index', ['items' => $items, 'filters' => $filters, 'references' => $references]);
 	}
 
 	/**
