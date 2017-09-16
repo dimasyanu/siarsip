@@ -11,6 +11,7 @@
 	<title>{{ config('app.name', 'Laravel') }}</title>
 
 	<!-- Styles -->
+	<link rel="shortcut icon" href="{{ asset('images/logo/logo2_.png') }}" >
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/bs-card.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">

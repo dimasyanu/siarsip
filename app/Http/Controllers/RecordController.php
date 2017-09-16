@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lang;
 
 use App\RecordCategory;
@@ -108,6 +109,10 @@ class RecordController extends Controller {
 		$references->boxes   	= array();
 		$references->sections	= array();
 
+		$references->criteria	= DB::table('record_criteria')->get();
+		$references->media		= DB::table('record_media')->get();
+		$references->progress	= DB::table('record_progress')->get();
+
 		return view('records/edit', ['item' => $item, 'references' => $references]);
 	}
 
@@ -179,6 +184,10 @@ class RecordController extends Controller {
 		$references->boxes    = Box::where('shelf_id', $item->shelf_id)->get();
 		$references->sections = Section::where('box_id', $item->box_id)->get();
 
+		$references->criteria	= DB::table('record_criteria')->get();
+		$references->media		= DB::table('record_media')->get();
+		$references->progress	= DB::table('record_progress')->get();
+
 		return view('records/edit', ['item' => $item, 'references' => $references]);
 	}
 
@@ -234,10 +243,13 @@ class RecordController extends Controller {
 		$item->section_id   = $request->input('section_id');
 		$item->category_id  = $request->input('category_id');
 		$item->date 		= date("Y-m-d", strtotime($request->input('date')));
-		$item->period       = $request->input('period');
+		$item->criteria     = $request->input('criteria');
+		$item->media        = $request->input('media');
+		$item->unit         = $request->input('unit');
 		$item->quantity     = $request->input('quantity');
 		$item->progress     = $request->input('progress');
 		$item->descriptions = $request->input('descriptions');
+		$item->condition 	= $request->input('condition');
 		// dd(strtotime($date), $date, $formattedDate);
 	}
 

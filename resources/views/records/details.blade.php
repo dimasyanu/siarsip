@@ -71,14 +71,6 @@
                             <td>{{ $item->date?$item->date:'-' }}</td>
                         </tr>
 
-                        <!-- Period -->
-                        <tr>
-                            <th class="text-middle">
-                                {{ Lang::get('app.period') }}
-                            </th>
-                            <td>{{ $item->period }}</td>
-                        </tr>
-
                         <!-- Quantiy -->
                         <tr>
                             <th class="text-middle">

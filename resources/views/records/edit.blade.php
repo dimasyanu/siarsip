@@ -34,7 +34,7 @@
 					
 					<!-- Input Category -->
 					<div class="form-group row">
-						<label for="input-category" class="col-sm-2 control-label">{{ Lang::get('app.category') }}</label>
+						<label for="input-category" class="col-sm-3 control-label">{{ Lang::get('app.category') }}</label>
 						<div class="col-sm-8 col-md-8">
 							<div class="panel panel-default">
 								<div class="panel-body">
@@ -61,55 +61,95 @@
 
 					<!-- Input Name -->
 					<div class="form-group row">
-						<label for="input-name" class="col-sm-2 control-label">{{ Lang::get('app.content') }}</label>
+						<label for="input-name" class="col-sm-3 control-label">{{ Lang::get('app.content') }}</label>
 						<div class="col-sm-4 col-md-4">
-							<textarea id="input-name" name="name" type="text" class="form-control" required>{{ old('name', $item->name) }}</textarea>
+							<textarea id="input-name" name="name" type="text" class="form-control" maxlength="100" required>{{ old('name', $item->name) }}</textarea>
+						</div>
+						<div class="alert alert-warning col-sm-4 col-md-3">
+							{{ Lang::get('app.input_max_letters', ['amount' => 100]) }}
 						</div>
 					</div>
 					
 					<!-- Input Date -->
 					<div class="form-group row">
-						<label for="input-date" class="col-sm-2 control-label">{{ Lang::get('app.date') }}</label>
+						<label for="input-date" class="col-sm-3 control-label">{{ Lang::get('app.date') }}</label>
 						<div class="col-sm-2 col-md-2">
 							<input id="input-date" name="date" type="text" class="datepicker date form-control" value="{{ old('date', $item->date) }}">
 						</div>
 					</div>
 
-					<!-- Input Period -->
+					<!-- Input Quantiy -->
 					<div class="form-group row">
-						<label for="input-period" class="col-sm-2 control-label">{{ Lang::get('app.period') }}</label>
+						<label for="input-quantity" class="col-sm-3 control-label">{{ Lang::get('app.quantity') }}</label>
 						<div class="col-sm-2 col-md-2">
-							<input id="input-period" name="period" type="text" class="datepicker year form-control" value="{{ old('period', $item->period) }}" required>
+							<input id="input-quantity" name="quantity" type="number" min="1" class="form-control" value="{{ old('quantity', $item->quantity) }}" required>
+						</div>
+						<div class="col-sm-2 col-md-2" style="padding-left: 0;">
+							<select id="input-unit" name="unit" class="form-control" required>
+								<option value="sheet">{{ Lang::get('app.sheet') }}</option>
+								<option value="file">{{ Lang::get('app.file') }}</option>
+							</select>
 						</div>
 					</div>
 
-					<!-- Input Quantiy -->
+					<!-- Input Media -->
 					<div class="form-group row">
-						<label for="input-quantity" class="col-sm-2 control-label">{{ Lang::get('app.quantity') }}</label>
+						<label for="input-media" class="col-sm-3 control-label">{{ Lang::get('app.media') }}</label>
 						<div class="col-sm-2 col-md-2">
-							<input id="input-quantity" name="quantity" type="number" min="1" class="form-control" value="{{ old('quantity', $item->quantity) }}" required>
+							<select id="input-media" name="media" class="form-control" required>
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.media')]) }} ...</option>
+								@foreach($references->media as $m)
+									<option value="{{ $m->id }}" @if($m->id == $item->media) selected @endif>{{ $m->name }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+
+					<!-- Input Criteria -->
+					<div class="form-group row">
+						<label for="input-criteria" class="col-sm-3 control-label">{{ Lang::get('app.criteria') }}</label>
+						<div class="col-sm-2 col-md-2">
+							<select id="input-criteria" name="criteria" class="form-control">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.criteria')]) }} ...</option>
+								@foreach($references->criteria as $c)
+								<option value="{{ $c->id }}" @if($c->id == $item->criteria) selected @endif>{{ $c->name }}</option>
+								@endforeach
+							</select>
 						</div>
 					</div>
 
 					<!-- Input Progress -->
 					<div class="form-group row">
-						<label for="input-progress" class="col-sm-2 control-label">{{ Lang::get('app.progress') }}</label>
-						<div class="col-sm-4 col-md-4">
-							<textarea id="input-progress" name="progress" type="text" class="form-control">{{ old('progress', $item->progress) }}</textarea>
+						<label for="input-progress" class="col-sm-3 control-label">{{ Lang::get('app.progress') }}</label>
+						<div class="col-sm-4 col-md-2">
+							<select name="progress" id="input-progress" class="form-control">
+								<option value="0">{{ Lang::get('app.select_item', ['item' => '']) }} ...</option>
+								@foreach($references->progress as $p)
+									<option value="{{ $p->id }}" @if($p->id == $item->progress) selected @endif>{{ $p->name }}</option>
+								@endforeach
+							</select>
 						</div>
 					</div>
 
 					<!-- Input Descriptions -->
 					<div class="form-group row">
-						<label for="input-descriptions" class="col-sm-2 control-label">{{ Lang::get('app.descriptions') }}</label>
-						<div class="col-sm-4 col-md-4">
-							<textarea id="input-descriptions" name="descriptions" type="text" class="form-control">{{ old('descriptions', $item->descriptions) }}</textarea>
+						<label for="input-descriptions" class="col-sm-3 control-label">{{ Lang::get('app.descriptions') }}</label>
+						<div class="col-sm-12 col-md-5">
+							<textarea id="input-descriptions" name="descriptions" type="text" class="form-control" style="min-height: 150px">{{ old('descriptions', $item->descriptions) }}</textarea>
+						</div>
+					</div>
+
+					<!-- Input Condition -->
+					<div class="form-group row">
+						<label for="input-condition" class="col-sm-3 control-label">{{ Lang::get('app.additional_information', ['item' => Lang::get('app.condition')]) }}</label>
+						<div class="col-sm-12 col-md-5">
+							<textarea id="input-condition" name="condition" type="text" class="form-control" style="min-height: 100px">{{ old('condition', $item->condition) }}</textarea>
 						</div>
 					</div>
 
 					<!-- Input Section id -->
 					<div class="form-group row">
-						<label for="input-section-id" class="col-sm-2 control-label">{{ Lang::get('app.save_to') }}</label>
+						<label for="input-section-id" class="col-sm-3 control-label">{{ Lang::get('app.save_to') }}</label>
 						<div class="col-sm-4 col-md-4">
 							<a href="#" id="select-storage" class="btn btn-dark col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
 							<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
@@ -118,7 +158,7 @@
 
 					<input type="hidden" id="id" name="id" value="{{ $item->id }}">
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
+						<div class="col-sm-offset-3 col-sm-9">
 							<div class="btn-group" role="group">
 								<button type="submit" class="btn btn-success" name="action" value="save">
 									<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
@@ -281,6 +321,8 @@
 				console.log("Ajax error");
 			});
 		});
+
+		$('#input-unit').val('{{ $item->unit }}');
 	});
 </script>
 @endsection
