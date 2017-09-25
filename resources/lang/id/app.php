@@ -29,6 +29,7 @@ return [
 	'rooms'               			=> 'Ruangan',
 	'section'            			=> 'Folder',
 	'sections'            			=> 'Folder',
+	'select_storage_print'			=> 'Cetak berdasarkan',
 	'sheet'            				=> 'Lembar',
 	'storage'             			=> 'Penyimpanan',
 	'storages'             			=> 'Penyimpanan',
@@ -58,10 +59,12 @@ return [
 	'password'						=> 'Password',
 	'period'						=> 'Kurun Waktu',
 	'progress'						=> 'Tingkat Perkembangan',
+	'provider'						=> 'Penyedia',
 	'reset_password'				=> 'Reset Password',
 	'quantity'						=> 'Jumlah',
 	'timestamp' 					=> 'Timestamp',
 	'username'						=> 'Username',
+	'record_value'					=> 'Harga/Nilai',
 
 	/* Messages */
 	'delete_confirmation' 			=> 'Data <strong></strong> akan dihapus permanen. Anda yakin?',

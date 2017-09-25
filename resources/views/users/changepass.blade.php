@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="app-contents">
-	<div class="card">
-	    <div class="card-header">
+	<div class="panel">
+	    <div class="panel-heading">
 	    	<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
 					{{ Lang::get('app.change_password') }}
@@ -11,7 +11,7 @@
 	    	</div>
 	    </div>
 
-	    <div class="card-body">
+	    <div class="panel-body">
 	    	@if(session('messages'))
 	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 	    	@endif
@@ -59,7 +59,7 @@
 								<button type="submit" class="btn btn-success" name="action" value="save">
 									<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
 								</button>
-								<a href="{{ url('users') }}" class="btn btn-light">
+								<a href="{{ url('users') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

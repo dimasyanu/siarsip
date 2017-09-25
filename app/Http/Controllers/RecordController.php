@@ -158,6 +158,11 @@ class RecordController extends Controller {
 			$item->category->tree	= RecordCategory::getNest($item->category->id);
 		if($item->date)
 			$item->date = date("d-m-Y", strtotime($item->date));
+
+		$item->criteria = DB::table('record_criteria')->find($item->criteria)->name;
+		$item->media 	= DB::table('record_media')->find($item->media)->name;
+		$item->progress = DB::table('record_progress')->find($item->progress)->name;
+
 		return view('records/details', ['item' => $item]);
 	}
 
@@ -173,6 +178,7 @@ class RecordController extends Controller {
 		$item->shelf_id			= $item->section->box->shelf->id;
 		$item->box_id			= $item->section->box->id;
 		$item->section_id		= $item->section->id;
+		
 		$item->category->tree	= RecordCategory::getNest($item->category->id);
 		
 		if($item->date)
@@ -243,6 +249,7 @@ class RecordController extends Controller {
 		$item->section_id   = $request->input('section_id');
 		$item->category_id  = $request->input('category_id');
 		$item->date 		= date("Y-m-d", strtotime($request->input('date')));
+		$item->provider     = $request->input('provider');
 		$item->criteria     = $request->input('criteria');
 		$item->media        = $request->input('media');
 		$item->unit         = $request->input('unit');
@@ -250,7 +257,7 @@ class RecordController extends Controller {
 		$item->progress     = $request->input('progress');
 		$item->descriptions = $request->input('descriptions');
 		$item->condition 	= $request->input('condition');
-		// dd(strtotime($date), $date, $formattedDate);
+		$item->value 		= $request->input('value');
 	}
 
 	private function validateForm(Request $request){

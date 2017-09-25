@@ -4,21 +4,21 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
 <div class="app-contents">
 	<div class="panel auto-y">
-	    <div class="panel-heading">
-	    	<div class="row">
+		<div class="panel-heading">
+			<div class="row">
 				<div class="col-md-6" style="font-size: 14pt;">
 					@php $action = (!empty($item->id))? 'app.edit_item' : 'app.new'; @endphp
 					{{ Lang::get($action, ['item' => Lang::get('app.record')]) }}
 				</div>
-	    	</div>
-	    </div>
+			</div>
+		</div>
 
-	    <div class="panel-body">
-	    	@if(session('messages'))
-	    		<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
-	    	@endif
-	    	
-	    	@if (count($errors) > 0)
+		<div class="panel-body">
+			@if(session('messages'))
+				<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
+			@endif
+			
+			@if (count($errors) > 0)
 				<div class="alert alert-danger">
 					<ul>
 						@foreach ($errors->all() as $error)
@@ -28,8 +28,8 @@
 				</div>
 			@endif
 
-	    	@php $method = (empty($item->id))? 'post' : 'put'; @endphp
-	    	<div class="container" style="margin-top: 16px">
+			@php $method = (empty($item->id))? 'post' : 'put'; @endphp
+			<div class="container" style="margin-top: 16px">
 				{{ Form::open(['url' => url('records/'.$item->id), 'method' => $method, 'class' => 'form-horizontal']) }}
 					
 					<!-- Input Category -->
@@ -63,13 +63,21 @@
 					<div class="form-group row">
 						<label for="input-name" class="col-sm-3 control-label">{{ Lang::get('app.content') }}</label>
 						<div class="col-sm-4 col-md-4">
-							<textarea id="input-name" name="name" type="text" class="form-control" maxlength="100" required>{{ old('name', $item->name) }}</textarea>
+							<textarea id="input-name" name="name" type="text" class="form-control" maxlength="100" style="resize: vertical;" required>{{ old('name', $item->name) }}</textarea>
 						</div>
 						<div class="alert alert-warning col-sm-4 col-md-3">
 							{{ Lang::get('app.input_max_letters', ['amount' => 100]) }}
 						</div>
 					</div>
 					
+					<!-- Input Provider -->
+					<div class="form-group row">
+						<label for="input-provider" class="col-sm-3 control-label">{{ Lang::get('app.provider') }}</label>
+						<div class="col-sm-4 col-md-4">
+							<input class="form-control" type="text" name="provider" value="{{ old('provider', $item->provider) }}">
+						</div>
+					</div>
+
 					<!-- Input Date -->
 					<div class="form-group row">
 						<label for="input-date" class="col-sm-3 control-label">{{ Lang::get('app.date') }}</label>
@@ -156,6 +164,15 @@
 						</div>
 					</div>
 
+					<!-- Input Value -->
+					<div class="form-group row">
+						<label for="input-value" class="col-sm-3 control-label">{{ Lang::get('app.record_value') }}</label>
+						<div class="col-sm-3 col-md-3 input-group" style="padding: 0 15px;">
+							<span class="input-group-addon">Rp.</span>
+							<input id="input-value" class="form-control text-right" type="text" name="value" value="{{ old('value', $item->value) }}">
+						</div>	
+					</div>
+
 					<input type="hidden" id="id" name="id" value="{{ $item->id }}">
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
@@ -177,22 +194,22 @@
 					</div>
 				{{ Form::close() }}
 			</div>
-	    </div>
+		</div>
 	</div>
 </div>
 
 <!-- Storage-Select Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="storage-select-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{Lang::get('app.select_item', ['item' => Lang::get('app.storage')])}}</h4>
-            </div>
-            <div class="modal-body">
-            	<div class="form-horizontal">
-	            	<!-- Select Room -->
-	                <div class="form-group row">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{Lang::get('app.select_item', ['item' => Lang::get('app.storage')])}}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-horizontal">
+					<!-- Select Room -->
+					<div class="form-group row">
 						<label for="select_room" class="col-sm-2 col-sm-offset-2 control-label">{{ Lang::get('app.room') }}</label>
 						<div class="col-sm-6 col-md-6">
 							<select id="select_room" class="select2" name="room_id" style="width: 100%;" data-chain="#select_shelf">
@@ -243,16 +260,38 @@
 						</div>
 					</div>
 				</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="finish" class="btn btn-primary">{{ Lang::get('app.finish') }}</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ Lang::get('app.cancel') }}</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="finish" class="btn btn-primary">{{ Lang::get('app.finish') }}</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">{{ Lang::get('app.cancel') }}</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <script type="text/javascript" src="{{ asset('js/chained-select2.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/accounting.min.js') }}"></script>
 <script type="text/javascript">
+	if (!String.prototype.splice) {
+	    String.prototype.splice = function(start, delCount, newSubStr) {
+	        return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
+	    };
+	}
+
+	$.fn.rupiah = function() { 
+		return this.each(function() { 
+			$(this).keypress(function(e) {
+				return e.charCode >= 48 && e.charCode <= 57;
+			})
+			.on('input', function() {
+				var str = $(this).val();
+				var val = parseInt(str.replace(/\./g, ''));
+				if(val)
+					str = accounting.formatNumber(val, [precision = 0], [thousand = "."], [decimal = ","]);
+				$(this).val(str);
+			});
+		});
+	};
+
 	$(document).ready(function() {
 		$('.datepicker.date').datepicker({
 			format: 'dd-mm-yyyy',
@@ -261,7 +300,7 @@
 
 		$('.datepicker.year').datepicker({
 			autoclose: true,
-        	format: 'yyyy',
+			format: 'yyyy',
 			minViewMode: 2
 		});
 
@@ -323,6 +362,29 @@
 		});
 
 		$('#input-unit').val('{{ $item->unit }}');
+		$('#input-value').rupiah();
+		// 	var val = $(this).val();
+		// 	if(val.length > 0 && (val.length + 1) % 4 == 0)
+		// 		$(this).val($(this).val() + '.');
+
+		// 	if(val.length >= 1 && val[0] == 0) {
+		// 		while(val.length > 1 && val[0] == 0)
+		// 			val.slice(1, val.length);
+		// 		return false;
+		// 	}
+
+		// 	var isNum = event.charCode >= 48 && event.charCode <= 57;
+		// 	if(isNum)
+		// 		return true;
+		// 	else return false;
+
+		// }).keydown(function(e) {
+		// 	if(e.keyCode == 8 && val[val.length - 2] == '.') {
+		// 		var val = $(this).val();
+		// 		val = val.slice(0, -1);
+		// 		$(this).val(val);
+		// 	}
+		// });
 	});
 </script>
 @endsection

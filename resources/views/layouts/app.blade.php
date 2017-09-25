@@ -115,7 +115,7 @@
 		var root = "{{ url('/') }}";
 
 		function hideSidebar(self) {
-			$(self).removeClass('shown').addClass('hidden');
+			$(self).removeClass('shown').addClass('collapsed');
 			$('.app-contents').addClass('full');
 		}
 

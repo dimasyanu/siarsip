@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
 	<div class="login-panel">
-		<div class="siarsip-login-brand text-center">
-			<!-- <img src="{{ asset('images/logo/logo2.png') }}"> -->
-			<h3>{{ Lang::get('auth.app_full_name') }}</h3>
+		<div class="text-center" style="margin-bottom: 25px;">
+			<h3>{{ Lang::get('auth.login_title_1') }}</h3>
+			<h3 style="margin-top: 10px">{{ Lang::get('auth.login_title_2') }}</h3>
 		</div>
 
-		<p class="text-center">{{ Lang::get('auth.login') }} :</p>
+		<p>{{ Lang::get('auth.login') }} :</p>
 		<form class="form-horizontal" method="POST" action="{{ route('login') }}">
 			{{ csrf_field() }}
 			<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">

@@ -41,7 +41,7 @@ class PDFController extends Controller {
         $record_fields = [
             'records.id', 
             'records.name', 
-            'records.period', 
+            'records.date', 
             'records.quantity', 
             'records.progress', 
             'records.descriptions',
@@ -72,7 +72,7 @@ class PDFController extends Controller {
         $record_fields = [
             'records.id', 
             'records.name', 
-            'records.period', 
+            'records.date', 
             'records.quantity', 
             'records.progress', 
             'records.descriptions',
@@ -96,7 +96,7 @@ class PDFController extends Controller {
         $record_fields = [
             'records.id', 
             'records.name', 
-            'records.period', 
+            'records.date', 
             'records.quantity', 
             'records.progress', 
             'records.descriptions',
