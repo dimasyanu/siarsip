@@ -261,6 +261,10 @@ form .input-group input.form-control {
 	color: #009688;
 }
 
+.login-brand img{
+	width: 100%;
+}
+
 .login-panel {
   width: 400px;
   margin: auto;
