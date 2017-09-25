@@ -23,7 +23,7 @@
 				<tr>
 					<th class="text-middle">No.</th>
 					<th class="text-middle">{{ Lang::get('app.content') }}</th>
-					<th class="text-middle">{{ Lang::get('app.period') }}</th>
+					<th class="text-middle">{{ Lang::get('app.date') }}</th>
 					<th class="text-middle">{{ Lang::get('app.progress') }}</th>
 					<th class="text-middle">{{ Lang::get('app.quantity') }}</th>
 					<th class="text-middle">{{ Lang::get('app.ket') }}</th>
@@ -36,7 +36,7 @@
 				<tr>
 					<td>{{ $i+1 }}</td>
 					<td>{{ $record->name }}</td>
-					<td>{{ $record->period }}</td>
+					<td>{{ $record->date }}</td>
 					<td>{{ $record->progress }}</td>
 					<td>{{ $record->quantity }}</td>
 					<td>{{ $record->descriptions }}</td>

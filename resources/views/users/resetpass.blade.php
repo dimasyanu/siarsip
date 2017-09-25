@@ -47,7 +47,7 @@
 								<button type="submit" class="btn btn-success" name="action" value="save">
 									<i class="fa fa-save"></i>  {{ Lang::get('app.save') }}
 								</button>
-								<a href="{{ url('users') }}" class="btn btn-light">
+								<a href="{{ url('users') }}" class="btn btn-default">
 									<i class="fa fa-times"></i>  {{ Lang::get('app.cancel') }}
 								</a>
 							</div>

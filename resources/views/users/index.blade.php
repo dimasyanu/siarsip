@@ -8,7 +8,7 @@
 	);
 @endphp
 <div class="app-contents">
-	<div class="panel">
+	<div class="panel auto-y">
 		<!-- Header -->
 		<div class="panel-heading">
 			<i class="fa fa-user fa-2x"></i>
@@ -23,9 +23,9 @@
 				@endif
 
 				<div style="margin: 10px 0;">
-					<a class="btn btn-success" href="{{ url('sections/create') }}">
+					<a class="btn btn-success" href="{{ url('users/create') }}">
 						<i class="fa fa-plus"></i>
-						{{ Lang::get('app.add') . ' ' . Lang::get('app.section') }}
+						{{ Lang::get('app.add') . ' ' . Lang::get('app.user') }}
 					</a>
 					<div class="col-md-3 pull-right">
 						<form action="" class="search-form">

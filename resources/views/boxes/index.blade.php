@@ -37,11 +37,11 @@
 					<table class="table table-hover">
 						<thead class="grey">
 							<tr>
-								<th class="text-center" style="width: 7%;">No.</th>
-								<th style="width: 26%">Name</th>
-								<th style="width: 26%">Rak</th>
-								<th style="width: 26%">Ruangan</th>
-								<th class="text-center" style="width: 15%;">{{ Lang::get('app.actions') }}</th>
+								<th class="text-center" style="width: 8%;">No.</th>
+								<th style="width: 24%">Name</th>
+								<th style="width: 24%">Rak</th>
+								<th style="width: 24%">Ruangan</th>
+								<th class="text-center" style="width: 20%;">{{ Lang::get('app.actions') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,14 +58,17 @@
 											<div class="action-buttons btn-group pull-right" role="group" style="display: none;">
 												@if($item->hasRecords)
 												<a href="{{ url('box/print/'.$item->id) }}" class="btn btn-dark btn-xs" target="_blank">
-													<i class="fa fa-print" aria-hidden="true"></i>
+													<i class="fa fa-print" aria-hidden="true"></i> 
+													{{ Lang::get('app.print') }}
 												</a>
 												@endif
 												<a href="{{ url('boxes/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
+													{{ Lang::get('app.edit') }}
 												</a>
 												<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-													<i class="fa fa-trash" aria-hidden="true"></i>
+													<i class="fa fa-trash" aria-hidden="true"></i> 
+													{{ Lang::get('app.delete') }}
 													<form action="{{ url('boxes/' . $item->id) }}" method="post">
 														{{ csrf_field() }}
 														{{ method_field('DELETE') }}
@@ -118,41 +121,7 @@
 </div>
 
 <!-- Delete Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="delete-modal">
-	<div class="modal-dialog modal-sm" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{{ Lang::get('app.delete_item') }}</h4>
-			</div>
-			<div class="modal-body">
-				<p>{!! trans('app.delete_confirmation') !!}</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="confirm-delete" class="btn btn-danger">{{ Lang::get('app.delete') }}</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">{{ Lang::get('app.cancel') }}</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+@include('layouts.modals.delete')
 
 <script type="text/javascript" src="{{ asset('js/crud.js') }}"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		var selectedItem;
-		$('.delete-btn').click(function(event) {
-			selectedItem = $(this).closest('tr');
-			var name = selectedItem.find('.data-name').text();
-			itemId = selectedItem.data('id');
-			$('#delete-modal').modal('show')
-			.find('.modal-body').find('strong').text(name);
-		});
-
-		$('#delete-modal').on('show.bs.modal', function(e) {
-			$('#confirm-delete').click(function(event) {
-				selectedItem.find('.delete-btn form').submit();
-			});
-		});
-	});
-</script>
 @endsection
