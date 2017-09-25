@@ -3,9 +3,8 @@
 @section('content')
 <div class="container">
 	<div class="login-panel">
-		<div class="text-center" style="margin-bottom: 25px;">
-			<h3>{{ Lang::get('auth.login_title_1') }}</h3>
-			<h3 style="margin-top: 10px">{{ Lang::get('auth.login_title_2') }}</h3>
+		<div class="text-center login-brand" style="margin-bottom: 25px;">
+			<img src="{{ asset('images/logo/logo2-black.png') }}">
 		</div>
 
 		<p>{{ Lang::get('auth.login') }} :</p>

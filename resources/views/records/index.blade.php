@@ -100,7 +100,7 @@
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.record') }}
 					</a>
 					<div style="display: inline-block;">
-						<a class="btn btn-info" id="print-btn" href="javascript:void(0);" target="_blank">
+						<a class="btn btn-info" id="print-btn" href="javascript:void(0);">
 							<i class="fa fa-print"></i>
 							{{ Lang::get('app.print') }}
 						</a>
