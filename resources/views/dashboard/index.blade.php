@@ -9,34 +9,37 @@
 		</div>
 		<div class="panel-body" style="padding: 15px; overflow-y: auto;">
 		    <div class="row">
-		    	@if(false)
-		    	<div class="col-md-8">
-		    		<div id="pictures-slider" class="carousel slide" data-ride="carousel">
+		   		<div class="col-md-12">
+			    	<div id="image-slider" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
-							<li data-target="#pictures-slider" data-slide-to="0" class="active"></li>
-							<li data-target="#pictures-slider" data-slide-to="1"></li>
-							<li data-target="#pictures-slider" data-slide-to="2"></li>
+							<li data-target="#image-slider" data-slide-to="0" class="active"></li>
+							<li data-target="#image-slider" data-slide-to="1"></li>
+							<li data-target="#image-slider" data-slide-to="2"></li>
+							<li data-target="#image-slider" data-slide-to="3"></li>
+							<li data-target="#image-slider" data-slide-to="4"></li>
 						</ol>
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner" role="listbox">
-							<div class="carousel-item active">
-								<img src="{{ asset('images/picture-1.jpg')}}" alt="picture-1" style="height: 100%; margin-top: -90px;">
-								<div class="carousel-caption"></div>
+							<div class="item active">
+								<div class="image-container" data-src="{{ asset('images/pic2.jpg') }}"></div>
 							</div>
-							<div class="carousel-item">
-								<img src="{{ asset('images/picture-2.jpg')}}" alt="picture-2" style="margin-top: -180px;">
-								<div class="carousel-caption"></div>
+							<div class="item">
+								<div class="image-container" data-src="{{ asset('images/pic3.jpg') }}"></div>
 							</div>
-							<div class="carousel-item">
-								<img src="{{ asset('images/picture-3.jpg')}}" alt="picture-3" style="margin-top: -60px;">
-								<div class="carousel-caption"></div>
+							<div class="item">
+								<div class="image-container" data-src="{{ asset('images/pic4.jpg') }}"></div>
+							</div>
+							<div class="item">
+								<div class="image-container" data-src="{{ asset('images/pic6.jpg') }}"></div>
+							</div>
+							<div class="item">
+								<div class="image-container" data-src="{{ asset('images/pic5.jpg') }}"></div>
 							</div>
 						</div>
 					</div>
-		    	</div>
-		    	@endif
+				</div>
 		        <div class="col-md-12">
 		        	<h4 class="alt-heading">{{ Lang::get('app.storages') }}</h4>
 					<div class="row value-cards">
@@ -132,9 +135,14 @@
 		    }
 		});
 	}
+
 	$(document).ready(function() {
+		$('.carousel-inner .item .image-container').each(function(index, el) {
+			$(this).css('background-image', 'url(\'' + $(this).data('src') + '\')');
+		});
+
 		$('.carousel').carousel({
-			interval: 2000
+			interval: 3000
 		});
 		
 		animateCount($('#room-count'));

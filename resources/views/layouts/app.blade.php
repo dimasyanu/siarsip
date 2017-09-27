@@ -33,7 +33,7 @@
 					</button>
 					<div class="brand">
 						<a href="{{ url('/') }}">
-							<img src="{{ asset('images/logo/logo2-white.png') }}">
+							<img src="{{ asset('images/logo/logo-white.png') }}">
 						</a>
 					</div>
 				</div>

@@ -102,7 +102,17 @@
 							<th class="text-middle">
 								{{ Lang::get('app.date') }}
 							</th>
-							<td>{{ $item->date?$item->date:'-' }}</td>
+							@if($item->date)
+								@if($item->date_type == 0)
+									<td>{{ date("d F Y", strtotime($item->date)) }}</td>
+								@elseif($item->date_type == 1)
+									<td>{{ date("F Y", strtotime($item->date)) }}</td>
+								@elseif($item->date_type == 2)
+									<td>{{ date("Y", strtotime($item->date)) }}</td>
+								@endif
+							@else
+								<td> - </td>
+							@endif
 						</tr>
 
 						<!-- Quantiy -->

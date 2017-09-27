@@ -102,6 +102,7 @@ class RecordController extends Controller {
 	public function create(Request $request) {
 		$item                 	= new Record();
 		$item->category       	= RecordCategory::find($item->id);
+		$item->date_type		= 0;
 
 		$references             = new \stdClass();
 		$references->rooms      = Room::get();
@@ -156,8 +157,6 @@ class RecordController extends Controller {
 		$item = Record::find($id);
 		if($item->category_id != 0)
 			$item->category->tree	= RecordCategory::getNest($item->category->id);
-		if($item->date)
-			$item->date = date("d-m-Y", strtotime($item->date));
 
 		$item->criteria = DB::table('record_criteria')->find($item->criteria)->name;
 		$item->media 	= DB::table('record_media')->find($item->media)->name;
@@ -249,7 +248,8 @@ class RecordController extends Controller {
 		$item->section_id   = $request->input('section_id');
 		$item->category_id  = $request->input('category_id');
 		$item->date 		= date("Y-m-d", strtotime($request->input('date')));
-		$item->provider     = $request->input('provider');
+		$item->date_type	= $request->input('date_type');
+		$item->vendor     	= $request->input('vendor');
 		$item->criteria     = $request->input('criteria');
 		$item->media        = $request->input('media');
 		$item->unit         = $request->input('unit');

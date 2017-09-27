@@ -52,6 +52,7 @@ return [
 	'description'					=> 'Deskripsi',
 	'descriptions'					=> 'Deskripsi',
 	'ket'							=> 'Ket',
+	'month'							=> 'Bulan',
 	'name'                			=> 'Nama',
 	'new_password'					=> 'Password Baru',
 	'old_password'					=> 'Password Lama',
@@ -59,12 +60,13 @@ return [
 	'password'						=> 'Password',
 	'period'						=> 'Kurun Waktu',
 	'progress'						=> 'Tingkat Perkembangan',
-	'provider'						=> 'Penyedia',
+	'vendor'						=> 'Penyedia/Vendor',
 	'reset_password'				=> 'Reset Password',
 	'quantity'						=> 'Jumlah',
 	'timestamp' 					=> 'Timestamp',
 	'username'						=> 'Username',
 	'record_value'					=> 'Harga/Nilai',
+	'year'							=> 'Tahun',
 
 	/* Messages */
 	'delete_confirmation' 			=> 'Data <strong></strong> akan dihapus permanen. Anda yakin?',

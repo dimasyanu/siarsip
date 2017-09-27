@@ -19,15 +19,15 @@
 		<div>
 			<label>{{ Lang::get('app.shelf') }}: </label><span>{{ $shelf->name }}</span>
 		</div>
-		<table class="table table-bordered">
+		<table class="table table-bordered text-center">
 			<thead>
 				<tr>
-					<th class="text-middle">No.</th>
-					<th class="text-middle">{{ Lang::get('app.content') }}</th>
-					<th class="text-middle">{{ Lang::get('app.date') }}</th>
-					<th class="text-middle">{{ Lang::get('app.progress') }}</th>
-					<th class="text-middle">{{ Lang::get('app.quantity') }}</th>
-					<th class="text-middle">{{ Lang::get('app.ket') }}</th>
+					<th class="text-middle" style="width: 7%;">No.</th>
+					<th class="text-middle" style="width: 55%;">{{ Lang::get('app.content') }}</th>
+					<th class="text-middle" style="width: 10%;">{{ Lang::get('app.date') }}</th>
+					<th class="text-middle" style="width: 10%;">{{ Lang::get('app.progress') }}</th>
+					<th class="text-middle" style="width: 5%;">{{ Lang::get('app.quantity') }}</th>
+					<th class="text-middle" style="width: 13%;">{{ Lang::get('app.ket') }}</th>
 				</tr>
 			</thead>
 			<tbody>

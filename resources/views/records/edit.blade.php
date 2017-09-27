@@ -70,12 +70,21 @@
 						</div>
 					</div>
 					
-					<!-- Input Provider -->
+					<!-- Input Vendor -->
 					<div class="form-group row">
-						<label for="input-provider" class="col-sm-3 control-label">{{ Lang::get('app.provider') }}</label>
+						<label for="input-vendor" class="col-sm-3 control-label">{{ Lang::get('app.vendor') }}</label>
 						<div class="col-sm-4 col-md-4">
-							<input class="form-control" type="text" name="provider" value="{{ old('provider', $item->provider) }}">
+							<input class="form-control" type="text" name="vendor" value="{{ old('vendor', $item->vendor) }}">
 						</div>
+					</div>
+
+					<!-- Input Value -->
+					<div class="form-group row">
+						<label for="input-value" class="col-sm-3 control-label">{{ Lang::get('app.record_value') }}</label>
+						<div class="col-sm-3 col-md-3 input-group" style="padding: 0 15px;">
+							<span class="input-group-addon">Rp.</span>
+							<input id="input-value" class="form-control text-right" type="text" name="value" value="{{ old('value', $item->value) }}">
+						</div>	
 					</div>
 
 					<!-- Input Date -->
@@ -84,6 +93,12 @@
 						<div class="col-sm-2 col-md-2">
 							<input id="input-date" name="date" type="text" class="datepicker date form-control" value="{{ old('date', $item->date) }}">
 						</div>
+						<div class="col-sm-4 col-md-4 btn-group" style="padding-left: 0">
+							<a class="datetype-toggle btn btn-default" data-type="days" data-code="0">{{ Lang::get('app.date') }}</a>
+							<a class="datetype-toggle btn btn-default" data-type="months" data-code="1">{{ Lang::get('app.month') }}</a>
+							<a class="datetype-toggle btn btn-default" data-type="years" data-code="2">{{ Lang::get('app.year') }}</a>
+						</div>
+						<input type="hidden" name="date_type" value="{{ old('date_type', $item->date_type) }}" required>
 					</div>
 
 					<!-- Input Quantiy -->
@@ -162,15 +177,6 @@
 							<a href="#" id="select-storage" class="btn btn-dark col-md-12">{{ $item->section ? $item->section->name : (Lang::get('app.select_item', ['item' => Lang::get('app.storage')])) }}</a>
 							<input id="input-section-id" name="section_id" type="hidden" value="{{ old('section_id', $item->section_id) }}" required>
 						</div>
-					</div>
-
-					<!-- Input Value -->
-					<div class="form-group row">
-						<label for="input-value" class="col-sm-3 control-label">{{ Lang::get('app.record_value') }}</label>
-						<div class="col-sm-3 col-md-3 input-group" style="padding: 0 15px;">
-							<span class="input-group-addon">Rp.</span>
-							<input id="input-value" class="form-control text-right" type="text" name="value" value="{{ old('value', $item->value) }}">
-						</div>	
 					</div>
 
 					<input type="hidden" id="id" name="id" value="{{ $item->id }}">
@@ -280,7 +286,7 @@
 	$.fn.rupiah = function() { 
 		return this.each(function() { 
 			$(this).keypress(function(e) {
-				return e.charCode >= 48 && e.charCode <= 57;
+				return e.charCode == 0 || (e.charCode >= 48 && e.charCode <= 57);
 			})
 			.on('input', function() {
 				var str = $(this).val();
@@ -292,17 +298,33 @@
 		});
 	};
 
-	$(document).ready(function() {
-		$('.datepicker.date').datepicker({
+	function setInputDateView(view) {
+		var options = {
 			format: 'dd-mm-yyyy',
+			minViewMode: view,
 			autoclose: true
+		};
+
+		var val = $('.datepicker.date').datepicker('getDates');
+		$('.datepicker.date').datepicker('destroy');
+		$('.datepicker.date').datepicker(options);
+		$('.datepicker.date').datepicker('setDates', val);
+	}
+
+	$(document).ready(function() {
+		setInputDateView('days');
+
+		$('.datetype-toggle').each(function(index, el) {
+			$(el).click(function(event) {
+				$('.datetype-toggle.active').removeClass('active');
+				$(this).addClass('active');
+				$('[name="date_type"]').val($(this).data('code'));
+
+				setInputDateView($(this).data('type'));
+			});
 		});
 
-		$('.datepicker.year').datepicker({
-			autoclose: true,
-			format: 'yyyy',
-			minViewMode: 2
-		});
+		$('.datetype-toggle[data-code="{{ old('date_type', $item->date_type) }}"]').addClass('active');
 
 		$('#select-storage').click(function(event) {
 			var self = this;
@@ -363,28 +385,6 @@
 
 		$('#input-unit').val('{{ $item->unit }}');
 		$('#input-value').rupiah();
-		// 	var val = $(this).val();
-		// 	if(val.length > 0 && (val.length + 1) % 4 == 0)
-		// 		$(this).val($(this).val() + '.');
-
-		// 	if(val.length >= 1 && val[0] == 0) {
-		// 		while(val.length > 1 && val[0] == 0)
-		// 			val.slice(1, val.length);
-		// 		return false;
-		// 	}
-
-		// 	var isNum = event.charCode >= 48 && event.charCode <= 57;
-		// 	if(isNum)
-		// 		return true;
-		// 	else return false;
-
-		// }).keydown(function(e) {
-		// 	if(e.keyCode == 8 && val[val.length - 2] == '.') {
-		// 		var val = $(this).val();
-		// 		val = val.slice(0, -1);
-		// 		$(this).val(val);
-		// 	}
-		// });
 	});
 </script>
 @endsection
