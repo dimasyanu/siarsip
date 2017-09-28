@@ -84,7 +84,7 @@
 							</div>
 							<div class="col-md-12" style="margin-top: 24px;">
 								<button id="filter-apply" class="btn btn-primary">{{ Lang::get('app.apply') }}</button>
-								<a href="{{ url('records') }}" class="btn btn-info">{{ Lang::get('app.reset') }}</a>
+								<a href="{{ url('records') }}" class="btn btn-default">{{ Lang::get('app.reset') }}</a>
 							</div>
 						</div>
 					</div>
@@ -213,6 +213,10 @@
 <script type="text/javascript" src="{{ asset('js/chained-select2.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('.select2').select2();
+
+		chainSelect2($('#select_room'));
+
 		$('.search-form .form-group').focusin(function(event) { searchboxEnabled($(this)); });
 		$('.search-form .form-group').focusout(function() { searchboxDisabled($(this)); });
 

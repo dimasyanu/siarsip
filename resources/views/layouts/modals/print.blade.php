@@ -13,9 +13,57 @@
 						<label for="select-storage" class="col-md-4 control-label">{{ Lang::get('app.select_storage_print') }}</label>
 						<div class="col-md-8">
 							<div class="btn-group">
-								<button class="btn btn-default active">{{ Lang::get('app.room') }}</button>
-								<button class="btn btn-default">{{ Lang::get('app.shelf') }}</button>
-								<button class="btn btn-default">{{ Lang::get('app.box') }}</button>
+								<a class="print-by btn btn-default active" data-toggle="room">{{ Lang::get('app.room') }}</a>
+								<a class="print-by btn btn-default" data-toggle="shelf">{{ Lang::get('app.shelf') }}</a>
+								<a class="print-by btn btn-default" data-toggle="box">{{ Lang::get('app.box') }}</a>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div>
+						<div class="form-group row">
+							<label for="print_room" class="col-sm-3 control-label">{{ Lang::get('app.room') }}</label>
+							<div class="col-sm-6 col-md-6">
+								<select id="print_room" class="select2" name="room" style="width: 100%;" data-chain="#print_shelf">
+									<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.room')]) }}</option>
+									@foreach($references->rooms as $i => $room)
+									<option value="{{ $room->id }}" @if($filters->room_id == $room->id) selected @endif>{{ $room->name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+					</div>
+					<div id="print-by-shelf" class="collapse">
+						<div class="form-group row">
+							<label for="print_shelf" class="col-sm-3 control-label">{{ Lang::get('app.shelf') }}</label>
+							<div class="col-sm-6 col-md-6">
+								<select id="print_shelf" class="select2" name="shelf" style="width: 100%;" data-chain="#print_box" data-alias="shelves" 
+									@if(sizeof($references->shelves))>
+										<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.shelf')]) }}</option>
+										@foreach($references->shelves as $i => $shelf)
+										<option value="{{ $shelf->id }}" @if($filters->shelf_id == $shelf->id) selected @endif>{{ $shelf->name }}</option>
+										@endforeach
+									@else
+										disabled>
+									@endif
+								</select>
+							</div>
+						</div>
+					</div>
+					<div id="print-by-box" class="collapse">
+						<div class="form-group row">
+							<label for="print_box" class="col-sm-3 control-label">{{ Lang::get('app.box') }}</label>
+							<div class="col-sm-6 col-md-6">
+								<select id="print_box" class="select2" name="box" style="width: 100%;" data-chain="#print_section" data-alias="boxes" 
+									@if(sizeof($references->boxes))>
+										<option value="0">{{ Lang::get('app.select_item', ['item' => Lang::get('app.box')]) }}</option>
+										@foreach($references->boxes as $i => $box)
+										<option value="{{ $box->id }}" @if($filters->box_id == $box->id) selected @endif>{{ $box->name }}</option>
+										@endforeach
+									@else
+										disabled>
+									@endif
+								</select>
 							</div>
 						</div>
 					</div>
@@ -30,9 +78,40 @@
 </div>
 
 <script type="text/javascript">
+	
+	function printCollapseCallback(param) {
+		if(param == 'room') {
+			$('#print-by-shelf').collapse('hide');
+			$('#print-by-box').collapse('hide');
+		}
+		else if(param == 'shelf') {
+			$('#print-by-shelf').collapse('show');
+			$('#print-by-box').collapse('hide');
+		}
+		else if(param == 'box') {
+			$('#print-by-shelf').collapse('show');
+			$('#print-by-box').collapse('show');
+		}
+	}
+
 	$(document).ready(function() {
 		$('#print-btn').click(function(event) {
 			$('#print-modal').modal('show');
 		});
+
+		chainSelect2($('#print_room'));
+
+		$('.btn.print-by').each(function(index, el) {
+			$(el).click(function(event) {
+				if(!$(this).hasClass('active')){
+					$('.btn.print-by.active').removeClass('active');
+					$(this).addClass('active');
+
+					printCollapseCallback($(this).data('toggle'));
+				}
+			});
+		});
+
+		$('.collapse').collapse('hide');
 	});
 </script>
