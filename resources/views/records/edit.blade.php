@@ -205,7 +205,7 @@
 </div>
 
 <!-- Storage-Select Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="storage-select-modal">
+<div class="modal fade" role="dialog" id="storage-select-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -313,6 +313,9 @@
 
 	$(document).ready(function() {
 		setInputDateView('days');
+
+		$('.select2').select2();
+		chainSelect2($('#select_room'));
 
 		$('.datetype-toggle').each(function(index, el) {
 			$(el).click(function(event) {

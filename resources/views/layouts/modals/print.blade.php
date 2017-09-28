@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="print-modal">
+<div class="modal fade" role="dialog" id="print-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -113,5 +113,14 @@
 		});
 
 		$('.collapse').collapse('hide');
+
+		$('#confirm-print').click(function(event) {
+			var print_by = $('.print-by.active').data('toggle');
+			var by_id = $('#print_' + print_by).val()
+			if(by_id && by_id != 0)
+				window.open("{{ url('records/print') }}/" + print_by + '/' + by_id);
+			else
+				$('#print-modal').animateCss('shake');
+		});
 	});
 </script>

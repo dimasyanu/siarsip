@@ -13,10 +13,12 @@
 Auth::routes();
 
 Route::get('/', 'DashboardController');
+
+Route::get('records/print/{by}/{id}', 'PDFController@printRecords');
+
 Route::get('box/print/{id}', 'PDFController@printBoxPreview');
 Route::get('records/print', 'PDFController@printAllPreview');
 Route::get('shelf/print/{id}', 'PDFController@printShelfPreview');
-
 
 Route::resource('boxes', 'BoxController');
 Route::resource('categories', 'RecordCategoryController');

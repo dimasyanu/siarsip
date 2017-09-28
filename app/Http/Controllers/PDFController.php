@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Record;
 use App\Room;
 use App\Section;
+use App\Shelf;
 use PDF;
 
 class PDFController extends Controller {
@@ -19,6 +20,50 @@ class PDFController extends Controller {
         $records = Record::get();
     	$pdf = PDF::loadView('pdf.records', ['records' => $records]);
     	return $pdf->download('arsip.pdf');
+    }
+
+    public function printRecords($by, $id) {
+        $record_fields = [
+            'records.id', 
+            'records.name', 
+            'records.date', 
+            'records.quantity', 
+            'records.progress', 
+            'records.descriptions',
+            'a.box_id'
+        ];
+
+        $items = Record::select($record_fields)
+                ->leftJoin('sections AS a', 'records.section_id', 'a.id')
+                ->leftJoin('boxes AS b', 'a.box_id', 'b.id')
+                ->leftJoin('shelves AS c', 'b.shelf_id', 'c.id')
+                ->leftJoin('rooms AS d', 'c.room_id', 'd.id');
+        switch ($by) {
+            case 'room':
+                $shelves_arr = Shelf::select('shelves.id')
+                            ->leftJoin('rooms', 'shelves.id', 'rooms.id')
+                            ->where('rooms.id', $id)->get()->toArray();
+                $shelves = array();
+                foreach ($shelves_arr as $shelf)
+                    $shelves[$shelf['id']] = array();
+
+                dd($shelves);
+                $items->where('d.id', $id);
+                break;
+            
+            case 'shelf':
+                break;
+
+            case 'box':
+                break;
+
+            default: break;
+        }
+
+        $items = $items->get()->toArray();
+        dd($items);
+
+        return view('pdf/records');
     }
 
     public function printAllPreview() {

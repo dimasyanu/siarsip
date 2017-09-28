@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<div class="header text-center col-md-12">
-			<h3>DAFTAR ARSIP KEUANGAN</h3>
+			<h3>DAFTAR ARSIP</h3>
 			<h3>DI ISTANA KEPRESIDENAN YOGYAKARTA</h3>
 		</div>
 		<div>

@@ -187,6 +187,8 @@
 	$(document).ready(function() {
 		$('.select2').select2();
 
+		chainSelect2($('#select_room'));
+		
 		$('.search-form .form-group').focusin(function(event) { searchboxEnabled($(this)); });
 		$('.search-form .form-group').focusout(function() { searchboxDisabled($(this)); });
 

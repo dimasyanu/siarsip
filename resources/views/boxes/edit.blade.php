@@ -80,4 +80,10 @@
 	</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/chained-select2.js') }}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.select2').select2();
+		chainSelect2($('#select_room'));
+	});
+</script>
 @endsection
