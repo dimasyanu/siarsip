@@ -100,7 +100,7 @@
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.record') }}
 					</a>
 					<div style="display: inline-block;">
-						<a class="btn btn-info" href="{{ url('records/print') }}" target="_blank">
+						<a class="btn btn-info" id="print-btn" href="javascript:void(0);">
 							<i class="fa fa-print"></i>
 							{{ Lang::get('app.print') }}
 						</a>
@@ -208,6 +208,9 @@
 
 <!-- Delete Modal -->
 @include('layouts.modals.delete')
+
+<!-- Print Modal -->
+@include('layouts.modals.print')
 
 <script type="text/javascript" src="{{ asset('js/crud.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/chained-select2.js') }}"></script>
