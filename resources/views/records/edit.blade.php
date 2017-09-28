@@ -293,6 +293,10 @@
 	};
 
 	$(document).ready(function() {
+		$('.select2').select2();
+
+		chainSelect2($('#select_room'));
+
 		$('.datepicker.date').datepicker({
 			format: 'dd-mm-yyyy',
 			autoclose: true
@@ -363,28 +367,6 @@
 
 		$('#input-unit').val('{{ $item->unit }}');
 		$('#input-value').rupiah();
-		// 	var val = $(this).val();
-		// 	if(val.length > 0 && (val.length + 1) % 4 == 0)
-		// 		$(this).val($(this).val() + '.');
-
-		// 	if(val.length >= 1 && val[0] == 0) {
-		// 		while(val.length > 1 && val[0] == 0)
-		// 			val.slice(1, val.length);
-		// 		return false;
-		// 	}
-
-		// 	var isNum = event.charCode >= 48 && event.charCode <= 57;
-		// 	if(isNum)
-		// 		return true;
-		// 	else return false;
-
-		// }).keydown(function(e) {
-		// 	if(e.keyCode == 8 && val[val.length - 2] == '.') {
-		// 		var val = $(this).val();
-		// 		val = val.slice(0, -1);
-		// 		$(this).val(val);
-		// 	}
-		// });
 	});
 </script>
 @endsection
