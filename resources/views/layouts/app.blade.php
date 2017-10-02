@@ -11,7 +11,7 @@
 	<title>{{ config('app.name', 'Laravel') }}</title>
 
 	<!-- Styles -->
-	<link rel="shortcut icon" href="{{ asset('images/logo/logo2_.png') }}" >
+	<link rel="shortcut icon" href="{{ asset('images/logo/logo_.png') }}" >
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/bs-card.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">
@@ -72,6 +72,15 @@
 								<div>
 									<i class="fa fa-file-text-o fa-lg"></i> 
 									<span class="text-label">{{ Lang::get('app.documents') }}</span>
+								</div>
+							</a>
+						</li>
+
+						<li id="menu-item-storages">
+							<a href="{{ url('storages') }}">
+								<div>
+									<i class="fa fa-cubes fa-lg"></i> 
+									<span class="text-label">{{ Lang::get('app.storages') }}</span>
 								</div>
 							</a>
 						</li>

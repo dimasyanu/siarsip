@@ -40,4 +40,20 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('nestedcat', 'ApiController@getNestedCategories');
 	Route::get('sections/{box_id}', 'ApiController@getSectionsInBox');
 	Route::get('shelves/{room_id}', 'ApiController@getShelvesInRoom');
+
+	Route::post('room/new', 'ApiController@addRoom');
+	Route::post('room/edit/{id}', 'ApiController@editRoom');
+	Route::delete('room/delete/{id}', 'ApiController@deleteRoom');
+
+	Route::post('shelf/new', 'ApiController@addShelf');
+	Route::post('shelf/edit/{id}', 'ApiController@editShelf');
+	Route::post('shelf/delete/{id}', 'ApiController@deleteShelf');
+
+	Route::post('box/new', 'ApiController@addBox');
+	Route::post('box/edit/{id}', 'ApiController@editBox');
+	Route::post('box/delete/{id}', 'ApiController@deleteBox');
+
+	Route::post('section/new', 'ApiController@addSection');
+	Route::post('section/edit/{id}', 'ApiController@editSection');
+	Route::post('section/delete/{id}', 'ApiController@deleteSection');
 });

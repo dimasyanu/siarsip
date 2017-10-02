@@ -10,35 +10,42 @@ use App\Section;
 use App\Shelf;
 
 class StorageController extends Controller {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+	public function __construct(){
+		$this->middleware('auth');
+	}
 
-    public function index() {
-    	$rooms 		= Room::orderBy('name')->get();
+	public function index() {
+		$rooms 		= Room::orderBy('name')->get();
+		
+		$storages = array();
+		foreach ($rooms as $room) {
+			$room_obj = new \stdClass();
+			$room_obj->id = $room->id;
+			$room_obj->name = $room->name;
+			$room_obj->shelves = array();
+			foreach ($room->shelves()->get() as $shelf) {
+				$shelf_obj = new \stdClass();
+				$shelf_obj->id = $shelf->id;
+				$shelf_obj->name = $shelf->name;
+				$shelf_obj->boxes = array();
+				foreach ($shelf->boxes()->get() as $box) {
+					$box_obj = new \stdClass();
+					$box_obj->id = $box->id;
+					$box_obj->name = $box->name;
+					$box_obj->sections = array();
+					foreach ($box->sections()->get() as $section) {
+						$section_obj = new \stdClass();
+						$section_obj->id = $section->id;
+						$section_obj->name = $section->name;
 
-    	foreach ($rooms as $i => $room) {
-    		$shelves 	= Shelf::where('room_id', $room->id)->orderBy('name')->get();
-
-    		if($shelves->count() > 0){
-    			foreach ($shelves as $j => $shelf) {
-    				$boxes 	= Box::where('shelf_id', $shelf->id)->orderBy('name')->get();
-
-    				if($boxes->count() > 0){
-    					foreach ($boxes as $k => $box) {
-    						$sections = Section::where('box_id', $box->id)->orderBy('name')->get();
-    						if($sections->count() > 0)
-    							$box->sections = $sections;
-    					}
-
-    					$shelf->boxes = $boxes;
-    				}
-    			}
-    			$room->shelves = $shelves;
-    		}
-    	}
-        // dd($rooms);
-
-    	return view('storages/index', ['rooms' => $rooms]);
-    }
+						$box_obj->sections[] = $section_obj;
+					}
+					$shelf_obj->boxes[] = $box_obj;
+				}
+				$room_obj->shelves[] = $shelf_obj;
+			}
+			$storages[] = $room_obj;
+		}
+		return view('storages/index', ['storages' => $storages]);
+	}
 }
