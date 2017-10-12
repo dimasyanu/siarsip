@@ -8,14 +8,7 @@
 				<h4 class="modal-title"></h4>
 			</div>
 			<div class="modal-body">
-				{{ Form::open(['method' => 'POST', 'class' => 'form-horizontal']) }}
-					<div class="form-group row">
-						<label for="input-name" class="col-sm-4 control-label">{{ Lang::get('app.name') }}</label>
-						<div class="col-sm-5 col-md-5">
-							<input id="input-name" name="name" type="text" class="form-control" value="" required>
-						</div>
-					</div>
-				{{ Form::close() }}
+				<!-- Form Contents -->
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="confirm-save" class="btn btn-success">{{ Lang::get('app.save') }}</button>

@@ -41,19 +41,28 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('sections/{box_id}', 'ApiController@getSectionsInBox');
 	Route::get('shelves/{room_id}', 'ApiController@getShelvesInRoom');
 
+	Route::get('box/form', 'ApiController@getBoxForm');
+	Route::get('box/form/{id}', 'ApiController@getBoxFormById');
+	Route::get('room/form', 'ApiController@getRoomForm');
+	Route::get('room/form/{id}', 'ApiController@getRoomFormById');
+	Route::get('section/form', 'ApiController@getSectionForm');
+	Route::get('section/form/{id}', 'ApiController@getSectionFormById');
+	Route::get('shelf/form', 'ApiController@getShelfForm');
+	Route::get('shelf/form/{id}', 'ApiController@getShelfFormById');
+
 	Route::post('room/new', 'ApiController@addRoom');
 	Route::post('room/edit/{id}', 'ApiController@editRoom');
 	Route::delete('room/delete/{id}', 'ApiController@deleteRoom');
 
 	Route::post('shelf/new', 'ApiController@addShelf');
 	Route::post('shelf/edit/{id}', 'ApiController@editShelf');
-	Route::post('shelf/delete/{id}', 'ApiController@deleteShelf');
+	Route::delete('shelf/delete/{id}', 'ApiController@deleteShelf');
 
 	Route::post('box/new', 'ApiController@addBox');
 	Route::post('box/edit/{id}', 'ApiController@editBox');
-	Route::post('box/delete/{id}', 'ApiController@deleteBox');
+	Route::delete('box/delete/{id}', 'ApiController@deleteBox');
 
 	Route::post('section/new', 'ApiController@addSection');
 	Route::post('section/edit/{id}', 'ApiController@editSection');
-	Route::post('section/delete/{id}', 'ApiController@deleteSection');
+	Route::delete('section/delete/{id}', 'ApiController@deleteSection');
 });

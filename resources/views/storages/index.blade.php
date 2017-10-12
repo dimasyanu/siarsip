@@ -12,44 +12,32 @@
 			@if(session('messages'))
 				<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 			@endif
-			<button id="add-room" class="btn btn-success" style="margin-bottom: 15px;">
-				<i class="fa fa-plus"></i>
-				{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}
-			</button>
+			<div class="storage-info" data-contains="room">
+				<button id="add-room" class="add-storage btn btn-success" style="margin-bottom: 15px;">
+					<i class="fa fa-plus"></i>
+					{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}
+				</button>
+			</div>
 			<div class="list-table"><ul>
 				@if(sizeof($storages) > 0)
 				@foreach($storages as $room)
 					<li class="col-md-12{{ $room->shelves?'':' empty' }}">
-						<div class="col-md-9 collapsed" data-toggle="collapse" data-target="#room-{{ $room->id }}" aria-expanded="false" data-id="{{ $room->id }}" data-name="{{ $room->name }}">
+						<div class="col-md-9 collapsed" data-toggle="collapse" data-target="#room-{{ $room->id }}" aria-expanded="false" data-name="{{ $room->name }}">
 							<span class="room"></span>{{ $room->name }}
 						</div>
-						<div class="col-md-3">
-							<div class="room-actions act-btn pull-right btn-group" role="group" style="display: none;">
-								<a href="{{ url('shelves/create?room_id='.$room->id) }}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="{{ Lang::get('app.new_item', ['item' => Lang::get('app.shelf')]) }}">
-									<i class="fa fa-plus" aria-hidden="true"></i> 
-									{{ Lang::get('app.new', ['item' => '']) }}
-								</a>
-								<button type="button" class="edit-room btn btn-warning btn-xs" data-toggle="tooltip" data-placement="bottom" title="{{ Lang::get('app.edit', ['item' => Lang::get('app.room')]) }}">
-									<i class="fa fa-pencil" aria-hidden="true"></i> 
-									{{ Lang::get('app.edit') }}
-								</button>
-								<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="{{ Lang::get('app.delete', ['item' => Lang::get('app.room')]) }}">
-									<i class="fa fa-trash" aria-hidden="true"></i> 
-									{{ Lang::get('app.delete') }}
-									<form action="{{ url('api/room/delete/' . $room->id) }}" method="post">
-										{{ csrf_field() }}
-										{{ method_field('DELETE') }}
-									</form>
-								</a>
-							</div>
+						<div class="storage-info col-md-3" data-storage="room" data-contains="shelf" data-id="{{ $room->id }}">
+							@include('storages/action_btn', ['storage_act' => 'shelf', 'item_id' => $room->id])
 						</div>
 					</li>
 					@if($room->shelves)
 					<ul id="room-{{ $room->id }}" class="sub-list collapse col-md-12">
 						@foreach($room->shelves as $j => $shelf)
 						<li class="col-md-12{{ $shelf->boxes?'':' empty' }}">
-							<div class="col-md-9 collapsed" style="padding-left: 32px;" data-toggle="collapse" data-target="#shelf-{{ $shelf->id }}" class="accordion-toggle">
+							<div class="col-md-9 collapsed" style="padding-left: 32px;" data-toggle="collapse" data-target="#shelf-{{ $shelf->id }}" class="accordion-toggle"  data-name="{{ $shelf->name }}">
 							<span class="shelf"></span> {{ $shelf->name }}</div>
+							<div class="storage-info col-md-3" data-storage="shelf" data-contains="box" data-id="{{ $shelf->id }}">
+								@include('storages/action_btn', ['storage_act' => 'box', 'item_id' => $shelf->id])
+							</div>
 						</li>
 						@if($shelf->boxes)
 						<ul id="shelf-{{ $shelf->id }}" class="sub-list collapse col-md-12">
@@ -81,26 +69,22 @@
 </div>
 
 <!-- Include Room Modal -->
-@include('storages/modals/edit_room');
+@include('storages/modals/edit_storage');
 
 <!-- Include Delete Modal -->
 @include('storages/modals/delete');
 
 <script type="text/javascript">
 
-	var roomUrl          = "{{ url('api/room') }}";
 	var addRoomTitle     = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}";
 	var editRoomTitle    = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.room')]) }}";
 
-	var shelfUrl         = "{{ url('api/shelf') }}";
 	var addShelfTitle    = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.shelf')]) }}";
 	var editShelfTitle   = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.shelf')]) }}";
 
-	var boxUrl           = "{{ url('api/box') }}";
 	var addBoxTitle      = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.box')]) }}";
 	var editBoxTitle     = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.box')]) }}";
 
-	var sectionUrl       = "{{ url('api/section') }}";
 	var addSectionTitle  = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.section')]) }}";
 	var editSectionTitle = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.section')]) }}";
 
@@ -122,34 +106,63 @@
 
 		var storages = @php echo json_encode($storages) @endphp;
 		
-		$('#add-room').click(function(event) {
+		$('.add-storage').click(function(event) {
+			var id = $(this).closest('.storage-info').data('id');
 			var modal = $('#edit-room-modal');
+			var child = $(this).closest('.storage-info').data('contains');
+			var storage = $(this).closest('.storage-info').data('storage');
 			modal.find('h4.modal-title').text(addRoomTitle);
-			modal.find('form').attr('action', roomUrl + '/new');
+			modal.find('.modal-body').empty();
+
+			$.ajax({
+				url: root + '/api/' + child + '/form' + (id?'?'+storage+'_id='+id:''),
+				type: 'GET',
+				dataType: 'html',
+				data: {'action' : 'new'},
+				success: function(result) {
+					modal.find('.modal-body').append(result);
+					modal.modal('show');
+				},
+				error: function() {
+					console.log("Ajax Error");
+				}
+			});
+
 			modal.find('#confirm-save').click(function(event) {
 				modal.find('form').submit();
 			});
-			modal.modal('show');
 		});
 
-		$('.edit-room').click(function(event) {
-			var id  	= $(this).closest('li').find('.collapsed').data('id');
-			var name  	= $(this).closest('li').find('.collapsed').data('name');
+		$('.edit-storage').click(function(event) {
+			var id  	= $(this).closest('.storage-info').data('id');
 			var modal 	= $('#edit-room-modal');
+			var storage = $(this).closest('.storage-info').data('storage');
+
 			modal.find('h4.modal-title').text(editRoomTitle);
-			modal.find('form').attr('action', roomUrl + '/edit/' + id);
-			modal.find('form #input-name').val(name);
+			modal.find('.modal-body').empty();
+			
+			$.ajax({
+				url: root + '/api/' + storage + '/form/' + id,
+				type: 'GET',
+				dataType: 'html',
+				success: function(result) {
+					modal.find('.modal-body').append(result);
+					modal.modal('show');
+				},
+				error: function() {
+					console.log("Ajax Error");
+				}
+			});
+
 			modal.find('#confirm-save').click(function(event) {
 				modal.find('form').submit();
 			});
-
-			modal.modal('show');
 		}); 
 
 		$('.delete-btn').click(function(event) {
 			var self    = this;
 			var modal   = $('#delete-modal');
-			var storage = $(this).closest('li').find('.collapsed span').attr('class');
+			var storage = $(this).closest('.storage-info').data('storage');
 			var name    = $(this).closest('li').find('.collapsed').data('name');
 
 			modal.find('h4.modal-title').text(deleteTitle[storage]);
