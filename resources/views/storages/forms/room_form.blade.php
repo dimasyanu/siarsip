@@ -2,7 +2,7 @@
 	if($options->action == 'new')
 		$url = url('api/' . $options->storage . '/new');
 	else
-		$url = url('api/' . $options->storage . '/edit/' . $item->id);
+		$url = url('api/storage/edit/' . $options->storage . '/' . $item->id);
 @endphp
 
 {{ Form::open(['url' => $url, 'method' => 'POST', 'class' => 'form-horizontal']) }}

@@ -51,18 +51,10 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('shelf/form/{id}', 'ApiController@getShelfFormById');
 
 	Route::post('room/new', 'ApiController@addRoom');
-	Route::post('room/edit/{id}', 'ApiController@editRoom');
-	Route::delete('room/delete/{id}', 'ApiController@deleteRoom');
-
 	Route::post('shelf/new', 'ApiController@addShelf');
-	Route::post('shelf/edit/{id}', 'ApiController@editShelf');
-	Route::delete('shelf/delete/{id}', 'ApiController@deleteShelf');
-
 	Route::post('box/new', 'ApiController@addBox');
-	Route::post('box/edit/{id}', 'ApiController@editBox');
-	Route::delete('box/delete/{id}', 'ApiController@deleteBox');
-
 	Route::post('section/new', 'ApiController@addSection');
-	Route::post('section/edit/{id}', 'ApiController@editSection');
-	Route::delete('section/delete/{id}', 'ApiController@deleteSection');
+
+	Route::post('storage/edit/{storage}/{id}', 'ApiController@editStorage');
+	Route::delete('storage/delete/{storage}/{id}', 'ApiController@deleteStorage');
 });

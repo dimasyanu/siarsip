@@ -22,21 +22,29 @@
 				@if(sizeof($storages) > 0)
 				@foreach($storages as $room)
 					<li class="col-md-12{{ $room->shelves?'':' empty' }}">
-						<div class="col-md-9 collapsed" data-toggle="collapse" data-target="#room-{{ $room->id }}" aria-expanded="false" data-name="{{ $room->name }}">
+						<div class="col-md-9 collapsed" data-toggle="collapse" data-target="#room-{{ $room->id }}" aria-expanded="false">
 							<span class="room"></span>{{ $room->name }}
 						</div>
-						<div class="storage-info col-md-3" data-storage="room" data-contains="shelf" data-id="{{ $room->id }}">
-							@include('storages/action_btn', ['storage_act' => 'shelf', 'item_id' => $room->id])
+						<div class="storage-info col-md-3" 
+							data-storage="room" 
+							data-contains="shelf" 
+							data-id="{{ $room->id }}"
+							data-name="{{ $room->name }}" >
+							@include('storages/action_btn', ['storage' => 'room', 'child' => 'shelf', 'item_id' => $room->id])
 						</div>
 					</li>
 					@if($room->shelves)
 					<ul id="room-{{ $room->id }}" class="sub-list collapse col-md-12">
 						@foreach($room->shelves as $j => $shelf)
 						<li class="col-md-12{{ $shelf->boxes?'':' empty' }}">
-							<div class="col-md-9 collapsed" style="padding-left: 32px;" data-toggle="collapse" data-target="#shelf-{{ $shelf->id }}" class="accordion-toggle"  data-name="{{ $shelf->name }}">
+							<div class="col-md-9 collapsed" style="padding-left: 32px;" data-toggle="collapse" data-target="#shelf-{{ $shelf->id }}" class="accordion-toggle">
 							<span class="shelf"></span> {{ $shelf->name }}</div>
-							<div class="storage-info col-md-3" data-storage="shelf" data-contains="box" data-id="{{ $shelf->id }}">
-								@include('storages/action_btn', ['storage_act' => 'box', 'item_id' => $shelf->id])
+							<div class="storage-info col-md-3" 
+								data-storage="shelf" 
+								data-contains="box" 
+								data-id="{{ $shelf->id }}"
+								data-name="{{ $shelf->name }}" >
+								@include('storages/action_btn', ['storage' => 'shelf', 'child' => 'box', 'item_id' => $shelf->id])
 							</div>
 						</li>
 						@if($shelf->boxes)
@@ -45,12 +53,38 @@
 							<li class="col-md-12{{ $box->sections?'':' empty' }}">
 								<div class="col-md-9 collapsed" style="padding-left: 54px;" data-toggle="collapse" data-target="#box-{{ $box->id }}" class="accordion-toggle">
 								<span class="box"></span>{{ $box->name }}</div>
+								<div class="storage-info col-md-3" 
+									data-storage="box" 
+									data-contains="section" 
+									data-id="{{ $box->id }}"
+									data-name="{{ $box->name }}" >
+								@include('storages/action_btn', ['storage' => 'box', 'child' => 'section', 'item_id' => $box->id])
+								</div>
 							</li>
 							@if($box->sections)
 							<ul id="box-{{ $box->id }}" class="sub-list collapse col-md-12">
 								@foreach($box->sections as $l => $section)
 								<li class="col-md-12">
 									<div class="col-md-9" style="padding-left: 76px;"><span class="section"></span>{{ $section->name }}</div>
+									<div class="storage-info col-md-3"
+										data-storage="section"
+										data-id="{{ $section->id }}"
+										data-name="{{ $section->name }}" >
+										<div class="act-btn pull-right btn-group" role="group" style="display: none;">
+											<button type="button" class="edit-storage btn btn-warning btn-xs" data-toggle="tooltip" data-placement="bottom" title="{{ Lang::get('app.edit_item', ['item' => Lang::get('app.section')]) }}">
+												<i class="fa fa-pencil" aria-hidden="true"></i> 
+												{{ Lang::get('app.edit') }}
+											</button>
+											<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="{{ Lang::get('app.delete', ['item' => Lang::get('app.section')]) }}">
+												<i class="fa fa-trash" aria-hidden="true"></i> 
+												{{ Lang::get('app.delete') }}
+												<form action="{{ url('api/storage/delete/section/' . $section->id) }}" method="post">
+													{{ csrf_field() }}
+													{{ method_field('DELETE') }}
+												</form>
+											</a>
+										</div>
+									</div>
 								</li>
 								@endforeach
 							</ul>
@@ -75,24 +109,25 @@
 @include('storages/modals/delete');
 
 <script type="text/javascript">
+	var addTitle 	 = {
+		room    : "{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}",
+		shelf   : "{{ Lang::get('app.new_item', ['item' => Lang::get('app.shelf')]) }}",
+		box     : "{{ Lang::get('app.new_item', ['item' => Lang::get('app.box')]) }}",
+		section : "{{ Lang::get('app.new_item', ['item' => Lang::get('app.section')]) }}"
+	};
 
-	var addRoomTitle     = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}";
-	var editRoomTitle    = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.room')]) }}";
-
-	var addShelfTitle    = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.shelf')]) }}";
-	var editShelfTitle   = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.shelf')]) }}";
-
-	var addBoxTitle      = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.box')]) }}";
-	var editBoxTitle     = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.box')]) }}";
-
-	var addSectionTitle  = "{{ Lang::get('app.new_item', ['item' => Lang::get('app.section')]) }}";
-	var editSectionTitle = "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.section')]) }}";
+	var editTitle 	 = {
+		room    : "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.room')]) }}",
+		shelf   : "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.shelf')]) }}",
+		box     : "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.box')]) }}",
+		section : "{{ Lang::get('app.edit_item', ['item' => Lang::get('app.section')]) }}"
+	};
 
 	var deleteTitle 	 = {
-		room: "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.room')]) }}",
-		shelf: "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.shelf')]) }}",
-		box: "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.box')]) }}",
-		section: "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.section')]) }}"
+		room    : "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.room')]) }}",
+		shelf   : "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.shelf')]) }}",
+		box     : "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.box')]) }}",
+		section : "{{ Lang::get('app.delete_item', ['item' => Lang::get('app.section')]) }}"
 	};
 
 	$(document).ready(function() {
@@ -111,7 +146,8 @@
 			var modal = $('#edit-room-modal');
 			var child = $(this).closest('.storage-info').data('contains');
 			var storage = $(this).closest('.storage-info').data('storage');
-			modal.find('h4.modal-title').text(addRoomTitle);
+
+			modal.find('h4.modal-title').empty().text(addTitle[child]);
 			modal.find('.modal-body').empty();
 
 			$.ajax({
@@ -138,7 +174,7 @@
 			var modal 	= $('#edit-room-modal');
 			var storage = $(this).closest('.storage-info').data('storage');
 
-			modal.find('h4.modal-title').text(editRoomTitle);
+			modal.find('h4.modal-title').empty().text(editTitle[storage]);
 			modal.find('.modal-body').empty();
 			
 			$.ajax({
@@ -163,15 +199,17 @@
 			var self    = this;
 			var modal   = $('#delete-modal');
 			var storage = $(this).closest('.storage-info').data('storage');
-			var name    = $(this).closest('li').find('.collapsed').data('name');
+			var name    = $(this).closest('.storage-info').data('name');
 
 			modal.find('h4.modal-title').text(deleteTitle[storage]);
-			modal.find('.modal-body strong').text(name);
+			modal.find('.modal-body strong').empty().text(name);
 			modal.find('#confirm-delete').click(function(event) {
 				$(self).find('form').submit();
 			});
 			modal.modal('show');
 		});
+
+		
 	});
 </script>
 @endsection

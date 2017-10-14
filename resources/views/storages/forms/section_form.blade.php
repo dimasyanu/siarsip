@@ -10,13 +10,25 @@
 		<label for="input-room" class="col-sm-4 control-label">{{ Lang::get('app.room') }}</label>
 		<div class="col-sm-5 col-md-5">
 			<input id="input-room" name="room" type="text" class="form-control" value="{{ $room->name }}" disabled>
-			<input type="hidden" name="room_id" value="{{ $room->id }}" />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="input-room" class="col-sm-4 control-label">{{ Lang::get('app.shelf') }}</label>
+		<div class="col-sm-5 col-md-5">
+			<input id="input-shelf" name="shelf" type="text" class="form-control" value="{{ $shelf->name }}" disabled>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="input-room" class="col-sm-4 control-label">{{ Lang::get('app.box') }}</label>
+		<div class="col-sm-5 col-md-5">
+			<input id="input-box" name="box" type="text" class="form-control" value="{{ $box->name }}" disabled>
+			<input type="hidden" name="box_id" value="{{ $box->id }}">
 		</div>
 	</div>
 	<div class="form-group row">
 		<label for="input-name" class="col-sm-4 control-label">{{ Lang::get('app.name') }}</label>
 		<div class="col-sm-5 col-md-5">
-			<input id="input-name" name="name" type="text" class="form-control" value="{{ old('name', $item->name) }}" required />
+			<input id="input-name" name="name" type="text" class="form-control" value="{{ old('name', $item->name) }}" required>
 		</div>
 	</div>
 {{ Form::close() }}

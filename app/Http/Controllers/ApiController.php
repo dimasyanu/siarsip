@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lang;
 
 use App\Box;
@@ -62,23 +63,6 @@ class ApiController extends Controller {
 		return redirect('storages')->with('status', $status)->with('messages', $messages);
 	}
 
-	public function editRoom(Request $request, $id) {
-		$room = Room::find($id);
-		$room->name = $request->input('name');
-		
-		$status     = $room->save();
-		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
-
-		return redirect('storages')->with('status', $status)->with('messages', $messages);
-	}
-
-	public function deleteRoom($id) {
-		$status = Room::find($id)->delete();
-		$messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
-		
-		return redirect('storages')->with('status', $status)->with('messages', $messages);
-	}
-
 	// Shelves
 	public function addShelf(Request $request) {
 		$shelf = new Shelf();
@@ -91,24 +75,7 @@ class ApiController extends Controller {
 		return redirect('storages')->with('status', $status)->with('messages', $messages);
 	}
 
-	public function editShelf(Request $request, $id) {
-		$shelf = Shelf::find($id);
-		$shelf->name = $request->input('name');
-		
-		$status     = $shelf->save();
-		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
-
-		return redirect('storages')->with('status', $status)->with('messages', $messages);
-	}
-
-	public function deleteShelf($id) {
-		$status = Shelf::find($id)->delete();
-		$messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
-		
-		return redirect('storages')->with('status', $status)->with('messages', $messages);
-	}
-
-	// Shelves
+	// Box
 	public function addBox(Request $request) {
 		$box = new Box();
 		$box->shelf_id 	= $request->input('shelf_id');
@@ -118,6 +85,51 @@ class ApiController extends Controller {
 		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
 
 		return redirect('storages')->with('status', $status)->with('messages', $messages);
+	}
+
+	// Section
+	public function addSection(Request $request) {
+		$section            = new Section();
+		$section->box_id 	= $request->input('box_id');
+		$section->name 	    = $request->input('name');
+		
+		$status     = $section->save();
+		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
+
+		return redirect('storages')->with('status', $status)->with('messages', $messages);
+	}
+
+	public function editStorage(Request $request, $storage, $id) {
+		$item = $this->getItem($storage, $id);
+		$item->name = $request->input('name');
+		
+		$status     = $item->save();
+		$messages   = $status? Lang::get('app.save_success') : Lang::get('app.save_failed');
+
+		return redirect('storages')->with('status', $status)->with('messages', $messages);
+	}
+
+	public function deleteStorage($storage, $id) {
+		$item = $this->getItem($storage, $id);
+		$status = $item->delete();
+		$messages = $status? Lang::get('app.delete_success') : Lang::get('app.delete_failed');
+		
+		return redirect('storages')->with('status', $status)->with('messages', $messages);
+	}
+
+	private function getItem($storage, $id) {
+		$item = null;
+		switch ($storage) {
+			case 'room'    : $item = Room::find($id);
+				break;
+			case 'shelf'   : $item = Shelf::find($id);
+				break;
+			case 'box'     : $item = Box::find($id);
+				break;
+			case 'section' : $item = Section::find($id);
+				break;
+		}
+		return $item;
 	}
 
 	/* ------------------------- Get Form Section --------------------------*/
@@ -138,12 +150,12 @@ class ApiController extends Controller {
 	public function getShelfForm(Request $request) {
 		$action = $request->input('action');
 		$options = $this->getOptions('shelf', $action);
-		$rooms = Room::all();
+		$room = Room::find($request->input('room_id'));
+
 		$params = [
-			'item' => new Shelf(), 
+			'item'    => new Shelf(), 
 			'options' => $options,
-			'rooms' => $rooms,
-			'room_id' => $request->input('room_id')
+			'room'    => $room
 		];
 		
 		return view('storages/forms/shelf_form', $params);
@@ -153,12 +165,11 @@ class ApiController extends Controller {
 		$item = Shelf::find($id);
 		$action = $request->input('action');
 		$options = $this->getOptions('shelf', $action);
-		$rooms = Room::all();
+
 		$params = [
-			'item' => $item, 
-			'options' => $options,
-			'rooms' => $rooms,
-			'room_id' => $item->room->id
+			'item' 		=> $item, 
+			'options' 	=> $options,
+			'room'		=> $item->room
 		];
 
 		return view('storages/forms/shelf_form', $params);
@@ -168,45 +179,58 @@ class ApiController extends Controller {
 	public function getBoxForm(Request $request) {
 		$action  = $request->input('action');
 		$options = $this->getOptions('box', $action);
-		$rooms   = Room::all();
 		$shelf   = Shelf::find($request->input('shelf_id'));
-		$shelves = Shelf::where('room_id', $shelf->room->id)->get();
-		$params = [
-			'item' => new Box(),
-			'options' => $options,
-			'rooms' => $rooms,
-			'shelves' => $shelves,
-			'shelf_id' => $request->input('shelf_id'),
-			'room_id' => $shelf->room->id
+		$params  = [
+			'item'      => new Box(),
+			'options'   => $options,
+			'shelf' 	=> $shelf,
+			'room'  	=> $shelf->room
 		];
 
 		return view('storages/forms/box_form', $params);
 	}
 
 	public function getBoxFormById(Request $request, $id) {
-		$item = Box::find($id);
-		$action = $request->input('action');
-		$options = $this->getOptions('box', $action);
-		$rooms = Room::all();
-		$shelves = Shelf::where('room_id', $item->shelf->room->id);
-		$params = [
-			'item' => $item, 
-			'options' => $options,
-			'rooms' => $rooms,
-			'shelves' => $shelves,
-			'room_id' => $item->room->id
+		$item 		= Box::find($id);
+		$action 	= $request->input('action');
+		$options 	= $this->getOptions('box', $action);		
+		$params 	= [
+			'item'      => $item, 
+			'options'   => $options,
+			'shelf' 	=> $item->shelf,
+			'room'  	=> $item->shelf->room
 		];
 
 		return view('storages/forms/box_form', $params);
 	}
 
-	public function getSectionForm() {
+	public function getSectionForm(Request $request) {
+		$action  	= $request->input('action');
+		$options 	= $this->getOptions('section', $action);
+		$box   		= Box::find($request->input('box_id'));
+		$params 	= [
+			'item'      => new Section(),
+			'options'   => $options,
+			'box' 		=> $box,
+			'shelf' 	=> $box->shelf,
+			'room'  	=> $box->shelf->room
+		];
+
 		return view('storages/forms/section_form', $params);
 	}
 
-	public function getSectionFormById($id) {
-		$item = Room::find($id);
-		return view('storages/forms/section_form', ['item' => $item]);
+	public function getSectionFormById(Request $request, $id) {
+		$item 		= Section::find($id);
+		$action  	= $request->input('action');
+		$options 	= $this->getOptions('section', $action);
+		$params 	= [
+			'item'      => $item,
+			'options'   => $options,
+			'box' 		=> $item->box,
+			'shelf' 	=> $item->box->shelf,
+			'room'  	=> $item->box->shelf->room
+		];
+		return view('storages/forms/section_form', $params);
 	}
 
 	private function getOptions($storage, $action) {
