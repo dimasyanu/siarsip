@@ -305,14 +305,17 @@
 			autoclose: true
 		};
 
-		var val = $('.datepicker.date').datepicker('getDates');
+		var val = $('.datepicker.date').val();
+		console.log(val);
 		$('.datepicker.date').datepicker('destroy');
 		$('.datepicker.date').datepicker(options);
 		$('.datepicker.date').datepicker('setDates', val);
 	}
 
 	$(document).ready(function() {
-		setInputDateView('days');
+		$('.datetype-toggle[data-code="{{ old('date_type', $item->date_type) }}"]').addClass('active');
+
+		setInputDateView($('.datetype-toggle.active').data('type'));
 
 		$('.select2').select2();
 		chainSelect2($('#select_room'));
@@ -327,14 +330,12 @@
 			});
 		});
 
-		$('.datetype-toggle[data-code="{{ old('date_type', $item->date_type) }}"]').addClass('active');
-
 		$('#select-storage').click(function(event) {
 			var self = this;
 			$('#storage-select-modal').modal('show');
 			$('#storage-select-modal').find('.btn#finish')
 			.click(function() {
-				if($('#select_section').val() && $('#select_section').val() != 0){
+				if($('#select_section').val() && $('#select_section').val() != 0) {
 					$('#input-section-id').val($('#select_section').val());
 					$(self).text($('#select_section option:selected').text())
 					$('#storage-select-modal').modal('hide');
