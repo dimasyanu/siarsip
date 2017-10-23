@@ -11,7 +11,7 @@
 		<div class="outline" style="padding: 0 0.5cm; height: 20cm;">
 			<div class="text-center col-md-12">
 				<h6 class="box-title">{{ Lang::get('app.records_document') }}</h6>
-				<h5 class="box-title"><strong>{{ $data->box_name }}</strong></h5>
+				<h2 class="box-title" style="margin: 5px;"><strong>{{ $data->box_name }}</strong></h2>
 			</div>
 			<label style="font-size: 9pt;">{{ date('M Y', strtotime($records[0]->date))  }} - {{ date('M Y', strtotime($records[sizeof($records) - 1]->date))  }}</label>
 			<table class="table table-bordered" style="font-size: 10pt;">
