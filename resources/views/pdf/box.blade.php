@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="container" style="padding-bottom: 50px; width: 10cm;">
-		<div class="outline" style="padding: 0 0.5cm; height: 20cm;">
+		<div class="outline" style="padding: 0 0.5cm; min-height: 20cm;">
 			<div class="text-center col-md-12">
 				<h6 class="box-title">{{ Lang::get('app.records_document') }}</h6>
 				<h2 class="box-title" style="margin: 5px;"><strong>{{ $data->box_name }}</strong></h2>
