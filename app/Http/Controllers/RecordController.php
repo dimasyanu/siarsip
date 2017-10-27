@@ -178,7 +178,8 @@ class RecordController extends Controller {
 		$item->box_id			= $item->section->box->id;
 		$item->section_id		= $item->section->id;
 		
-		$item->category->tree	= RecordCategory::getNest($item->category->id);
+		if($item->category)
+			$item->category->tree	= RecordCategory::getNest($item->category->id);
 		
 		if($item->date)
 			$item->date 		= date("d-m-Y", strtotime($item->date));
