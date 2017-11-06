@@ -23,7 +23,10 @@ class DashboardController extends Controller {
     	$data->box_count = Box::count();
         $data->record_count = Record::count();
 
-        $records = Record::orderBy('updated_at', 'DESC')->limit(10);
+        $records = Record::select('records.id', 'records.name', 'records.updated_at', 'users.name AS editor')
+                ->leftJoin('users', 'records.editor_id', 'users.id')
+                ->orderBy('updated_at', 'DESC')->limit(10);
+
         $data->latest_records = $records->get();
 
     	return view('dashboard/index', ['data' => $data]);

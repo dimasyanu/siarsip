@@ -95,10 +95,12 @@
 				@endif
 
 				<div style="margin: 10px 0;">
+					@if(Auth::user()->user_group_id != 3)
 					<a class="btn btn-success" href="{{ url('records/create') }}">
 						<i class="fa fa-plus"></i>
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.record') }}
 					</a>
+					@endif
 					<div style="display: inline-block;">
 						<a class="btn btn-info" id="print-btn" href="javascript:void(0);">
 							<i class="fa fa-print"></i>
@@ -148,6 +150,7 @@
 													<i class="fa fa-info" aria-hidden="true" style="padding: 0 3px;"></i>
 													{{ Lang::get('app.info') }}
 												</a>
+												@if(Auth::user()->user_group_id != 3)
 												<a href="{{ url('records/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 													{{ Lang::get('app.edit') }}
@@ -160,6 +163,7 @@
 														{{ method_field('DELETE') }}
 													</form>
 												</a>
+												@endif
 											</div>
 										</td>
 									</tr>

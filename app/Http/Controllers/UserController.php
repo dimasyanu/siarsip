@@ -9,6 +9,7 @@ use Lang;
 use Redirect;
 
 use App\User;
+use App\UserGroup;
 
 class UserController extends Controller {
 	/**
@@ -47,7 +48,15 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view('users/edit', ['item' => new User()]);
+		$references = new \stdClass();
+		$references->user_group = UserGroup::where('id', '!=', 1)->get();
+
+		$params = [
+			'references' 	=> $references,
+			'item'			=> new User()
+		];
+
+		return view('users/edit', $params);
 	}
 
 	/**
@@ -91,8 +100,15 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$item = User::find($id);
-		return view('users/edit', ['item' => $item]);
+		$references = new \stdClass();
+		$references->user_group = UserGroup::where('id', '!=', 1)->get();
+
+		$params = [
+			'item'       => User::find($id),
+			'references' => $references
+		];
+		
+		return view('users/edit', $params);
 	}
 
 	/**
@@ -173,9 +189,10 @@ class UserController extends Controller {
 	}
 
 	private function setAttributes($item, Request $request){
-		$item->name         = $request->input('name');
-		$item->username     = $request->input('username');
-		$item->email 		= $request->input('email');
+		$item->name          = $request->input('name');
+		$item->username      = $request->input('username');
+		$item->email 		 = $request->input('email');
+		$item->user_group_id = $request->input('user_group');
 	}
 
 	private function validateForm(Request $request){

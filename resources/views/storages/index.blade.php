@@ -13,10 +13,12 @@
 				<div class="alert @if(session('status') == 1) alert-success @else alert-danger @endif" role="alert">{{ session('messages') }}</div>
 			@endif
 			<div class="storage-info" data-contains="room">
+				@if(Auth::user()->user_group_id != 3)
 				<button id="add-room" class="add-storage btn btn-success" style="margin-bottom: 15px;">
 					<i class="fa fa-plus"></i>
 					{{ Lang::get('app.new_item', ['item' => Lang::get('app.room')]) }}
 				</button>
+				@endif
 			</div>
 			<div class="list-table"><ul>
 				@if(sizeof($storages) > 0)
@@ -25,6 +27,7 @@
 						<div class="col-md-9 collapsed" data-toggle="collapse" data-target="#room-{{ $room->id }}" aria-expanded="false">
 							<span class="room"></span>{{ $room->name }}
 						</div>
+						@if(Auth::user()->user_group_id != 3)
 						<div class="storage-info col-md-3" 
 							data-storage="room" 
 							data-contains="shelf" 
@@ -32,6 +35,7 @@
 							data-name="{{ $room->name }}" >
 							@include('storages/action_btn', ['storage' => 'room', 'child' => 'shelf', 'item_id' => $room->id])
 						</div>
+						@endif
 					</li>
 					@if($room->shelves)
 					<ul id="room-{{ $room->id }}" class="sub-list collapse col-md-12">
@@ -39,6 +43,7 @@
 						<li class="col-md-12{{ $shelf->boxes?'':' empty' }}">
 							<div class="col-md-9 collapsed" style="padding-left: 32px;" data-toggle="collapse" data-target="#shelf-{{ $shelf->id }}" class="accordion-toggle">
 							<span class="shelf"></span> {{ $shelf->name }}</div>
+							@if(Auth::user()->user_group_id != 3)
 							<div class="storage-info col-md-3" 
 								data-storage="shelf" 
 								data-contains="box" 
@@ -46,6 +51,7 @@
 								data-name="{{ $shelf->name }}" >
 								@include('storages/action_btn', ['storage' => 'shelf', 'child' => 'box', 'item_id' => $shelf->id])
 							</div>
+							@endif
 						</li>
 						@if($shelf->boxes)
 						<ul id="shelf-{{ $shelf->id }}" class="sub-list collapse col-md-12">
@@ -53,6 +59,7 @@
 							<li class="col-md-12{{ $box->sections?'':' empty' }}">
 								<div class="col-md-9 collapsed" style="padding-left: 54px;" data-toggle="collapse" data-target="#box-{{ $box->id }}" class="accordion-toggle">
 								<span class="box"></span>{{ $box->name }}</div>
+								@if(Auth::user()->user_group_id != 3)
 								<div class="storage-info col-md-3" 
 									data-storage="box" 
 									data-contains="section" 
@@ -60,12 +67,14 @@
 									data-name="{{ $box->name }}" >
 								@include('storages/action_btn', ['storage' => 'box', 'child' => 'section', 'item_id' => $box->id])
 								</div>
+								@endif
 							</li>
 							@if($box->sections)
 							<ul id="box-{{ $box->id }}" class="sub-list collapse col-md-12">
 								@foreach($box->sections as $l => $section)
 								<li class="col-md-12">
 									<div class="col-md-9" style="padding-left: 76px;"><span class="section"></span>{{ $section->name }}</div>
+									@if(Auth::user()->user_group_id != 3)
 									<div class="storage-info col-md-3"
 										data-storage="section"
 										data-id="{{ $section->id }}"
@@ -85,6 +94,7 @@
 											</a>
 										</div>
 									</div>
+									@endif
 								</li>
 								@endforeach
 							</ul>

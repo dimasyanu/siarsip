@@ -78,10 +78,13 @@
 				@endif
 
 				<div style="margin: 10px 0;">
+					@if(Auth::user()->user_group_id != 3)
 					<a class="btn btn-success" href="{{ url('sections/create') }}">
 						<i class="fa fa-plus"></i>
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.section') }}
 					</a>
+					@endif
+
 					<div class="col-md-3 pull-right">
 						<form action="" class="search-form">
 							<div class="form-group has-feedback">
@@ -120,6 +123,7 @@
 										<td class="data-room-name" style="width: 19%">{{ $item->room_name }}</td>
 										<td style="width: 17%;">
 											<div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+												@if(Auth::user()->user_group_id != 3)
 												<a href="{{ url('sections/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i> 
 													{{ Lang::get('app.edit') }}
@@ -132,6 +136,7 @@
 														{{ method_field('DELETE') }}
 													</form>
 												</a>
+												@endif
 											</div>
 										</td>
 									</tr>

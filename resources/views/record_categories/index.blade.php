@@ -19,10 +19,13 @@
 				@endif
 				
 				<div style="margin: 10px 0;">
+					@if(Auth::user()->user_group_id != 3)
 					<a class="btn btn-success" href="{{ url('categories/create') }}">
 						<i class="fa fa-plus"></i>
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.categories') }}
 					</a>
+					@endif
+
 					<div class="col-md-3 pull-right">
 						<form action="" class="search-form">
 							<div class="form-group has-feedback">
@@ -59,6 +62,7 @@
 										<td class="data-name" style="padding-left: {{ 18*$item->depth }}px">{{ $item->name }}</td>
 										<td>
 											<div class="action-buttons btn-group pull-right" role="group" style="display: none;">
+												@if(Auth::user()->user_group_id != 3)
 												<a href="{{ url('categories/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 													{{ Lang::get('app.edit') }}
@@ -71,6 +75,7 @@
 														{{ method_field('DELETE') }}
 													</form>
 												</a>
+												@endif
 											</div>
 										</td>
 									</tr>
@@ -81,6 +86,7 @@
 						</tbody>
 					</table>
 				</div>
+
 				<div class="row" style="display: inline-block; margin: 8px 0; width: 30%;">
 					<label class="col-md-6" style="padding-top: 7px; margin-bottom: 0; text-align: right;">{{ Lang::get('app.data_per_page') }} :</label>
 					<div class="col-md-4">

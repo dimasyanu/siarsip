@@ -38,7 +38,7 @@
 						<div class="col-sm-8 col-md-8">
 							<div class="panel panel-default">
 								<div class="panel-body">
-									<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;">
+									<select id="select_category" class="select2-remote" name="category_id" style="width: 50%;" required>
 										@if($item->category != null)
 										<option value="{{ $item->category->id }}">{{ $item->category->code . ' - ' . $item->category->name }}</option>
 										@else

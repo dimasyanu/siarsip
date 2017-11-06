@@ -35,6 +35,10 @@ body.auth {
 	margin-left: 20%;
 }*/
 
+.action-buttons {
+	float: right;
+}
+
 .app-contents {
 	background-color: #fafafa;
 	position: fixed;

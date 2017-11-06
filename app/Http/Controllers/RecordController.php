@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Lang;
 
 use App\RecordCategory;
@@ -12,6 +11,9 @@ use App\Box;
 use App\Room;
 use App\Section;
 use App\Shelf;
+
+use Auth;
+use DB;
 
 class RecordController extends Controller {
 	public function __construct(){
@@ -89,7 +91,7 @@ class RecordController extends Controller {
 		if($filters->search)
 			$query = $query->where ('records.name', 'regexp', $filters->search);
 
-		$items = $query->orderBy('records.name')->paginate($filters->limit);
+		$items = $this->natSort($query)->paginate($filters->limit);
 		
 		return view('records/index', ['items' => $items, 'filters' => $filters, 'references' => $references]);
 	}
@@ -259,6 +261,7 @@ class RecordController extends Controller {
 		$item->descriptions = $request->input('descriptions');
 		$item->condition 	= $request->input('condition');
 		$item->value 		= $request->input('value');
+		$item->editor_id 	= Auth::user()->id;
 	}
 
 	private function validateForm(Request $request){
@@ -267,5 +270,13 @@ class RecordController extends Controller {
 			'section_id'    => 'required',
 			'category_id'   => 'required'
 		]);
+	}
+
+	private function natSort($obj) {
+		return $obj->orderBy(DB::raw('LENGTH(d.name)'))->orderBy('d.name')
+					->orderBy(DB::raw('LENGTH(c.name)'))->orderBy('c.name')
+					->orderBy(DB::raw('LENGTH(b.name)'))->orderBy('b.name')
+					->orderBy(DB::raw('LENGTH(a.name)'))->orderBy('a.name')
+					->orderBy(DB::raw('LENGTH(records.name)'))->orderBy('records.name');
 	}
 }

@@ -161,7 +161,7 @@
 										</tr>
 										<tr>
 											<th style="width: 20%">{{ Lang::get('app.section') }}</th>
-											<td style="width: 80%">{{ $item->section->name }}</td>
+											<td style="width: 80%">{{ $item->section ? $item->section->name : '' }}</td>
 										</tr>
 									</tbody>
 								</table>

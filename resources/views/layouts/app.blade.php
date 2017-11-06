@@ -98,7 +98,7 @@
 							<li id="menu-item-categories"><a href="{{ url('categories') }}"><div>{{ Lang::get('app.categories') }}</div></a></li>
 						</ul>
 						
-						@if(Auth::user()->id == 1)
+						@if(Auth::user()->user_group_id == 1)
 						<li id="menu-item-users">
 							<a href="{{ url('users') }}">
 								<div><i class="fa fa-users fa-lg"></i> {{ Lang::get('app.users') }}</div>

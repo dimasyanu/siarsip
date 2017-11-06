@@ -19,10 +19,13 @@
 				@endif
 
 				<div style="margin: 10px 0;">
+					@if(Auth::user()->user_group_id != 3)
 					<a class="btn btn-success" href="{{ url('rooms/create') }}">
 						<i class="fa fa-plus"></i>
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.room') }}
 					</a>
+					@endif
+
 					<div class="col-md-3 pull-right">
 						<form action="" class="search-form">
 							<div class="form-group has-feedback">
@@ -54,18 +57,20 @@
 										<td class="data-name">{{ $item->name }}</td>
 										<td>
 											<div class="action-buttons btn-group pull-right" role="group" style="display: none;">
-													<a href="{{ url('rooms/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
-														<i class="fa fa-pencil" aria-hidden="true"></i>
-														{{ Lang::get('app.edit') }}
-													</a>
-													<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
-														<i class="fa fa-trash" aria-hidden="true"></i>
-														{{ Lang::get('app.delete') }}
-														<form action="{{ url('rooms/' . $item->id) }}" method="post">
-															{{ csrf_field() }}
-															{{ method_field('DELETE') }}
-														</form>
-													</a>
+												@if(Auth::user()->user_group_id != 3)
+												<a href="{{ url('rooms/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
+													<i class="fa fa-pencil" aria-hidden="true"></i>
+													{{ Lang::get('app.edit') }}
+												</a>
+												<a href="javascript:void(0);" class="delete-btn btn btn-danger btn-xs">
+													<i class="fa fa-trash" aria-hidden="true"></i>
+													{{ Lang::get('app.delete') }}
+													<form action="{{ url('rooms/' . $item->id) }}" method="post">
+														{{ csrf_field() }}
+														{{ method_field('DELETE') }}
+													</form>
+												</a>
+												@endif
 											</div>
 										</td>
 									</tr>

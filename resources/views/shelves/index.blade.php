@@ -18,10 +18,13 @@
 				@endif
 
 				<div style="margin: 10px 0;">
+					@if(Auth::user()->user_group_id != 3)
 					<a class="btn btn-success" href="{{ url('shelves/create') }}">
 						<i class="fa fa-plus"></i>
 						{{ Lang::get('app.add') . ' ' . Lang::get('app.shelf') }}
 					</a>
+					@endif
+
 					<div class="col-md-3 pull-right">
 						<form action="" class="search-form">
 							<div class="form-group has-feedback">
@@ -63,6 +66,7 @@
 													{{ Lang::get('app.print') }}
 												</a>
 												@endif
+												@if(Auth::user()->user_group_id != 3)
 												<a href="{{ url('shelves/'.$item->id.'/edit') }}" class="btn btn-primary btn-xs">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 													{{ Lang::get('app.edit') }}
@@ -75,6 +79,7 @@
 														{{ method_field('DELETE') }}
 													</form>
 												</a>
+												@endif
 											</div>
 										</td>
 									</tr>

@@ -107,12 +107,14 @@
 		                	<table class="table middle-align">
 		                		<thead class="grey">
 		                			<th>{{ Lang::get('app.name') }}</th>
+		                			<th class="text-center">{{ Lang::get('app.user') }}</th>
 		                			<th class="text-center">{{ Lang::get('app.timestamp') }}</th>
 		                		</thead>
 		                		<tbody>
 		                			@foreach($data->latest_records as $record)
 		                			<tr>
-		                				<td style="width: 80%; text-align: justify;">{{ $record->name }}</td>
+		                				<td style="width: 70%; text-align: justify;">{{ $record->name }}</td>
+		                				<td style="width: 10%; text-align: justify;">{{ $record->editor=='' ? Lang::get('app.unknown_user') : $record->editor }}</td>
 		                				<td class="text-center" style="width: 20%;">{{ date('d M Y', strtotime($record->updated_at)) . ', ' . date('H:i', strtotime($record->updated_at)) }}</td>
 		                			</tr>
 		                			@endforeach

@@ -3,6 +3,7 @@
 return [
 
 	'actions'             			=> 'Actions',
+	'archivist'             		=> 'Arsiparis',
 	'add'                 			=> 'Tambah',
 	'box'               			=> 'Kotak/Box',
 	'boxes'               			=> 'Kotak/Box',
@@ -16,6 +17,7 @@ return [
 	'edit'                 			=> 'Edit',
 	'edit_item'            			=> 'Edit :item',
 	'file'							=> 'Berkas',
+	'guest'							=> 'Guest',
 	'info'							=> 'Info',
 	'last_modified_item'			=> ':item terakhir yang diubah\ditambahkan',
 	'media'                			=> 'Media',
@@ -23,6 +25,7 @@ return [
 	'new_item'                 		=> 'Tambah :item',
 	'no_items'            			=> 'Tidak ada data',
 	'not_categorized'	   			=> 'Belum Terklasifikasi',
+	'product_info'					=> 'Informasi Produk',
 	'record'          				=> 'Arsip',
 	'records'          				=> 'Arsip',
 	'records_document'				=> 'Dokumen Arsip',
@@ -37,7 +40,9 @@ return [
 	'storages'             			=> 'Penyimpanan',
 	'shelf'            				=> 'Almari',
 	'shelves'            			=> 'Almari',
+	'unknown_user'					=> 'Unknown',
 	'user'               			=> 'User',
+	'user_group'               		=> 'Tipe User',
 	'users'               			=> 'User',
 
 	/* Fields */
